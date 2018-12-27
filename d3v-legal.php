@@ -27,39 +27,39 @@
 // Add Shortcode
 function d3v_legal_notices( $atts ) {
 
-	// Attributes
+    // Attributes
     $atts = shortcode_atts(
-    	array(
+        array(
             'notice'        => '',
             'company'       => '',
             'email'         => '',
             'address'       => '',
             'tel'           => '',
-			'smp'			=> '',
+            'smp'			=> '',
         ),
         $atts
-	);
+    );
 
-	switch($atts['notice']){
-		case 'cookies':		cookies($atts['company']);
-							break;
-		case 'privacy':		privacy_policy($atts['company'], $atts['address']);
-							break;
-		case 'smr':			social_media_release($atts['smp'], $atts['company']);
-							break;
-		case 'copyright':	copyright($atts['company']);
-							break;
-		case 'disclaimer':	disclaimer($atts['company']);
-							break;
-		case 'tscs':		tscs($atts['company'], $atts['address']);
-							break;
-		case 'comptscs':	comp_tscs($atts['company'], $atts['email'], $atts['address'], $atts['tel'], $atts['smp']);
-							break;
-		case 'contact':		contact($atts['company'], $atts['email']);
-							break;
-		default:			echo '';
-							break;
-	}
+    switch($atts['notice']){
+    case 'cookies':		cookies($atts['company']);
+    break;
+    case 'privacy':		privacy_policy($atts['company'], $atts['address']);
+    break;
+    case 'smr':			social_media_release($atts['smp'], $atts['company']);
+    break;
+    case 'copyright':	copyright($atts['company']);
+    break;
+    case 'disclaimer':	disclaimer($atts['company']);
+    break;
+    case 'tscs':		tscs($atts['company'], $atts['address']);
+    break;
+    case 'comptscs':	comp_tscs($atts['company'], $atts['email'], $atts['address'], $atts['tel'], $atts['smp']);
+    break;
+    case 'contact':		contact($atts['company'], $atts['email']);
+    break;
+    default:			echo '';
+    break;
+    }
 
 }
 add_shortcode( 'd3v-legal', 'd3v_legal_notices' );
@@ -67,7 +67,7 @@ add_shortcode( 'd3v-legal', 'd3v_legal_notices' );
 
 // Cookie Notice
 function cookies($company){
-// Start HTML?>
+    // Start HTML?>
 <p>This website makes of cookies to help us provide you with a better website experience, by enabling us to monitor which pages you find useful and which you do not. A cookie in no way gives us access to your computer or any information about you, other than the data you choose to share with us.</p>
 <p>You can choose to accept or decline cookies. Most web browsers automatically accept cookies, but you can usually modify your browser setting to decline cookies if you prefer. This may prevent you from taking full advantage of the website.</p>
 <?php // End HTML
@@ -75,7 +75,7 @@ function cookies($company){
 
 // Privacy Policy Statement
 function privacy_policy($company, $address){
-// Start HTML?>
+    // Start HTML?>
     <p>This privacy policy sets out how <?php echo $company; ?> uses and protects any information that you give <?php echo $company; ?> when you use this website.</p>
         <p><?php echo $company; ?> is committed to ensuring that your privacy is protected. Should we ask you to provide certain information by which you can be identified when using this website, then you can be assured that it will only be used in accordance with this privacy statement.</p>
         <p><?php echo $company; ?> may change this policy from time to time by updating this page. You should check this page from time to time to ensure that you are happy with any changes. This policy is effective from October, 2010.</p>
@@ -118,14 +118,14 @@ function privacy_policy($company, $address){
 
 // Social Media Release Statement
 function social_media_release($social_media_platform, $company){
-// Start HTML?>
+    // Start HTML?>
 <p>This activity is in no way sponsored, endorsed or administered by, or associated with <?php echo $social_media_platform; ?>. By submitting this form you agree to a complete release of <?php echo $social_media_platform; ?>. You understand that you are providing your information to <?php echo $company; ?> and not to <?php echo $social_media_platform; ?>.</p>
 <?php // End HTML
 }
 
 // Copyright Notice
 function copyright($company){
-// Start HTML?>
+    // Start HTML?>
     <p>This website and its content is copyright of <?php echo $company; ?> © <?php echo date('Y'); ?>. All rights reserved.</p>
 <p>Any redistribution or reproduction of part or all of the contents in any form is prohibited other than the following:</p>
 <ul>
@@ -139,7 +139,7 @@ function copyright($company){
 
 // Disclaimer
 function disclaimer($company){
-// Start HTML?>
+    // Start HTML?>
  <p>The information contained in this website is for general information purposes only. The information is provided by <?php echo $company; ?> and while we endeavour to keep the information up to date and correct, we make no representations or warranties of any kind, express or implied, about the completeness, accuracy, reliability, suitability or availability with respect to the website or the information, products, services, or related graphics contained on the website for any purpose. Any reliance you place on such information is therefore strictly at your own risk.</p>
 <p>In no event will we be liable for any loss or damage including without limitation, indirect or consequential loss or damage, or any loss or damage whatsoever arising from loss of data or profits arising out of, or in connection with, the use of this website.</p>
 <p>Through this website you are able to link to other websites which are not under the control of <?php echo $company; ?>. We have no control over the nature, content and availability of those sites. The inclusion of any links does not necessarily imply a recommendation or endorse the views expressed within them.</p>
@@ -149,7 +149,7 @@ function disclaimer($company){
 
 // Terms and Conditions
 function tscs($company, $address){
-// Start HTML?>
+    // Start HTML?>
     <p>Welcome to our website. If you continue to browse and use this website, you are agreeing to comply with and be bound by the following terms and conditions of use, which together with our privacy policy govern <?php echo $company; ?> relationship with you in relation to this website. If you disagree with any part of these terms and conditions, please do not use our website.</p>
         <p>The term '<?php echo $company; ?>' or 'us' or 'we' refers to the owner of the website whose registered office is <?php echo $address; ?>. The term 'you' refers to the user or viewer of our website.</p>
         <p>The use of this website is subject to the following terms of use:</p>
@@ -169,7 +169,7 @@ function tscs($company, $address){
 
 // Competition Terms and Conditions
 function comp_tscs($company, $email, $address, $tel, $social_media_platform){
-// Start HTML?>
+    // Start HTML?>
     <p><strong>Please read these terms &amp; conditions carefully. By entering </strong><strong><?php echo $company; ?> competition all participants will be deemed to have accepted and be bound by these terms and conditions. &nbsp;If you do not agree to these terms and conditions, you must not enter the competition.</strong>&nbsp; <strong>Please retain a copy of these terms and conditions for your information.</strong></p>
 <p><strong>Promoter</strong> <br>
   The promoter is <?php echo $company; ?>, <?php echo $address; ?>, <?php echo $tel; ?>.<br>
@@ -236,7 +236,7 @@ function comp_tscs($company, $email, $address, $tel, $social_media_platform){
 
 
 function contact($company, $email){
-// Start HTML ?>
+    // Start HTML ?>
 If you have any queries about the manner in which this form is administered and/or your data is used by <?php echo $company; ?> and/or should you require us to remove your email address from our systems, please contact: <?php echo $email; ?>
 <?php // End HTML
 }
