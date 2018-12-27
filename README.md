@@ -1,5 +1,5 @@
 # d3v-legal
-WordPress Plugin providing legal docs, like a privacy policy; copyright notice etc, for South African websites. _This plugin comes with no warrenty or support._
+WordPress Plugin providing legal docs, like a privacy policy; copyright notice etc, for South African websites. _This plugin comes with no warranty or support._
 
 # Shortcode Usage:
 ``` [d3v-legal notice='' company='' email='' address='' tel='' smp=''] ```
