@@ -1,2 +1,2 @@
 # d3v-legal
-Legal docs for South African websites
+WordPress Plugin for legal docs for South African websites
