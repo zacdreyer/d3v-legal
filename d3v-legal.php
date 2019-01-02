@@ -68,7 +68,7 @@ add_shortcode( 'd3v-legal', 'd3v_legal_notices' );
 // Cookie Notice
 function cookies($company){
     // Start HTML?>
-<p>This website makes of cookies to help us provide you with a better website experience, by enabling us to monitor which pages you find useful and which you do not. A cookie in no way gives us access to your computer or any information about you, other than the data you choose to share with us.</p>
+<p>This website makes use of cookies to help us provide you with a better website experience, by enabling us to monitor which pages you find useful and which you do not. A cookie in no way gives us access to your computer or any information about you, other than the data you choose to share with us.</p>
 <p>You can choose to accept or decline cookies. Most web browsers automatically accept cookies, but you can usually modify your browser setting to decline cookies if you prefer. This may prevent you from taking full advantage of the website.</p>
 <?php // End HTML
 }
