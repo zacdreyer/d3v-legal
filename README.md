@@ -1,5 +1,5 @@
 # d3v-legal
-WordPress Plugin providing legal docs, like a privacy policy; copyright notice etc, for South African websites. _This plugin comes with no warranty or support._
+WordPress Plugin providing legal docs, like a privacy policy; copyright notice etc, currently only for South African websites. _This plugin comes with no warranty or support._
 
 # Shortcode Usage:
 ``` [d3v-legal notice='' company='' email='' address='' tel='' smp=''] ```
@@ -25,16 +25,16 @@ _Notice Value:_ privacy
 ``` [d3v-legal notice='privacy' company='ABC Holdings' smp='Facebook'] ```
 
 
-### Social Media Release Statement
-_Notice Value:_ smr
-
-``` [d3v-legal notice='smr' company='ABC Holdings' smp='Facebook'] ```
-
-
 ### Copyright Notice
 _Notice Value:_ copyright
 
 ``` [d3v-legal notice='copyright' company='ABC Holdings'] ```
+
+
+### Footer Copyright Notice
+_Notice Value:_ copyrightfooter
+
+``` [d3v-legal notice='copyrightfooter' company='ABC Holdings'] ```
 
 
 ### Disclaimer
@@ -59,3 +59,15 @@ _Notice Value:_ comptscs
 _Notice Value:_ contact
 
 ``` [d3v-legal notice='contact' company='ABC Holdings' email='info@abc.com'] ```
+
+
+### Social Media Release Statement
+_Notice Value:_ smr
+
+``` [d3v-legal notice='smr' company='ABC Holdings' smp='Facebook'] ```
+
+
+### Social Media Netiquette
+_Notice Value:_ smn
+
+``` [d3v-legal notice='smn' company='ABC Holdings' smp='Facebook'] ```
