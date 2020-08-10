@@ -5,7 +5,7 @@
  Description: Output relevant legal notices as required by POPI and other laws. Usage: [d3v-legal notice='privacy' company='D3V Digital' email='optout@d3v.co.za'].
  Version: 2019.1
  Author: D3V Software
- Author URI: http://www.d3v.software/
+ Author URI: https://github.com/D3V-Software/
  Text Domain: legalnotices
 
  This program is free software; you can redistribute it and/or
