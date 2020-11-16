@@ -42,7 +42,7 @@ function d3v_legal_notices( $atts ) {
 
     switch($atts['notice']){
         case 'cookies'          :	cookies(); break;
-        case 'privacy'          :	privacy_policy($atts['company'], $atts['address']); break;
+        case 'privacy'          :	privacy_policy($atts['company'], $atts['address'], $atts['email'], $atts['tel']); break;
         case 'copyright'        :	copyright($atts['company']); break;
         case 'copyrightfooter'  :	copyright_footer($atts['company']); break;
         case 'disclaimer'       :	disclaimer($atts['company']); break;
@@ -50,7 +50,7 @@ function d3v_legal_notices( $atts ) {
         case 'comptscs'         :	comp_tscs($atts['company'], $atts['email'], $atts['address'], $atts['tel'], $atts['smp']); break;
         case 'contact'          :	contact($atts['company'], $atts['email']); break;
         case 'smr'              :	social_media_release($atts['smp'], $atts['company']); break;
-        case 'smn'              :   social_media_netiquette($atts['smp'], $atts['company']); break;
+        case 'smn'              : social_media_netiquette($atts['smp'], $atts['company']); break;
         default                 :	echo ''; break;
     }
 
@@ -69,52 +69,194 @@ function cookies(){
 }
 
 // Privacy Policy Statement
-function privacy_policy($company, $address){
+function privacy_policy($company, $address, $email, $tel){
     // Start HTML?>
     <div id="d3v-legal-privacy-policy" class="d3v-legal d3v-legal-privacy-policy">
-        <p>This privacy policy sets out how <?php echo $company; ?> uses and protects any information that you give <?php echo $company; ?> when you use this website.</p>
-        <p><?php echo $company; ?> is committed to ensuring that your privacy is protected. Should we ask you to provide certain information by which you can be identified when using this website, then you can be assured that it will only be used in accordance with this privacy statement.</p>
-        <p><?php echo $company; ?> may change this policy from time to time by updating this page. You should check this page from time to time to ensure that you are happy with any changes. This policy is effective from October, 2010.</p>
-        <p>&nbsp;</p>
-        <p> <strong>What we collect</strong></p>
-        <p>We may collect the following information:</p>
-        <ul>
-           <li>Name and job title;</li>
-           <li>Contact information including email address;</li>
-           <li>Demographic information such as postcode, preferences and interests;</li>
-           <li>Other information relevant to customer surveys and/or offers.</li>
-        </ul>
-        <p>&nbsp;</p>
-        <p><strong>What we do with the information we gather</strong></p>
-        <p>We may use the information provided for the following reasons:</p>
-        <ul>
-           <li>Internal record keeping;</li>
-           <li>We may use the information to improve our products and services;</li>
-           <li>We may periodically send promotional emails about new products, special offers or other information which we think you may find interesting using the email address which you have provided;</li>
-           <li>From time to time, we may also use your information to contact you for market research purposes. We may contact you by email, phone, fax or mail. We may use the information to customise the website according to your interests.</li>
-        </ul>
-        <p>&nbsp;</p>
-        <p><strong>Security</strong></p>
-        <p>We are committed to ensuring that your information is secure. In order to prevent unauthorised access or disclosure, we have put in place suitable physical, electronic and managerial procedures to safeguard and secure the information we collect online.</p>
-        <p>&nbsp;</p>
-        <p><strong>How we use cookies</strong></p>
-        <p>A cookie is a small file which asks permission to be placed on your computer’s hard drive. Once you agree, the file is added and the cookie helps analyse web traffic or lets you know when you visit a particular site. Cookies allow web applications to respond to you as an individual. The web application can tailor its operations to your needs, likes and dislikes by gathering and remembering information about your preferences.</p>
-        <p>We use traffic log cookies to identify which pages are being used. This helps us analyse data about web page traffic and improve our website in order to tailor it to customer needs. We only use this information for statistical analysis purposes and then the data is removed from the system.</p>
-        <p>Overall, cookies help us provide you with a better website, by enabling us to monitor which pages you find useful and which you do not. A cookie in no way gives us access to your computer or any information about you, other than the data you choose to share with us.</p>
-        <p>You can choose to accept or decline cookies. Most web browsers automatically accept cookies, but you can usually modify your browser setting to decline cookies if you prefer. This may prevent you from taking full advantage of the website.</p>
-        <p>&nbsp;</p>
-        <p><strong>Links To Other Websites</strong></p>
-        <p>Our website may contain links to other websites of interest. However, once you have used these links to leave our site, you should note that we do not have any control over that other website. Therefore, we cannot be responsible for the protection and privacy of any information which you provide whilst visiting such sites and such sites are not governed by this privacy statement. You should exercise caution and look at the privacy statement applicable to the website in question.</p>
-        <p>&nbsp;</p>
-        <p><strong>Controlling Your Personal Information</strong></p>
-        <p>You may choose to restrict the collection or use of your personal information in the following ways:</p>
-        <ul>
-           <li>Whenever you are asked to fill in a form on the website, look for the box that you can click to indicate that you do not want the information to be used by anybody for direct marketing purposes;</li>
-           <li>If you have previously agreed to us using your personal information for direct marketing purposes, you may change your mind at any time by writing to or emailing us through our contact form.</li>
-        </ul>
-        <p>We will not sell, distribute or lease your personal information to third parties unless we have your permission or are required by law to do so. We may use your personal information to send you promotional information about third parties which we think you may find interesting if you tell us that you wish this to happen.</p>
-        <p>You may request details of personal information which we hold about you under the Data Protection Act 1998. A small fee will be payable. If you would like a copy of the information held on you please write <?php echo $address; ?>.</p>
-        <p>If you believe that any information we are holding on you is incorrect or incomplete, please write to or email us as soon as possible, at the above address. We will promptly correct any information found to be incorrect.</p>
+        <p><?php echo $company; ?> services, including (without limitation) our website and other interactive properties through which the services are delivered (collectively, the “Service”) are owned, operated and distributed by <?php echo $company; ?> (referred to in this Privacy Notice as “<?php echo $company; ?>” or “we” and through similar words such as “us,” “our,” etc.). This Privacy Notice outlines the personal information that <?php echo $company; ?> may collect, how <?php echo $company; ?> uses and safeguards that information, and with whom we may share it.</p>
+
+	<p>&nbsp;</p>
+	<p><?php echo $company; ?> encourages our customers, visitors, business associates, and other interested parties to read this Privacy Notice, which applies to all users. By using our Service or submitting personal information to <?php echo $company; ?> by any other means, you acknowledge that you understand and agree to be bound by this Privacy Notice, and agree that <?php echo $company; ?> may collect, process, transfer, use, and disclose your personal information as described in this Notice. Further, by accessing any part of the Service, you are agreeing to THE TERMS AND CONDITIONS OF OUR TERMS OF SERVICE (the “Terms of Service”). IF YOU DO NOT AGREE WITH ANY PART OF THIS PRIVACY NOTICE OR OUR TERMS OF SERVICE, PLEASE DO NOT USE ANY OF THE SERVICES.</p>
+
+	<p>&nbsp;</p>
+	<p><strong>What personal information do we collect about you?</strong></p>
+	<p>Personal information (also commonly known as personally identifiable information (PII) or personal data) is information that can be used to identify you, or any other individual to whom the information may relate.</p>
+
+	<p>&nbsp;</p>
+	<p>The personal information that we collect directly from those registering for the Service, includes the following categories:</p>
+	<ul>
+		<li>Name and contact information (e.g. address; phone number; email, fax);</li>
+		<li>Billing Information (e.g. credit card, bank account, billing contact information);</li>
+		<li>Order Information (e.g. current order/purchase information, purchase history, shipping details);</li>
+		<li>Travel Information (e.g. booking numbers, passport information, flight numbers, travel details);</li>
+		<li>Company/employer information;</li>
+		<li>Geographic or location information;</li>
+		<li>Information contained in posts you may on the public forums and interactive features of the Service.;</li>
+		<li>Other information that may be exchanged in the course of engaging with the Service.  You will be aware of any subsequently collected information because it will come directly from you.;</li>
+	</ul>
+
+	<p>&nbsp;</p>
+	<p><strong>Collection of User Generated Content</strong></p>
+	<p>We may invite you to post content on the Service, including your comments and any other information that you would like to be available on the Service, which may become public (“User Generated Content”). If you post User Generated Content, all of the information that you post will be available to authorized personnel of <?php echo $company; ?>. You expressly acknowledge and agree that we may access in real-time, record and store archives of any User Generated Content on our servers to make use of them in connection with the Service. If you submit a review, recommendation, endorsement, or other User Generated Content through the Service, or through other websites including Facebook, Instagram, Google, Yelp, and other similar channels, we may share that review, recommendation, endorsement or content publicly on the Service.</p>
+
+	<p>&nbsp;</p>
+	<p><strong>What are the sources of personal information collected by <?php echo $company; ?>?</strong></p>
+	<p>When providing personal information to <?php echo $company; ?> as described in this Notice, that personal information is collected directly from you, and you will know the precise personal information being collected by us. <?php echo $company; ?> does not collect personal information from any other sources, except where it may automatically be collected as described in the section titled “Cookies, Device Data, and How it is Used, if the information in that section is considered personal information.</p>
+
+	<p>&nbsp;</p>
+	<p><strong>Why does <?php echo $company; ?> collect your personal information?</strong></p>
+	<p>Subject to the terms of this Privacy Notice, <?php echo $company; ?> uses the above described categories of personal information in several ways. Unless otherwise stated specifically, the above information may be used for any of the following purposes:</p>
+	<ul>
+		<li>to administer the Service to you;</li>
+		<li>to respond to your requests;</li>
+		<li>to distribute communications relevant to your use of the Service, such as system updates or information about your use of the Service;</li>
+		<li>as may be necessary to support the operation of the Service, such as for billing, account maintenance, and record-keeping purposes;</li>
+		<li>to send to you <?php echo $company; ?> solicitations, product announcements, and the like that we feel may be of interest to  you. Please note that you may “opt out” of receiving these marketing materials;</li>
+		<li>in other manners after subsequent notice is provided to you and/or your consent is obtained, if necessary.</li>
+	</ul>
+	<p><?php echo $company; ?> does not sell, re-sell, or distribute for re-sale your personal information.</p>
+
+	<p>&nbsp;</p>
+	<p><strong>Direct Marketing Communications</strong></p>
+	<p>We may communicate with you using email, SMS, Social Media, and other channels (sometimes through automated means) as part of our effort to market our products or services, administer or improve our products or services, or for other reasons stated in this Privacy Notice. You have an opportunity to withdraw consent to receive such direct marketing communications, as permitted by law.</p>
+
+	<p>&nbsp;</p>
+	<p>If you no longer wish to receive correspondence, emails, or other communications from us, you may opt-out by submitting a request through via email to <?php echo $email; ?>, or by using the UNSUBSCRIBE link in any email communication you may have received.</p>
+
+	<p>&nbsp;</p>
+	<p>Please note that you may continue to receive non-marketing communications as may be required to maintain your relationship with <?php echo $company; ?>.</p>
+
+	<p>&nbsp;</p>
+	<p>In addition to the communication described here, you may receive third-party marketing communications from providers we have engaged to market or promote our products and services. These third-party providers may be using communications lists they have acquired on their own, and you may have opted-in to those lists through other channels.  If you no longer wish to receive emails, SMSs, or other communications from such third parties, you may need to contact that third party directly.</p>
+
+	<p>&nbsp;</p>
+	<p><strong>Retention of Data</strong></p>
+	<p><?php echo $company; ?> will retain your personal information only for as long as is necessary for the purposes set out in this Notice. We will retain and use personal information to the extent necessary to comply with our legal obligations (for example, if we are required to retain your data to comply with applicable laws), resolve disputes and enforce our legal agreements and policies.</p>
+
+	<p>&nbsp;</p>
+	<p><?php echo $company; ?> will also retain usage data for internal analysis purposes. Usage data is generally retained for a shorter period of time, except when this data is used to strengthen the security or to improve the functionality of our Sites and/or Portals, or we are legally obligated to retain this data for longer periods.</p>
+
+	<p>&nbsp;</p>
+	<p><strong>Cookies, Device Data, and How it is Used</strong></p>
+	<p>When you use our Service, we may record unique identifiers associated with your device (such as the device ID and IP address), your activity within the Service, and your network location. <?php echo $company; ?> uses aggregated information (such as anonymous user usage information, cookies, IP addresses, browser type, clickstream information, etc.) to improve the quality and design of the Service and to create new features, promotions, functionality, and services by storing, tracking, and analyzing user preferences and trends. Specifically, we may automatically collect the following information about your use of Service through cookies, web beacons, and other technologies:</p>
+	<ul>
+		<li>domain name;
+		<li>browser type and operating system;
+		<li>web pages you view;
+		<li>links you click;
+		<li>IP address;
+		<li>the length of time you visit the Sites, Portals, and/or Services;
+		<li>the referring URL or the webpage that led you to the Sites;
+	</ul>
+
+	<p>&nbsp;</p>
+	<p>We may also collect information regarding application-level events, such as crashes, and associate that temporarily with your account to provide customer service. In some circumstances, we may combine this information with personal information collected from you (and third-party service providers may do so on behalf of us).</p>
+
+	<p>&nbsp;</p>
+	<p>In addition, we may use "cookies," clear gifs, and log file information that help us determine the type of content and pages to which you link, the length of time you spend at any particular area of the Service, and the portion of the Service you choose to use. A cookie is a small text file that is sent by a website to your computer or mobile device where it is stored by your web browser. A cookie contains limited information, usually a unique identifier and the name of the site. Your browser has options to accept, reject or provide you with notice when a cookie is sent. Our cookies can only be read by <?php echo $company; ?>; they do not execute any code or virus; <strong>and they do not contain any personal information</strong>. Cookies allow <?php echo $company; ?> to serve you better and more efficiently, and to personalize your experience with the Service. We may use cookies for many purposes, including (without limitation) to save your password so you don’t have to re-enter it each time you visit the Service, and to deliver content (which may include third party advertisements) specific to your interests.</p>
+
+	<p>&nbsp;</p>
+	<p>We may use third party service providers to help us analyze certain online activities. For example, these service providers may help us measure the performance of our online campaigns or analyze visitor activity on the Service. We may permit these service providers to use cookies and other technologies to perform these services for <?php echo $company; ?>. We do not share any personal information about our customers with these third-party service providers, and these service providers do not collect such personal information on our behalf. Our third-party service providers are required to comply fully with this Privacy Notice.</p>
+
+	<p>&nbsp;</p>
+	<p>For individuals located outside the South Africa, in particular in Switzerland, the United Kingdom and the European Economic Area (EEA), please note that <?php echo $company; ?> is a South African based company. <?php echo $company; ?> does not market to or solicit customers from outside the South Africa, therefore, users of the Service should not expect to avail themselves of the rights provided under the EU’s General Data Protection Regulation (“GDPR”). If you use the Service, all information, including personal information, will be transferred to <?php echo $company; ?> in South Africa. By using the Service, you unambiguously consent to the transfer of your personal information and other information to the South Africa and elsewhere for the purposes and uses described in this Notice. Further, you acknowledge that <?php echo $company; ?> is not subject to the GDPR or similar international privacy laws, and, therefore, you will be unable to claim the privacy rights provided in those laws.</p>
+
+	<p>&nbsp;</p>
+	<p>We may use third party service providers to help us deliver certain services, and it may result in the processing of personal information in data centers and locations outside of the South Africa. For example, these service providers may provide us with essential information technology or tools we use to run our business. We may permit these service providers to process our business information and/or your personal information. We do not permit these service providers to process any personal information outside of a contract, and these service providers may collect personal information on our behalf. Our third-party service providers are required to comply fully with this Privacy Notice.</p>
+
+	<p>&nbsp;</p>
+	<p><strong>European Union Data Privacy Rights</strong></p>
+	<p>If you are located in the EEA, the General Data Protection Regulation (“GDPR”) grants you certain rights under the law. In particular, the right to access, correct, and delete the personal information we hold about you. <?php echo $company; ?> will retain your personal information for the length of time you engage with our services as described in the retention section of this Notice, until you request deletion of such personal information.</p>
+
+	<p>&nbsp;</p>
+	<p>In certain circumstances, you have the following data protection rights:</p>
+	<ul>
+		<li>The right to access, update, or delete the personal information we have on you;</li>
+		<li>The right of rectification. You have the right to have your personal information rectified if that information is inaccurate or incomplete;</li>
+		<li>The right to object. You have the right to object to our processing of your personal informationl;</li>
+		<li>The right of restriction. You have the right to request that we restrict the processing of your personal information;</li>
+		<li>The right to data portability. You have the right to be provided with a copy of the personal information we have on you in a structured, machine-readable and commonly used format;</li>
+		<li>The right to withdraw consent. You also have the right to withdraw your consent at any time where we relied on your consent to process your personal information.</li>
+	</ul>
+
+	<p>&nbsp;</p>
+	<p>In order make a request regarding your personal information, please contact us via e-mail on <?php echo $email; ?>.</p>
+
+	<p>&nbsp;</p>
+	<p>If you have a comment, question, or complaint about how we are handling your personal information, we hope that you contact us at <?php echo $email; ?> in order to allow us to resolve the matter. In addition, if you are located in the EEA, you may submit a complaint regarding the processing of your personal information to the EU data protection authorities (each a “DPA”). The following link may assist you in finding the appropriate DPA: <a href="https://ec.europa.eu/justice/data-protection/bodies/authorities/index_en.htm" target="_blank">https://ec.europa.eu/justice/data-protection/bodies/authorities/index_en.htm</a></p>
+
+	<p>&nbsp;</p>
+	<p><strong>Legal Basis for Processing under GDPR</strong></p>
+	<p>If you are located in the EEA, our legal basis for collecting and using the personal information described in this Notice depends on the personal information we collect and the specific context in which we collect it.</p>
+
+	<p>&nbsp;</p>
+	<p>We may process personal information because:</p>
+	<ul>
+		<li>We need to perform a contract with you;</li>
+		<li>You have given us consent to do so;</li>
+		<li>The processing is in our legitimate interest to offer the Service, when that legitimate interest is not overridden by your rights;</li>
+		<li>To comply with the law.</li>
+	</ul>
+
+	<p>&nbsp;</p>
+	<p>Where personal information is processed based on consent, EU residents have the right to withdraw such consent at any time. To do so, please contact us as described in this Notice. If there is a different legal basis that would permit us to continue processing your personal information after withdrawing consent, we will notify you of that legal basis at the time of your request.</p>
+
+	<p>&nbsp;</p>
+	<p><strong>South African Privacy Rights</strong></p>
+	<p>If you are a South African resident, South Africa law may provide you with certain rights with regard to your personal information under the Protection of Personal Information Act (“POPIA”) and Promotion of Access to Information Act (“PAIA”).as well the Consumer Protection Act Throughout this Privacy Notice you will find information required by POPIA regarding the categories of personal information collected from you; the purposes for which we use personal information, and the categories of third parties your data may be shared with.  This information is current as of the date of the Notice and is applicable in the 12 months preceding the effective date of the Notice.</p>
+
+	<p>&nbsp;</p>
+	<p>As a South African resident, the POPIA and PAIA provide you the ability to make inquiries regarding to your personal information. Specifically, the degree to which the information is not already provided in this Privacy Notice, you have the right to request disclosure or action your personal information, including:</p>
+	<ul>
+		<li>If your personal information is collected by us.</li>
+		<li>The specific pieces of personal information collected about you.</li>
+		<li>The ability to correct or delete certain personal information collected about you.</li>
+		<li>The ability to delete all the personal information collected about you, subject to certain exceptions.</li>
+		<li>To opt-in or opt-out of direct marketing to you.</li>
+		<li>To object to processing of your personal information, or </li>
+		<li>Appeal any rejection of access to your personal information</li>
+	</ul>
+
+	<p>&nbsp;</p>
+	<p>You may submit a request regarding your rights under POPIA or PAIA by submitting a request through e-mailing <?php echo $email; ?> or by contacting us in writing at one of the following address: <?php echo $address; ?>.</p>
+
+	<p>&nbsp;</p>
+	<p>If we receive a POPIA request from you, we will first make a determination regarding the applicability of the law, and we will then take steps to verify your identity prior to responding. The steps to verify your identity may vary based on our relationship with you, but, at a minimum, it will take the form of confirming and matching the information submitted in the request with information already held by <?php echo $company; ?> and/or contacting you through previously used channels to confirm that you submitted the request (i.e. confirming identity through contact information that we have on file, and/or the contact information submitted to make the request).</p>
+
+	<p>&nbsp;</p>
+	<p>The <?php echo $company; ?> does not knowingly collect or process the special personal information such as your religious or philosophical beliefs, race or ethnic origins, trade union memberships, political persuasion, health or sex life, or your criminal behavior or biometric information.</p>
+
+	<p>&nbsp;</p>
+	<p>If you have a comment, question, or complaint about how we are processing your personal information, we hope that you contact us at <?php echo $email; ?> in order to allow us to resolve the matter. In addition, if you are located in the Republic of South Africa, you may submit a complaint regarding the processing of your personal information to the Information Regulator at the following link: <a href="https://www.justice.gov.za/inforeg/contact.html" target="_blank">https://www.justice.gov.za/inforeg/contact.html</a>.</p>
+
+	<p>&nbsp;</p>
+	<p><strong>Third Party Advertisers</strong></p>
+	<p>We may allow other companies, called third-party ad servers or ad networks, to serve advertisements within the Service. These third-party ad servers or ad networks use technology to send, directly to your device, the advertisements and links that appear on the Service. They automatically receive your device ID and IP address when this happens. They may also use other technologies (such as cookies, JavaScript, or Web Beacons) to measure the effectiveness of their advertisements and to personalize the advertising content you see. You should consult the respective privacy policies of these third-party ad servers or ad networks for more information on their practices and for instructions on how to opt-out of certain practices. This Privacy Notice does not apply to them, and we cannot control their activities.</p>
+
+	<p>&nbsp;</p>
+	<p><strong>Information Storage and Security</strong></p>
+	<p>We employ industry-standard and/or generally accepted security measures designed to secure the integrity and confidentiality of all information submitted through the Service. However, the security of information transmitted through the internet or via a mobile device can never be guaranteed. We are not responsible for any interception or interruption of any communications through the internet or for changes to or losses of data.</p>
+
+	<p>&nbsp;</p>
+	<p>Users of the Service are responsible for maintaining the security of any password, user ID or other form of authentication involved in obtaining access to password protected or secure areas of the Service. In order to protect you and your information, we may suspend your use of any of the Service, without notice, pending an investigation, if any breach of security is suspected.</p>
+
+	<p>&nbsp;</p>
+	<p><strong>External Links</strong></p>
+	<p>The Service may contain links to other websites maintained by third parties. Please be aware that we exercise no control over linked sites and <?php echo $company; ?> is not responsible for the privacy practices or the content of such sites. Each linked site maintains its own independent privacy and data collection policies and procedures, and you are encouraged to view the privacy policies of these other sites before providing any personal information.</p>
+
+	<p>&nbsp;</p>
+	<p>You hereby acknowledge and agree that <?php echo $company; ?> is not responsible for the privacy practices, data collection policies and procedures, or the content of such third-party sites, and you hereby release <?php echo $company; ?> from any and all claims arising out of or related to the privacy practices, data collection policies and procedures, and/or the content of such third-party sites.</p>
+
+	<p>&nbsp;</p>
+	<p><strong>Children’s Privacy</strong></p>
+	<p>The Service is not intended for children under the age of 18, and <?php echo $company; ?> does not knowingly collect the personal information of children under the age of 18.</p>
+
+	<p>&nbsp;</p>
+	<p><strong>Changes to this Privacy Notice</strong></p>
+	<p><?php echo $company; ?> reserves the right to modify this Privacy Notice from time to time in order that it accurately reflects the regulatory environment and our data collection principles. When material changes are made to this Privacy Notice, <?php echo $company; ?> will post the revised Notice on our website. This Privacy Notice was last modified as of 13 November 2020.</p>
+
+	<p>&nbsp;</p>
+	<p><strong>Contact Us</strong></p>
+	<p>If you have any questions or comments about this Privacy Notice or the Service provided by <?php echo $company; ?>, please contact us, by writing <?php echo $address; ?> or via e-mail at <?php echo $email; ?> or telephonically via <?php echo $tel; ?>.</p>
     </div>
     <?php // End HTML
 }
