@@ -21,8 +21,9 @@ _Notice Value:_ cookies
 
 ### Privacy Policy
 _Notice Value:_ privacy
+privacy_policy($atts['company'], $atts['address'], $atts['email'], $atts['tel'])
 
-``` [d3v-legal notice='privacy' company='ABC Holdings' smp='Facebook'] ```
+``` [d3v-legal notice='privacy' company='ABC Holdings' address='21 Random Street, Somewhere, South Africa' email='info@abc.com' tel='+27 82 000 0000'] ```
 
 
 ### Copyright Notice
