@@ -84,13 +84,16 @@ function privacy_policy($company, $address, $email, $tel){
 	<p>&nbsp;</p>
 	<p>The personal information that we collect directly from those registering for the Service, includes the following categories:</p>
 	<ul>
+		<li>All Information in our credit application and COD forms;</li>
+		<li>Information relating to credit profiles form credit bureau and disclosed references in applications;</li>
+		<li>Bank codes of clients/debtors;</li>
 		<li>Name and contact information (e.g. address; phone number; email, fax);</li>
 		<li>Billing Information (e.g. credit card, bank account, billing contact information);</li>
 		<li>Order Information (e.g. current order/purchase information, purchase history, shipping details);</li>
 		<li>Travel Information (e.g. booking numbers, passport information, flight numbers, travel details);</li>
 		<li>Company/employer information;</li>
 		<li>Geographic or location information;</li>
-		<li>Information contained in posts you may on the public forums and interactive features of the Service.;</li>
+		<li>Information contained in posts you make on the public forums and interactive features of the Service.;</li>
 		<li>Other information that may be exchanged in the course of engaging with the Service.  You will be aware of any subsequently collected information because it will come directly from you.;</li>
 	</ul>
 
@@ -100,7 +103,7 @@ function privacy_policy($company, $address, $email, $tel){
 
 	<p>&nbsp;</p>
 	<p><strong>What are the sources of personal information collected by <?php echo $company; ?>?</strong></p>
-	<p>When providing personal information to <?php echo $company; ?> as described in this Notice, that personal information is collected directly from you, and you will know the precise personal information being collected by us. <?php echo $company; ?> does not collect personal information from any other sources, except where it may automatically be collected as described in the section titled “Cookies, Device Data, and How it is Used, if the information in that section is considered personal information.</p>
+	<p>When providing personal information to <?php echo $company; ?> as described in this Notice, that personal information is collected directly from you, and you will know the precise personal information being collected by us. <?php echo $company; ?> does not collect personal information from any other sources, except where it may automatically be collected as described in the section titled “Cookies, Device Data, and How it is Used, if the information in that section is considered personal information or if information is collected from third parties, which have been consented to during contractual agreements or applications completed by our clients/potential clients.</p>
 
 	<p>&nbsp;</p>
 	<p><strong>Why does <?php echo $company; ?> collect your personal information?</strong></p>
@@ -113,8 +116,18 @@ function privacy_policy($company, $address, $email, $tel){
 		<li>to send to you <?php echo $company; ?> solicitations, product announcements, and the like that we feel may be of interest to  you. Please note that you may “opt out” of receiving these marketing materials;</li>
 		<li>in other manners after subsequent notice is provided to you and/or your consent is obtained, if necessary.</li>
 	</ul>
+   	<p>&nbsp;</p>
 	<p><?php echo $company; ?> does not sell, re-sell, or distribute for re-sale your personal information.</p>
-
+	<p>&nbsp;</p>	
+	<p><strong>When we collect and use your personal information?</strong></p>
+	<p>In addition to the to the below reasons, <?php echo $company; ?> will collect and use your personal information;</p>
+        <ul>
+		<li>Provide services and products to clients and potential clients, when placing orders, completing application forms/COD forms and request quotations.</li>
+		<li>To implement legal proceedings where necessary.</li>
+		<li> To contact registered credit bureau’s for client profile applications for information relating directors, members and business profiles and any other related information from credit bureaus necessary to conduct business with our clients.</li>
+		<li> To submit information to registered credit bureaus and other creditors of clients/debtors as per agreement in applications.</li>
+		<li> In order to deliver services to you, we make use of third parties. Your personal information will be shared with approved, third parties relevant for the completion and fulfillment of our duties to render services to you, such as but not limited to, auditors/tax specialist, IT support and management of systems, servers, cloud services, marketing and social media agencies, legal advisors and debt collection.</li>
+	</ul>
 	<p>&nbsp;</p>
 	<p><strong>Direct Marketing Communications</strong></p>
 	<p>We may communicate with you using email, SMS, Social Media, and other channels (sometimes through automated means) as part of our effort to market our products or services, administer or improve our products or services, or for other reasons stated in this Privacy Notice. You have an opportunity to withdraw consent to receive such direct marketing communications, as permitted by law.</p>
@@ -172,14 +185,13 @@ function privacy_policy($company, $address, $email, $tel){
 	<ul>
 		<li>The right to access, update, or delete the personal information we have on you;</li>
 		<li>The right of rectification. You have the right to have your personal information rectified if that information is inaccurate or incomplete;</li>
-		<li>The right to object. You have the right to object to our processing of your personal informationl;</li>
+		<li>The right to object. You have the right to object to our processing of your personal information;</li>
 		<li>The right of restriction. You have the right to request that we restrict the processing of your personal information;</li>
 		<li>The right to data portability. You have the right to be provided with a copy of the personal information we have on you in a structured, machine-readable and commonly used format;</li>
 		<li>The right to withdraw consent. You also have the right to withdraw your consent at any time where we relied on your consent to process your personal information.</li>
 	</ul>
-
 	<p>&nbsp;</p>
-	<p>In order make a request regarding your personal information, please contact us via e-mail on <?php echo $email; ?>.</p>
+	<p>In order make a request regarding your personal information, please contact us via e-mail on <?php echo $email; ?>, this may take 30 days to respond to your request and in some cases, we may require proof of identity.</p>    
 
 	<p>&nbsp;</p>
 	<p>If you have a comment, question, or complaint about how we are handling your personal information, we hope that you contact us at <?php echo $email; ?> in order to allow us to resolve the matter. In addition, if you are located in the EEA, you may submit a complaint regarding the processing of your personal information to the EU data protection authorities (each a “DPA”). The following link may assist you in finding the appropriate DPA: <a href="https://ec.europa.eu/justice/data-protection/bodies/authorities/index_en.htm" target="_blank">https://ec.europa.eu/justice/data-protection/bodies/authorities/index_en.htm</a></p>
@@ -223,7 +235,7 @@ function privacy_policy($company, $address, $email, $tel){
 	<p>If we receive a POPIA request from you, we will first make a determination regarding the applicability of the law, and we will then take steps to verify your identity prior to responding. The steps to verify your identity may vary based on our relationship with you, but, at a minimum, it will take the form of confirming and matching the information submitted in the request with information already held by <?php echo $company; ?> and/or contacting you through previously used channels to confirm that you submitted the request (i.e. confirming identity through contact information that we have on file, and/or the contact information submitted to make the request).</p>
 
 	<p>&nbsp;</p>
-	<p>The <?php echo $company; ?> does not knowingly collect or process the special personal information such as your religious or philosophical beliefs, race or ethnic origins, trade union memberships, political persuasion, health or sex life, or your criminal behavior or biometric information.</p>
+	<p>As a customer of <?php echo $company; ?>, <?php echo $company; ?> does not knowingly collect or process the special personal information such as your religious or philosophical beliefs, race or ethnic origins, trade union memberships, political persuasion, health or sex life, or your criminal behavior or biometric information.</p>
 
 	<p>&nbsp;</p>
 	<p>If you have a comment, question, or complaint about how we are processing your personal information, we hope that you contact us at <?php echo $email; ?> in order to allow us to resolve the matter. In addition, if you are located in the Republic of South Africa, you may submit a complaint regarding the processing of your personal information to the Information Regulator at the following link: <a href="https://www.justice.gov.za/inforeg/contact.html" target="_blank">https://www.justice.gov.za/inforeg/contact.html</a>.</p>
@@ -252,7 +264,7 @@ function privacy_policy($company, $address, $email, $tel){
 
 	<p>&nbsp;</p>
 	<p><strong>Changes to this Privacy Notice</strong></p>
-	<p><?php echo $company; ?> reserves the right to modify this Privacy Notice from time to time in order that it accurately reflects the regulatory environment and our data collection principles. When material changes are made to this Privacy Notice, <?php echo $company; ?> will post the revised Notice on our website. This Privacy Notice was last modified as of 13 November 2020.</p>
+	<p><?php echo $company; ?> reserves the right to modify this Privacy Notice from time to time in order that it accurately reflects the regulatory environment and our data collection principles. When material changes are made to this Privacy Notice, <?php echo $company; ?> will post the revised Notice on our website. This Privacy Notice was last modified on 18 June 2021.</p>
 
 	<p>&nbsp;</p>
 	<p><strong>Contact Us</strong></p>
