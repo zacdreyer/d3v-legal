@@ -3,9 +3,9 @@
  Plugin Name: D3V Legal Notices ZA
  Plugin URI: http://www.d3v.software/
  Description: Output relevant legal notices as required by POPI and other laws. Usage: [d3v-legal notice='privacy' company='D3V Digital' email='optout@d3v.co.za'].
- Version: 2020.11
- Author: D3V Software
- Author URI: https://github.com/D3V-Software/
+ Version: 2021.06
+ Author: D3V.Digital
+ Author URI: https://d3v.digital
  Text Domain: legalnotices
 
  This program is free software; you can redistribute it and/or
