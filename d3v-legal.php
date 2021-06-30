@@ -235,7 +235,7 @@ function privacy_policy($company, $address, $email, $tel){
 	<p>If we receive a POPIA request from you, we will first make a determination regarding the applicability of the law, and we will then take steps to verify your identity prior to responding. The steps to verify your identity may vary based on our relationship with you, but, at a minimum, it will take the form of confirming and matching the information submitted in the request with information already held by <?php echo $company; ?> and/or contacting you through previously used channels to confirm that you submitted the request (i.e. confirming identity through contact information that we have on file, and/or the contact information submitted to make the request).</p>
 
 	<p>&nbsp;</p>
-	<p>As a customer of <?php echo $company; ?>, <?php echo $company; ?> does not knowingly collect or process the special personal information such as your religious or philosophical beliefs, race or ethnic origins, trade union memberships, political persuasion, health or sex life, or your criminal behavior or biometric information.</p>
+	<p><?php echo $company; ?> does not knowingly collect or process the special personal information such as your religious or philosophical beliefs, race or ethnic origins, trade union memberships, political persuasion, health or sex life, or your criminal behavior or biometric information.</p>
 
 	<p>&nbsp;</p>
 	<p>If you have a comment, question, or complaint about how we are processing your personal information, we hope that you contact us at <?php echo $email; ?> in order to allow us to resolve the matter. In addition, if you are located in the Republic of South Africa, you may submit a complaint regarding the processing of your personal information to the Information Regulator at the following link: <a href="https://www.justice.gov.za/inforeg/contact.html" target="_blank">https://www.justice.gov.za/inforeg/contact.html</a>.</p>
@@ -254,6 +254,10 @@ function privacy_policy($company, $address, $email, $tel){
 	<p>&nbsp;</p>
 	<p><strong>External Links</strong></p>
 	<p>The Service may contain links to other websites maintained by third parties. Please be aware that we exercise no control over linked sites and <?php echo $company; ?> is not responsible for the privacy practices or the content of such sites. Each linked site maintains its own independent privacy and data collection policies and procedures, and you are encouraged to view the privacy policies of these other sites before providing any personal information.</p>
+	    
+	<p>&nbsp;</p>
+	<p><strong>WhatsApp / Telegram and other Instant Messanger Groups</strong></p>
+	<p>Should you elect to remain in a <?php echo $company; ?> manages group, it will be accepted that you have consented to being a part of the group and to your personal information (being your cell phone number and name) being visible to any person in the relevant group. We implore on all group members not to make use of such personal information for whatsoever reason, without obtaining the consent of the relevant person. If you do not consent to being in a <?php echo $company; ?> managed group please remove yourself from the relevant group or contact us at <?php echo $email; ?>.  By remaining on the relevant group(s) it is accepted as consent.</p>
 
 	<p>&nbsp;</p>
 	<p>You hereby acknowledge and agree that <?php echo $company; ?> is not responsible for the privacy practices, data collection policies and procedures, or the content of such third-party sites, and you hereby release <?php echo $company; ?> from any and all claims arising out of or related to the privacy practices, data collection policies and procedures, and/or the content of such third-party sites.</p>
@@ -264,7 +268,7 @@ function privacy_policy($company, $address, $email, $tel){
 
 	<p>&nbsp;</p>
 	<p><strong>Changes to this Privacy Notice</strong></p>
-	<p><?php echo $company; ?> reserves the right to modify this Privacy Notice from time to time in order that it accurately reflects the regulatory environment and our data collection principles. When material changes are made to this Privacy Notice, <?php echo $company; ?> will post the revised Notice on our website. This Privacy Notice was last modified on 18 June 2021.</p>
+	<p><?php echo $company; ?> reserves the right to modify this Privacy Notice from time to time in order that it accurately reflects the regulatory environment and our data collection principles. When material changes are made to this Privacy Notice, <?php echo $company; ?> will post the revised Notice on our website. This Privacy Notice was last modified on 30 June 2021.</p>
 
 	<p>&nbsp;</p>
 	<p><strong>Contact Us</strong></p>
