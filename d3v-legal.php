@@ -4,7 +4,7 @@
  Plugin URI: https://github.com/d3vdigital/d3v-legal/
  Description: Output relevant legal notices as required by POPIA and other laws. Usage: [d3v-legal notice='privacy' company='D3V Digital' email='optout@d3v.co.za'].
  Version: 2021.10
- Author: Zac Dreyer </D3V.Digital>
+ Author: Zac Dreyer (D3V.Digital)
  Author URI: https://d3v.digital
  Text Domain: legalnotices
 
