@@ -16,7 +16,7 @@ WordPress Plugin providing legal docs, like a privacy policy; copyright notice e
 ### Cookie Notice
 _Notice Value:_ cookies
 
-``` [d3v-legal notice='cookies' company='ABC Holdings] ```
+``` [d3v-legal notice='cookies' company='ABC Holdings'] ```
 
 
 ### Privacy Policy
