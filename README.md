@@ -43,11 +43,16 @@ _Notice Value:_ disclaimer
 
 ``` [d3v-legal notice='disclaimer' company='ABC Holdings'] ```
 
+### E-Mail Disclaimer
+_Notice Value:_ emaildisclaimer
+
+``` [d3v-legal notice='discemaildisclaimerlaimer' company='ABC Holdings' address='21 Random Street, Somewhere, South Africa' websiteurl='www.abcexample.com'] ```
+
 
 ### Terms and Conditions
 _Notice Value:_ tscs
 
-``` [d3v-legal notice='tscs' company=ABC Holdings' address='21 Random Street, Somewhere, South Africa'] ```
+``` [d3v-legal notice='tscs' company='ABC Holdings' address='21 Random Street, Somewhere, South Africa'] ```
 
 
 ### Competition Terms and Conditions
