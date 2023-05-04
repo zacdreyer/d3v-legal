@@ -3,7 +3,7 @@
  Plugin Name: D3V Legal Notices ZA
  Plugin URI: https://github.com/d3vdigital/d3v-legal/
  Description: Output relevant legal notices as required by POPIA and other laws. Usage: [d3v-legal notice='privacy' company='D3V Digital' email='optout@d3v.co.za'].
- Version: 2021.10
+ Version: 2023.05.00
  Author: Zac Dreyer (D3V.Digital)
  Author URI: https://d3v.digital
  Text Domain: legalnotices
@@ -30,12 +30,13 @@ function d3v_legal_notices( $atts ) {
     // Attributes
     $atts = shortcode_atts(
         array(
-            'notice'    => '',
-            'company'   => '',
-            'email'     => '',
-            'address'   => '',
-            'tel'       => '',
-            'smp'		=> '',
+            'notice'        => '',
+            'company'       => '',
+            'email'         => '',
+            'address'       => '',
+            'tel'           => '',
+            'smp'		    => '',
+            'websiteurl'    => '',
         ),
         $atts
     );
@@ -46,11 +47,12 @@ function d3v_legal_notices( $atts ) {
         case 'copyright'        :	copyright($atts['company']); break;
         case 'copyrightfooter'  :	copyright_footer($atts['company']); break;
         case 'disclaimer'       :	disclaimer($atts['company']); break;
+        case 'emaildisclaimer'  :	email_disclaimer($atts['company'], $atts['address'], $atts['websiteurl']); break;
         case 'tscs'             :	tscs($atts['company'], $atts['address']); break;
         case 'comptscs'         :	comp_tscs($atts['company'], $atts['email'], $atts['address'], $atts['tel'], $atts['smp']); break;
         case 'contact'          :	contact($atts['company'], $atts['email']); break;
         case 'smr'              :	social_media_release($atts['smp'], $atts['company']); break;
-        case 'smn'              : social_media_netiquette($atts['smp'], $atts['company']); break;
+        case 'smn'              :   social_media_netiquette($atts['smp'], $atts['company']); break;
         default                 :	echo ''; break;
     }
 
@@ -120,7 +122,7 @@ function privacy_policy($company, $address, $email, $tel){
 	<p><?php echo $company; ?> does not sell, re-sell, or distribute for re-sale your personal information.</p>
 	<p>&nbsp;</p>	
 	<p><strong>When we collect and use your personal information?</strong></p>
-	<p>In addition to the to the below reasons, <?php echo $company; ?> will collect and use your personal information;</p>
+	<p>In addition to the below reasons, <?php echo $company; ?> will collect and use your personal information;</p>
         <ul>
 		<li>Provide services and products to clients and potential clients, when placing orders, completing application forms/COD forms and request quotations.</li>
 		<li>To implement legal proceedings where necessary.</li>
@@ -171,7 +173,13 @@ function privacy_policy($company, $address, $email, $tel){
 	<p>We may use third party service providers to help us analyze certain online activities. For example, these service providers may help us measure the performance of our online campaigns or analyze visitor activity on the Service. We may permit these service providers to use cookies and other technologies to perform these services for <?php echo $company; ?>. We do not share any personal information about our customers with these third-party service providers, and these service providers do not collect such personal information on our behalf. Our third-party service providers are required to comply fully with this Privacy Notice.</p>
 
 	<p>&nbsp;</p>
-	<p>For individuals located outside the South Africa, in particular in Switzerland, the United Kingdom and the European Economic Area (EEA), please note that <?php echo $company; ?> is a South African based company. <?php echo $company; ?> does not market to or solicit customers from outside the South Africa, therefore, users of the Service should not expect to avail themselves of the rights provided under the EU’s General Data Protection Regulation (“GDPR”). If you use the Service, all information, including personal information, will be transferred to <?php echo $company; ?> in South Africa. By using the Service, you unambiguously consent to the transfer of your personal information and other information to the South Africa and elsewhere for the purposes and uses described in this Notice. Further, you acknowledge that <?php echo $company; ?> is not subject to the GDPR or similar international privacy laws, and, therefore, you will be unable to claim the privacy rights provided in those laws.</p>
+    <p><strong>International Data Transfer</strong></p>
+
+    <p>&nbsp;</p>
+    <p>If you are located outside the South Africa, in particular if you are located in Switzerland, the United Kingdom, or the European Economic Area (“EEA”), please note that have servers located multiple datacenter locations worldwide, including but not limited to South Africa, the United States of America, the European Union, the United Kingdom, India and Asia. Any information that you provide to us may be transferred to and processed in South Africa or other countries around the world where we do business. Although this may include recipients of information located in countries where there may be a lower level of legal protection for your personal information than in your country, we will attempt to protect your information in accordance with requirements applicable to the law in your particular jurisdiction and take steps to only share with third parties that offer similar protection. By using our Service, you unambiguously consent to your information being collected, processed, used, and transferred as disclosed herein.</p>
+
+    <p>&nbsp;</p>
+    <p>For individuals located outside the South Africa, in particular in Switzerland, the United Kingdom and the European Economic Area (EEA), please note that <?php echo $company; ?> is a South African based company. Thus, users of the Service should not expect to avail themselves of the rights provided under the EU’s General Data Protection Regulation (“GDPR”). If you use the Service, all information, including personal information, will be transferred to <?php echo $company; ?> in South Africa. By using the Service, you unambiguously consent to the transfer of your personal information and other information to the South Africa and elsewhere for the purposes and uses described in this notice. Further, you acknowledge that <?php echo $company; ?> is not subject to the GDPR or similar international privacy laws, and, therefore, you will be unable to claim the privacy rights provided in those laws.</p>
 
 	<p>&nbsp;</p>
 	<p>We may use third party service providers to help us deliver certain services, and it may result in the processing of personal information in data centers and locations outside of the South Africa. For example, these service providers may provide us with essential information technology or tools we use to run our business. We may permit these service providers to process our business information and/or your personal information. We do not permit these service providers to process any personal information outside of a contract, and these service providers may collect personal information on our behalf. Our third-party service providers are required to comply fully with this Privacy Notice.</p>
@@ -268,7 +276,7 @@ function privacy_policy($company, $address, $email, $tel){
 
 	<p>&nbsp;</p>
 	<p><strong>Changes to this Privacy Notice</strong></p>
-	<p><?php echo $company; ?> reserves the right to modify this Privacy Notice from time to time in order that it accurately reflects the regulatory environment and our data collection principles. When material changes are made to this Privacy Notice, <?php echo $company; ?> will post the revised Notice on our website. This Privacy Notice was last modified on 30 June 2021.</p>
+	<p><?php echo $company; ?> reserves the right to modify this Privacy Notice from time to time in order that it accurately reflects the regulatory environment and our data collection principles. When material changes are made to this Privacy Notice, <?php echo $company; ?> will post the revised Notice on our website. This Privacy Notice was last modified on 04 May 2023.</p>
 
 	<p>&nbsp;</p>
 	<p><strong>Contact Us</strong></p>
@@ -310,6 +318,15 @@ function disclaimer($company){
         <p>In no event will we be liable for any loss or damage including without limitation, indirect or consequential loss or damage, or any loss or damage whatsoever arising from loss of data or profits arising out of, or in connection with, the use of this website.</p>
         <p>Through this website you are able to link to other websites which are not under the control of <?php echo $company; ?>. We have no control over the nature, content and availability of those sites. The inclusion of any links does not necessarily imply a recommendation or endorse the views expressed within them.</p>
         <p>Every effort is made to keep the website up and running smoothly. However, <?php echo $company; ?> takes no responsibility for, and will not be liable for, the website being temporarily unavailable due to technical issues beyond our control.</p>
+    </div>
+    <?php //End HTML
+}
+
+// E-Mail Disclaimer
+function email_disclaimer($company, $address, $websiteurl){
+    // Start HTML?>
+    <div id="d3v-legal-email-disclaimer" class="d3v-legal d3v-legal-disclaimer">
+        <p>This email and any files transmitted with it are confidential and intended solely for the use of the individual or entity to whom they are addressed. It may also be privileged or otherwise protected by work product immunity or other legal rules. If you have received this email in error please notify the system manager. Please note that any views or opinions presented in this email are solely those of the author and do not necessarily represent those of the company. The company will not accept any liability in respect of such communication, and the employee responsible will be personally liable for any damages or other liability arising. No employee or agent is authorised to conclude any binding agreement on behalf of <?php echo $company; ?> or its subsidiaries with another party by email without express written confirmation by company management. Finally, the recipient should check this email and any attachments for the presence of viruses. Although the company has taken reasonable precautions to ensure no viruses are present in this email, the company cannot accept responsibility for any loss or damage arising from the use of this email or attachments. The integrity and security of this message cannot be guaranteed on the Internet. <?php echo $company; ?>, <?php echo $address; ?>, <?php echo $websiteurl; ?></p>
     </div>
     <?php //End HTML
 }
