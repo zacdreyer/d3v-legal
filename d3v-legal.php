@@ -63,6 +63,12 @@ if (! function_exists('esc_html')) {
     }
 }
 
+if (! function_exists('d3v_legal_escape')) {
+    function d3v_legal_escape($value) {
+        return esc_html($value);
+    }
+}
+
 // Add Shortcode
 if (! function_exists('d3v_legal_notices')) {
     function d3v_legal_notices($atts) {
@@ -139,12 +145,16 @@ if (! function_exists('d3v_legal_notices')) {
 
 if (! function_exists('d3v_legal_register_shortcode')) {
     function d3v_legal_register_shortcode() {
-        add_shortcode('d3v-legal', 'd3v_legal_notices');
+        if (function_exists('add_shortcode')) {
+            add_shortcode('d3v-legal', 'd3v_legal_notices');
+        }
     }
 }
 
 d3v_legal_register_shortcode();
 
+if (! function_exists('d3v_legal_renderers_initialized')) {
+    function d3v_legal_renderers_initialized() {}
 
 // Cookie Notice
 function cookies(){
@@ -158,6 +168,11 @@ function cookies(){
 
 // Privacy Policy Statement
 function privacy_policy($company, $address, $email, $tel){
+    $company = esc_html($company);
+    $address = esc_html($address);
+    $email = esc_html($email);
+    $tel = esc_html($tel);
+
     // Start HTML?>
     <div id="d3v-legal-privacy-policy" class="d3v-legal d3v-legal-privacy-policy">
         <p><?php echo esc_html($company); ?> services, including (without limitation) our website and other interactive properties through which the services are delivered (collectively, the “Service”) are owned, operated and distributed by <?php echo esc_html($company); ?> (referred to in this Privacy Notice as “<?php echo esc_html($company); ?>” or “we” and through similar words such as “us,” “our,” etc.). This Privacy Notice outlines the personal information that <?php echo esc_html($company); ?> may collect, how <?php echo esc_html($company); ?> uses and safeguards that information, and with whom we may share it.</p>
@@ -373,6 +388,8 @@ function privacy_policy($company, $address, $email, $tel){
 
 // Copyright Notice
 function copyright($company){
+    $company = esc_html($company);
+
     // Start HTML?>
     <div id="d3v-legal-copyright" class="d3v-legal d3v-legal-copyright">
         <p>This website and its content is copyright of <?php echo $company; ?> &copy; <?php echo date('Y'); ?>. All rights reserved.</p>
@@ -389,6 +406,8 @@ function copyright($company){
 
 // Copyright Footer
 function copyright_footer($company){
+    $company = esc_html($company);
+
     // Start HTML?>
     <div id="d3v-legal-copyright-footer" class="d3v-legal d3v-legal-copyright-footer">
         <p>Copyright <?php echo $company; ?> &copy; <?php echo date('Y'); ?>. All rights reserved.</p>
@@ -398,6 +417,8 @@ function copyright_footer($company){
 
 // Disclaimer
 function disclaimer($company){
+    $company = esc_html($company);
+
     // Start HTML?>
     <div id="d3v-legal-disclaimer" class="d3v-legal d3v-legal-disclaimer">
         <p>The information contained in this website is for general information purposes only. The information is provided by <?php echo $company; ?> and while we endeavour to keep the information up to date and correct, we make no representations or warranties of any kind, express or implied, about the completeness, accuracy, reliability, suitability or availability with respect to the website or the information, products, services, or related graphics contained on the website for any purpose. Any reliance you place on such information is therefore strictly at your own risk.</p>
@@ -410,6 +431,10 @@ function disclaimer($company){
 
 // E-Mail Disclaimer
 function email_disclaimer($company, $address, $websiteurl){
+    $company = esc_html($company);
+    $address = esc_html($address);
+    $websiteurl = esc_html($websiteurl);
+
     // Start HTML?>
     <div id="d3v-legal-email-disclaimer" class="d3v-legal d3v-legal-disclaimer">
         <p>This email and any files transmitted with it are confidential and intended solely for the use of the individual or entity to whom they are addressed. It may also be privileged or otherwise protected by work product immunity or other legal rules. If you have received this email in error please notify the system manager. Please note that any views or opinions presented in this email are solely those of the author and do not necessarily represent those of the company. The company will not accept any liability in respect of such communication, and the employee responsible will be personally liable for any damages or other liability arising. No employee or agent is authorised to conclude any binding agreement on behalf of <?php echo $company; ?> or its subsidiaries with another party by email without express written confirmation by company management. Finally, the recipient should check this email and any attachments for the presence of viruses. Although the company has taken reasonable precautions to ensure no viruses are present in this email, the company cannot accept responsibility for any loss or damage arising from the use of this email or attachments. The integrity and security of this message cannot be guaranteed on the Internet. <?php echo $company; ?>, <?php echo $address; ?>, <?php echo $websiteurl; ?></p>
@@ -419,6 +444,9 @@ function email_disclaimer($company, $address, $websiteurl){
 
 // Terms and Conditions
 function tscs($company, $address){
+    $company = esc_html($company);
+    $address = esc_html($address);
+
     // Start HTML?>
     <div id="d3v-legal-tscs" class="d3v-legal d3v-legal-tscs">
         <p>Welcome to our website. If you continue to browse and use this website, you are agreeing to comply with and be bound by the following terms and conditions of use, which together with our privacy policy govern <?php echo $company; ?> relationship with you in relation to this website. If you disagree with any part of these terms and conditions, please do not use our website.</p>
@@ -441,6 +469,12 @@ function tscs($company, $address){
 
 // Competition Terms and Conditions
 function comp_tscs($company, $email, $address, $tel, $social_media_platform){
+    $company = esc_html($company);
+    $email = esc_html($email);
+    $address = esc_html($address);
+    $tel = esc_html($tel);
+    $social_media_platform = esc_html($social_media_platform);
+
     // Start HTML?>
     <div id="d3v-legal-comp-tscs" class="d3v-legal d3v-legal-comp-tscs">
         <p><strong>Please read these terms &amp; conditions carefully. By entering </strong><strong><?php echo $company; ?> competition all participants will be deemed to have accepted and be bound by these terms and conditions. &nbsp;If you do not agree to these terms and conditions, you must not enter the competition.</strong>&nbsp; <strong>Please retain a copy of these terms and conditions for your information.</strong></p>
@@ -517,6 +551,9 @@ function comp_tscs($company, $email, $address, $tel, $social_media_platform){
 
 // Data Administration Contact
 function contact($company, $email){
+    $company = esc_html($company);
+    $email = esc_html($email);
+
     // Start HTML ?>
     <div id="d3v-legal-contact" class="d3v-legal d3v-legal-contact">
         <p>If you have any queries about the manner in which this form is administered and/or your data is used by <?php echo $company; ?> and/or should you require us to remove your email address from our systems, please contact: <?php echo $email; ?></p>
@@ -526,6 +563,9 @@ function contact($company, $email){
 
 // Social Media Release Statement
 function social_media_release($social_media_platform, $company){
+    $social_media_platform = esc_html($social_media_platform);
+    $company = esc_html($company);
+
     // Start HTML?>
     <div id="d3v-legal-smr" class="d3v-legal d3v-legal-smr">
         <p>This activity is in no way sponsored, endorsed or administered by, or associated with <?php echo $social_media_platform; ?>. By submitting this form you agree to a complete release of <?php echo $social_media_platform; ?>. You understand that you are providing your information to <?php echo $company; ?> and not to <?php echo $social_media_platform; ?>.</p>
@@ -535,6 +575,9 @@ function social_media_release($social_media_platform, $company){
 
 // Social Media Netiquette
 function social_media_netiquette($social_media_platform, $company){
+    $social_media_platform = esc_html($social_media_platform);
+    $company = esc_html($company);
+
     // Start HTML?>
     <div id="d3v-legal-smn" class="d3v-legal d3v-legal-smn">
         <h2>Welcome to the <?php echo $company; ?> <?php echo $social_media_platform; ?> community!</h2>
@@ -577,5 +620,6 @@ function social_media_netiquette($social_media_platform, $company){
         <p><?php echo $company; ?> would like to thank you for taking the time to read an understand the above.</p>
     </div>
     <?php // End HTML
+}
 }
 ?>

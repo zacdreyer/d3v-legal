@@ -17,4 +17,25 @@ class TestPluginTest extends TestCase
         $this->assertStringContainsString('cookies', strtolower($output));
         $this->assertStringContainsString('better website experience', strtolower($output));
     }
+
+    public function testDynamicValuesAreEscapedInOutput(): void
+    {
+        $output = d3v_legal_notices(array(
+            'notice' => 'contact',
+            'company' => 'Example & "quoted"',
+            'email' => 'demo@example.com',
+        ));
+
+        $this->assertStringContainsString('Example &amp; &quot;quoted&quot;', $output);
+        $this->assertStringNotContainsString('Example & "quoted"', $output);
+    }
+
+    public function testIncludingPluginTwiceDoesNotFatal(): void
+    {
+        $pluginPath = dirname(__DIR__) . '/d3v-legal.php';
+        $command = escapeshellarg(PHP_BINARY) . ' -r ' . escapeshellarg("include '" . $pluginPath . "'; include '" . $pluginPath . "'; echo 'ok';");
+        $output = shell_exec($command);
+
+        $this->assertSame('ok', trim((string) $output));
+    }
 }
