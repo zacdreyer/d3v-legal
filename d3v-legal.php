@@ -3,7 +3,7 @@
  Plugin Name: D3V Legal Notices ZA
  Plugin URI: https://github.com/zacdreyer/d3v-legal/
  Description: Output relevant legal notices as required by POPIA and other laws. Usage: [d3v-legal notice='privacy' company='D3V Digital' email='optout@d3v.co.za'].
- Version: 2026.07.01
+ Version: 2026.07.02
  Author: Zac Dreyer
  Author URI: https://github.com/zacdreyer/
  Text Domain: legalnotices
