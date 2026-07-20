@@ -1,78 +1,94 @@
 # d3v-legal
-WordPress Plugin providing legal docs, like a privacy policy; copyright notice etc, currently only for South African websites. _This plugin comes with no warranty or support. We suggest you consult an attorney regarding compliance with the POPIA._
+WordPress plugin that outputs legal notices such as privacy policy, copyright, disclaimer, cookie notices, terms and conditions, and social media statements for South African websites. This plugin is informational and should be reviewed by a legal professional before being used in production compliance workflows.
 
-# Shortcode Usage:
-``` [d3v-legal notice='' company='' email='' address='' tel='' smp=''] ```
-* __notice__    - Type of notice you want to display, see usage examples below.
-* __company__   - Full company name that is to be displayed in notices.
-* __email__     - Legal department contact email address, if not available use generic, for Company indicated in "company" field.
-* __address__   - Domicilie for Company indicated in "company" field.
-* __tel__       - Public contact number for Company indicated in "company" field.
-* __smp__       - When using notices that are linked to social media this field is used to specify the social media platforms.
+> Note: This plugin is provided for informational purposes only and does not constitute legal advice. Please consult a qualified attorney or compliance professional before relying on it for legal or regulatory compliance.
 
+## Installation
+1. Copy the plugin folder to your WordPress plugins directory.
+2. Activate the plugin from the WordPress admin area.
+3. Add shortcode snippets to your content or templates.
 
-# Shortcode Usage Examples:
+### Local development
+- Install PHP 8.1+.
+- Install Composer.
+- Run `composer install`.
+- Run `php -l d3v-legal.php` to lint the plugin.
+- Run `composer test` to execute the PHPUnit regression suite.
+
+## Shortcode Usage
+```text
+[d3v-legal notice='' company='' email='' address='' tel='' smp='' websiteurl='']
+```
+
+- `notice`: Type of notice to render.
+- `company`: Company or brand name shown in the output.
+- `email`: Contact email used in notices.
+- `address`: Physical address or registered office.
+- `tel`: Contact number.
+- `smp`: Social media platform name.
+- `websiteurl`: Website URL for email disclaimer content.
+
+## Shortcode Examples
 
 ### Cookie Notice
-_Notice Value:_ cookies
-
-``` [d3v-legal notice='cookies' company='ABC Holdings'] ```
-
+```text
+[d3v-legal notice='cookies' company='ABC Holdings']
+```
 
 ### Privacy Policy
-_Notice Value:_ privacy
-
-``` [d3v-legal notice='privacy' company='ABC Holdings' address='21 Random Street, Somewhere, South Africa' email='info@abc.com' tel='+27 82 000 0000'] ```
-
+```text
+[d3v-legal notice='privacy' company='ABC Holdings' address='21 Random Street, Somewhere, South Africa' email='info@abc.com' tel='+27 82 000 0000']
+```
 
 ### Copyright Notice
-_Notice Value:_ copyright
-
-``` [d3v-legal notice='copyright' company='ABC Holdings'] ```
-
+```text
+[d3v-legal notice='copyright' company='ABC Holdings']
+```
 
 ### Footer Copyright Notice
-_Notice Value:_ copyrightfooter
-
-``` [d3v-legal notice='copyrightfooter' company='ABC Holdings'] ```
-
+```text
+[d3v-legal notice='copyrightfooter' company='ABC Holdings']
+```
 
 ### Disclaimer
-_Notice Value:_ disclaimer
+```text
+[d3v-legal notice='disclaimer' company='ABC Holdings']
+```
 
-``` [d3v-legal notice='disclaimer' company='ABC Holdings'] ```
-
-### E-Mail Disclaimer
-_Notice Value:_ emaildisclaimer
-
-``` [d3v-legal notice='discemaildisclaimerlaimer' company='ABC Holdings' address='21 Random Street, Somewhere, South Africa' websiteurl='www.abcexample.com'] ```
-
+### Email Disclaimer
+```text
+[d3v-legal notice='emaildisclaimer' company='ABC Holdings' address='21 Random Street, Somewhere, South Africa' websiteurl='www.abcexample.com']
+```
 
 ### Terms and Conditions
-_Notice Value:_ tscs
-
-``` [d3v-legal notice='tscs' company='ABC Holdings' address='21 Random Street, Somewhere, South Africa'] ```
-
+```text
+[d3v-legal notice='tscs' company='ABC Holdings' address='21 Random Street, Somewhere, South Africa']
+```
 
 ### Competition Terms and Conditions
-_Notice Value:_ comptscs
-
-``` [d3v-legal notice='comptscs' company='ABC Holdings' email='info@abc.com' address='21 Random Street, Somewhere, South Africa' tel='+27 82 000 0000' smp='Facebook'] ```
-
+```text
+[d3v-legal notice='comptscs' company='ABC Holdings' email='info@abc.com' address='21 Random Street, Somewhere, South Africa' tel='+27 82 000 0000' smp='Facebook']
+```
 
 ### Contact
-_Notice Value:_ contact
-
-``` [d3v-legal notice='contact' company='ABC Holdings' email='info@abc.com'] ```
-
+```text
+[d3v-legal notice='contact' company='ABC Holdings' email='info@abc.com']
+```
 
 ### Social Media Release Statement
-_Notice Value:_ smr
-
-``` [d3v-legal notice='smr' company='ABC Holdings' smp='Facebook'] ```
-
+```text
+[d3v-legal notice='smr' company='ABC Holdings' smp='Facebook']
+```
 
 ### Social Media Netiquette
-_Notice Value:_ smn
+```text
+[d3v-legal notice='smn' company='ABC Holdings' smp='Facebook']
+```
 
-``` [d3v-legal notice='smn' company='ABC Holdings' smp='Facebook'] ```
+## Documentation
+- [docs/SDD.md](docs/SDD.md)
+- [docs/TDD.md](docs/TDD.md)
+- [docs/AGENT_MEMORY.md](docs/AGENT_MEMORY.md)
+
+## Release Process
+The repository includes a GitHub Actions workflow in [.github/workflows/release.yml](.github/workflows/release.yml) that lints the plugin, runs the PHP test suite, and packages a release archive whenever a version tag is pushed.

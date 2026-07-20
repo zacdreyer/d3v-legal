@@ -1,0 +1,54 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+      - name: Install Composer dependencies
+        run: composer install --no-interaction --prefer-dist
+      - name: Lint plugin
+        run: php -l d3v-legal.php
+      - name: Run tests
+        run: vendor/bin/phpunit --configuration phpunit.xml.dist
+      - name: Determine version
+        id: version
+        run: |
+          VERSION=$(grep -Eo 'Version:[[:space:]]*[0-9]+\.[0-9]+\.[0-9]+' d3v-legal.php | awk '{print $2}')
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "tag=v$VERSION" >> "$GITHUB_OUTPUT"
+      - name: Build release archive
+        run: |
+          mkdir -p dist
+          cp d3v-legal.php dist/
+          cp -R docs dist/docs
+          tar -czf "d3v-legal-${{ steps.version.outputs.version }}.tar.gz" -C dist .
+      - name: Create tag if needed
+        run: |
+          if ! git rev-parse -q --verify "refs/tags/${{ steps.version.outputs.tag }}" >/dev/null; then
+            git tag "${{ steps.version.outputs.tag }}"
+            git push origin "${{ steps.version.outputs.tag }}"
+          fi
+      - name: Create GitHub release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.version.outputs.tag }}
+          name: Release ${{ steps.version.outputs.tag }}
+          files: d3v-legal-${{ steps.version.outputs.version }}.tar.gz
+          draft: false
+          prerelease: false

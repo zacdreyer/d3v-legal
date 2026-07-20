@@ -1,12 +1,17 @@
 <?php
 /*
  Plugin Name: D3V Legal Notices ZA
- Plugin URI: https://github.com/d3vdigital/d3v-legal/
+ Plugin URI: https://github.com/zacdreyer/d3v-legal/
  Description: Output relevant legal notices as required by POPIA and other laws. Usage: [d3v-legal notice='privacy' company='D3V Digital' email='optout@d3v.co.za'].
- Version: 2023.05.00
- Author: Zac Dreyer (D3V.Digital)
- Author URI: https://d3v.digital
+ Version: 2026.07.01
+ Author: Zac Dreyer
+ Author URI: https://github.com/zacdreyer/
  Text Domain: legalnotices
+ Requires at least: 6.4
+ Tested up to: 6.6
+ Requires PHP: 8.1
+ License: GPL-2.0-or-later
+ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -23,41 +28,122 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+if (! function_exists('shortcode_atts')) {
+    function shortcode_atts($pairs, $atts) {
+        $atts = is_array($atts) ? $atts : array();
+        $normalized = array();
+
+        foreach ($pairs as $name => $default) {
+            $normalized[$name] = isset($atts[$name]) ? $atts[$name] : $default;
+        }
+
+        return $normalized;
+    }
+}
+
+if (! function_exists('add_shortcode')) {
+    function add_shortcode($tag, $function_to_add) {
+        return true;
+    }
+}
+
+if (! function_exists('sanitize_text_field')) {
+    function sanitize_text_field($value) {
+        if (is_array($value)) {
+            return '';
+        }
+
+        return trim(strip_tags((string) $value));
+    }
+}
+
+if (! function_exists('esc_html')) {
+    function esc_html($text) {
+        return htmlspecialchars((string) $text, ENT_QUOTES, 'UTF-8');
+    }
+}
 
 // Add Shortcode
-function d3v_legal_notices( $atts ) {
+if (! function_exists('d3v_legal_notices')) {
+    function d3v_legal_notices($atts) {
+        $atts = shortcode_atts(
+            array(
+                'notice'     => '',
+                'company'    => '',
+                'email'      => '',
+                'address'    => '',
+                'tel'        => '',
+                'smp'        => '',
+                'websiteurl' => '',
+            ),
+            is_array($atts) ? $atts : array()
+        );
 
-    // Attributes
-    $atts = shortcode_atts(
-        array(
-            'notice'        => '',
-            'company'       => '',
-            'email'         => '',
-            'address'       => '',
-            'tel'           => '',
-            'smp'		    => '',
-            'websiteurl'    => '',
-        ),
-        $atts
-    );
+        $normalized = array(
+            'notice'     => sanitize_text_field($atts['notice']),
+            'company'    => sanitize_text_field($atts['company']),
+            'email'      => sanitize_text_field($atts['email']),
+            'address'    => sanitize_text_field($atts['address']),
+            'tel'        => sanitize_text_field($atts['tel']),
+            'smp'        => sanitize_text_field($atts['smp']),
+            'websiteurl' => sanitize_text_field($atts['websiteurl']),
+        );
 
-    switch($atts['notice']){
-        case 'cookies'          :	cookies(); break;
-        case 'privacy'          :	privacy_policy($atts['company'], $atts['address'], $atts['email'], $atts['tel']); break;
-        case 'copyright'        :	copyright($atts['company']); break;
-        case 'copyrightfooter'  :	copyright_footer($atts['company']); break;
-        case 'disclaimer'       :	disclaimer($atts['company']); break;
-        case 'emaildisclaimer'  :	email_disclaimer($atts['company'], $atts['address'], $atts['websiteurl']); break;
-        case 'tscs'             :	tscs($atts['company'], $atts['address']); break;
-        case 'comptscs'         :	comp_tscs($atts['company'], $atts['email'], $atts['address'], $atts['tel'], $atts['smp']); break;
-        case 'contact'          :	contact($atts['company'], $atts['email']); break;
-        case 'smr'              :	social_media_release($atts['smp'], $atts['company']); break;
-        case 'smn'              :   social_media_netiquette($atts['smp'], $atts['company']); break;
-        default                 :	echo ''; break;
+        if ('' === $normalized['notice']) {
+            return '';
+        }
+
+        ob_start();
+
+        switch ($normalized['notice']) {
+            case 'cookies':
+                cookies();
+                break;
+            case 'privacy':
+                privacy_policy($normalized['company'], $normalized['address'], $normalized['email'], $normalized['tel']);
+                break;
+            case 'copyright':
+                copyright($normalized['company']);
+                break;
+            case 'copyrightfooter':
+                copyright_footer($normalized['company']);
+                break;
+            case 'disclaimer':
+                disclaimer($normalized['company']);
+                break;
+            case 'emaildisclaimer':
+                email_disclaimer($normalized['company'], $normalized['address'], $normalized['websiteurl']);
+                break;
+            case 'tscs':
+                tscs($normalized['company'], $normalized['address']);
+                break;
+            case 'comptscs':
+                comp_tscs($normalized['company'], $normalized['email'], $normalized['address'], $normalized['tel'], $normalized['smp']);
+                break;
+            case 'contact':
+                contact($normalized['company'], $normalized['email']);
+                break;
+            case 'smr':
+                social_media_release($normalized['smp'], $normalized['company']);
+                break;
+            case 'smn':
+                social_media_netiquette($normalized['smp'], $normalized['company']);
+                break;
+            default:
+                break;
+        }
+
+        return ob_get_clean();
     }
-
 }
-add_shortcode( 'd3v-legal', 'd3v_legal_notices' );
+
+if (! function_exists('d3v_legal_register_shortcode')) {
+    function d3v_legal_register_shortcode() {
+        add_shortcode('d3v-legal', 'd3v_legal_notices');
+    }
+}
+
+d3v_legal_register_shortcode();
 
 
 // Cookie Notice
@@ -74,10 +160,10 @@ function cookies(){
 function privacy_policy($company, $address, $email, $tel){
     // Start HTML?>
     <div id="d3v-legal-privacy-policy" class="d3v-legal d3v-legal-privacy-policy">
-        <p><?php echo $company; ?> services, including (without limitation) our website and other interactive properties through which the services are delivered (collectively, the “Service”) are owned, operated and distributed by <?php echo $company; ?> (referred to in this Privacy Notice as “<?php echo $company; ?>” or “we” and through similar words such as “us,” “our,” etc.). This Privacy Notice outlines the personal information that <?php echo $company; ?> may collect, how <?php echo $company; ?> uses and safeguards that information, and with whom we may share it.</p>
+        <p><?php echo esc_html($company); ?> services, including (without limitation) our website and other interactive properties through which the services are delivered (collectively, the “Service”) are owned, operated and distributed by <?php echo esc_html($company); ?> (referred to in this Privacy Notice as “<?php echo esc_html($company); ?>” or “we” and through similar words such as “us,” “our,” etc.). This Privacy Notice outlines the personal information that <?php echo esc_html($company); ?> may collect, how <?php echo esc_html($company); ?> uses and safeguards that information, and with whom we may share it.</p>
 
 	<p>&nbsp;</p>
-	<p><?php echo $company; ?> encourages our customers, visitors, business associates, and other interested parties to read this Privacy Notice, which applies to all users. By using our Service or submitting personal information to <?php echo $company; ?> by any other means, you acknowledge that you understand and agree to be bound by this Privacy Notice, and agree that <?php echo $company; ?> may collect, process, transfer, use, and disclose your personal information as described in this Notice. Further, by accessing any part of the Service, you are agreeing to THE TERMS AND CONDITIONS OF OUR TERMS OF SERVICE (the “Terms of Service”). IF YOU DO NOT AGREE WITH ANY PART OF THIS PRIVACY NOTICE OR OUR TERMS OF SERVICE, PLEASE DO NOT USE ANY OF THE SERVICES.</p>
+	<p><?php echo esc_html($company); ?> encourages our customers, visitors, business associates, and other interested parties to read this Privacy Notice, which applies to all users. By using our Service or submitting personal information to <?php echo esc_html($company); ?> by any other means, you acknowledge that you understand and agree to be bound by this Privacy Notice, and agree that <?php echo esc_html($company); ?> may collect, process, transfer, use, and disclose your personal information as described in this Notice. Further, by accessing any part of the Service, you are agreeing to THE TERMS AND CONDITIONS OF OUR TERMS OF SERVICE (the “Terms of Service”). IF YOU DO NOT AGREE WITH ANY PART OF THIS PRIVACY NOTICE OR OUR TERMS OF SERVICE, PLEASE DO NOT USE ANY OF THE SERVICES.</p>
 
 	<p>&nbsp;</p>
 	<p><strong>What personal information do we collect about you?</strong></p>
@@ -104,25 +190,25 @@ function privacy_policy($company, $address, $email, $tel){
 	<p>We may invite you to post content on the Service, including your comments and any other information that you would like to be available on the Service, which may become public (“User Generated Content”). If you post User Generated Content, all of the information that you post will be available to authorized personnel of <?php echo $company; ?>. You expressly acknowledge and agree that we may access in real-time, record and store archives of any User Generated Content on our servers to make use of them in connection with the Service. If you submit a review, recommendation, endorsement, or other User Generated Content through the Service, or through other websites including Facebook, Instagram, Google, Yelp, and other similar channels, we may share that review, recommendation, endorsement or content publicly on the Service.</p>
 
 	<p>&nbsp;</p>
-	<p><strong>What are the sources of personal information collected by <?php echo $company; ?>?</strong></p>
-	<p>When providing personal information to <?php echo $company; ?> as described in this Notice, that personal information is collected directly from you, and you will know the precise personal information being collected by us. <?php echo $company; ?> does not collect personal information from any other sources, except where it may automatically be collected as described in the section titled “Cookies, Device Data, and How it is Used, if the information in that section is considered personal information or if information is collected from third parties, which have been consented to during contractual agreements or applications completed by our clients/potential clients.</p>
+	<p><strong>What are the sources of personal information collected by <?php echo esc_html($company); ?>?</strong></p>
+	<p>When providing personal information to <?php echo esc_html($company); ?> as described in this Notice, that personal information is collected directly from you, and you will know the precise personal information being collected by us. <?php echo esc_html($company); ?> does not collect personal information from any other sources, except where it may automatically be collected as described in the section titled “Cookies, Device Data, and How it is Used, if the information in that section is considered personal information or if information is collected from third parties, which have been consented to during contractual agreements or applications completed by our clients/potential clients.</p>
 
 	<p>&nbsp;</p>
-	<p><strong>Why does <?php echo $company; ?> collect your personal information?</strong></p>
-	<p>Subject to the terms of this Privacy Notice, <?php echo $company; ?> uses the above described categories of personal information in several ways. Unless otherwise stated specifically, the above information may be used for any of the following purposes:</p>
+	<p><strong>Why does <?php echo esc_html($company); ?> collect your personal information?</strong></p>
+	<p>Subject to the terms of this Privacy Notice, <?php echo esc_html($company); ?> uses the above described categories of personal information in several ways. Unless otherwise stated specifically, the above information may be used for any of the following purposes:</p>
 	<ul>
 		<li>to administer the Service to you;</li>
 		<li>to respond to your requests;</li>
 		<li>to distribute communications relevant to your use of the Service, such as system updates or information about your use of the Service;</li>
 		<li>as may be necessary to support the operation of the Service, such as for billing, account maintenance, and record-keeping purposes;</li>
-		<li>to send to you <?php echo $company; ?> solicitations, product announcements, and the like that we feel may be of interest to  you. Please note that you may “opt out” of receiving these marketing materials;</li>
+		<li>to send to you <?php echo esc_html($company); ?> solicitations, product announcements, and the like that we feel may be of interest to  you. Please note that you may “opt out” of receiving these marketing materials;</li>
 		<li>in other manners after subsequent notice is provided to you and/or your consent is obtained, if necessary.</li>
 	</ul>
    	<p>&nbsp;</p>
-	<p><?php echo $company; ?> does not sell, re-sell, or distribute for re-sale your personal information.</p>
+	<p><?php echo esc_html($company); ?> does not sell, re-sell, or distribute for re-sale your personal information.</p>
 	<p>&nbsp;</p>	
 	<p><strong>When we collect and use your personal information?</strong></p>
-	<p>In addition to the below reasons, <?php echo $company; ?> will collect and use your personal information;</p>
+	<p>In addition to the below reasons, <?php echo esc_html($company); ?> will collect and use your personal information;</p>
         <ul>
 		<li>Provide services and products to clients and potential clients, when placing orders, completing application forms/COD forms and request quotations.</li>
 		<li>To implement legal proceedings where necessary.</li>
@@ -135,24 +221,24 @@ function privacy_policy($company, $address, $email, $tel){
 	<p>We may communicate with you using email, SMS, Social Media, and other channels (sometimes through automated means) as part of our effort to market our products or services, administer or improve our products or services, or for other reasons stated in this Privacy Notice. You have an opportunity to withdraw consent to receive such direct marketing communications, as permitted by law.</p>
 
 	<p>&nbsp;</p>
-	<p>If you no longer wish to receive correspondence, emails, or other communications from us, you may opt-out by submitting a request through via email to <?php echo $email; ?>, or by using the UNSUBSCRIBE link in any email communication you may have received.</p>
+	<p>If you no longer wish to receive correspondence, emails, or other communications from us, you may opt-out by submitting a request through via email to <?php echo esc_html($email); ?>, or by using the UNSUBSCRIBE link in any email communication you may have received.</p>
 
 	<p>&nbsp;</p>
-	<p>Please note that you may continue to receive non-marketing communications as may be required to maintain your relationship with <?php echo $company; ?>.</p>
+	<p>Please note that you may continue to receive non-marketing communications as may be required to maintain your relationship with <?php echo esc_html($company); ?>.</p>
 
 	<p>&nbsp;</p>
 	<p>In addition to the communication described here, you may receive third-party marketing communications from providers we have engaged to market or promote our products and services. These third-party providers may be using communications lists they have acquired on their own, and you may have opted-in to those lists through other channels.  If you no longer wish to receive emails, SMSs, or other communications from such third parties, you may need to contact that third party directly.</p>
 
 	<p>&nbsp;</p>
 	<p><strong>Retention of Data</strong></p>
-	<p><?php echo $company; ?> will retain your personal information only for as long as is necessary for the purposes set out in this Notice. We will retain and use personal information to the extent necessary to comply with our legal obligations (for example, if we are required to retain your data to comply with applicable laws), resolve disputes and enforce our legal agreements and policies.</p>
+	<p><?php echo esc_html($company); ?> will retain your personal information only for as long as is necessary for the purposes set out in this Notice. We will retain and use personal information to the extent necessary to comply with our legal obligations (for example, if we are required to retain your data to comply with applicable laws), resolve disputes and enforce our legal agreements and policies.</p>
 
 	<p>&nbsp;</p>
-	<p><?php echo $company; ?> will also retain usage data for internal analysis purposes. Usage data is generally retained for a shorter period of time, except when this data is used to strengthen the security or to improve the functionality of our Sites and/or Portals, or we are legally obligated to retain this data for longer periods.</p>
+	<p><?php echo esc_html($company); ?> will also retain usage data for internal analysis purposes. Usage data is generally retained for a shorter period of time, except when this data is used to strengthen the security or to improve the functionality of our Sites and/or Portals, or we are legally obligated to retain this data for longer periods.</p>
 
 	<p>&nbsp;</p>
 	<p><strong>Cookies, Device Data, and How it is Used</strong></p>
-	<p>When you use our Service, we may record unique identifiers associated with your device (such as the device ID and IP address), your activity within the Service, and your network location. <?php echo $company; ?> uses aggregated information (such as anonymous user usage information, cookies, IP addresses, browser type, clickstream information, etc.) to improve the quality and design of the Service and to create new features, promotions, functionality, and services by storing, tracking, and analyzing user preferences and trends. Specifically, we may automatically collect the following information about your use of Service through cookies, web beacons, and other technologies:</p>
+	<p>When you use our Service, we may record unique identifiers associated with your device (such as the device ID and IP address), your activity within the Service, and your network location. <?php echo esc_html($company); ?> uses aggregated information (such as anonymous user usage information, cookies, IP addresses, browser type, clickstream information, etc.) to improve the quality and design of the Service and to create new features, promotions, functionality, and services by storing, tracking, and analyzing user preferences and trends. Specifically, we may automatically collect the following information about your use of Service through cookies, web beacons, and other technologies:</p>
 	<ul>
 		<li>domain name;
 		<li>browser type and operating system;
@@ -167,10 +253,10 @@ function privacy_policy($company, $address, $email, $tel){
 	<p>We may also collect information regarding application-level events, such as crashes, and associate that temporarily with your account to provide customer service. In some circumstances, we may combine this information with personal information collected from you (and third-party service providers may do so on behalf of us).</p>
 
 	<p>&nbsp;</p>
-	<p>In addition, we may use "cookies," clear gifs, and log file information that help us determine the type of content and pages to which you link, the length of time you spend at any particular area of the Service, and the portion of the Service you choose to use. A cookie is a small text file that is sent by a website to your computer or mobile device where it is stored by your web browser. A cookie contains limited information, usually a unique identifier and the name of the site. Your browser has options to accept, reject or provide you with notice when a cookie is sent. Our cookies can only be read by <?php echo $company; ?>; they do not execute any code or virus; <strong>and they do not contain any personal information</strong>. Cookies allow <?php echo $company; ?> to serve you better and more efficiently, and to personalize your experience with the Service. We may use cookies for many purposes, including (without limitation) to save your password so you don’t have to re-enter it each time you visit the Service, and to deliver content (which may include third party advertisements) specific to your interests.</p>
+	<p>In addition, we may use "cookies," clear gifs, and log file information that help us determine the type of content and pages to which you link, the length of time you spend at any particular area of the Service, and the portion of the Service you choose to use. A cookie is a small text file that is sent by a website to your computer or mobile device where it is stored by your web browser. A cookie contains limited information, usually a unique identifier and the name of the site. Your browser has options to accept, reject or provide you with notice when a cookie is sent. Our cookies can only be read by <?php echo esc_html($company); ?>; they do not execute any code or virus; <strong>and they do not contain any personal information</strong>. Cookies allow <?php echo esc_html($company); ?> to serve you better and more efficiently, and to personalize your experience with the Service. We may use cookies for many purposes, including (without limitation) to save your password so you don’t have to re-enter it each time you visit the Service, and to deliver content (which may include third party advertisements) specific to your interests.</p>
 
 	<p>&nbsp;</p>
-	<p>We may use third party service providers to help us analyze certain online activities. For example, these service providers may help us measure the performance of our online campaigns or analyze visitor activity on the Service. We may permit these service providers to use cookies and other technologies to perform these services for <?php echo $company; ?>. We do not share any personal information about our customers with these third-party service providers, and these service providers do not collect such personal information on our behalf. Our third-party service providers are required to comply fully with this Privacy Notice.</p>
+	<p>We may use third party service providers to help us analyze certain online activities. For example, these service providers may help us measure the performance of our online campaigns or analyze visitor activity on the Service. We may permit these service providers to use cookies and other technologies to perform these services for <?php echo esc_html($company); ?>. We do not share any personal information about our customers with these third-party service providers, and these service providers do not collect such personal information on our behalf. Our third-party service providers are required to comply fully with this Privacy Notice.</p>
 
 	<p>&nbsp;</p>
     <p><strong>International Data Transfer</strong></p>
