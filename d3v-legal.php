@@ -81,6 +81,8 @@ if (! function_exists('d3v_legal_notices')) {
                 'tel'        => '',
                 'smp'        => '',
                 'websiteurl' => '',
+                'officer'    => '',
+                'regno'      => '',
             ),
             is_array($atts) ? $atts : array()
         );
@@ -93,6 +95,8 @@ if (! function_exists('d3v_legal_notices')) {
             'tel'        => sanitize_text_field($atts['tel']),
             'smp'        => sanitize_text_field($atts['smp']),
             'websiteurl' => sanitize_text_field($atts['websiteurl']),
+            'officer'    => sanitize_text_field($atts['officer']),
+            'regno'      => sanitize_text_field($atts['regno']),
         );
 
         if ('' === $normalized['notice']) {
@@ -134,6 +138,9 @@ if (! function_exists('d3v_legal_notices')) {
                 break;
             case 'smn':
                 social_media_netiquette($normalized['smp'], $normalized['company']);
+                break;
+            case 'paia':
+                paia_manual($normalized['company'], $normalized['address'], $normalized['email'], $normalized['tel'], $normalized['officer'], $normalized['regno']);
                 break;
             default:
                 break;
@@ -202,7 +209,7 @@ function privacy_policy($company, $address, $email, $tel){
 
 	<p>&nbsp;</p>
 	<p><strong>Collection of User Generated Content</strong></p>
-	<p>We may invite you to post content on the Service, including your comments and any other information that you would like to be available on the Service, which may become public (“User Generated Content”). If you post User Generated Content, all of the information that you post will be available to authorized personnel of <?php echo $company; ?>. You expressly acknowledge and agree that we may access in real-time, record and store archives of any User Generated Content on our servers to make use of them in connection with the Service. If you submit a review, recommendation, endorsement, or other User Generated Content through the Service, or through other websites including Facebook, Instagram, Google, Yelp, and other similar channels, we may share that review, recommendation, endorsement or content publicly on the Service.</p>
+	<p>We may invite you to post content on the Service, including your comments and any other information that you would like to be available on the Service, which may become public (“User Generated Content”). If you post User Generated Content, all of the information that you post will be available to authorized personnel of <?php echo $company; ?>. You expressly acknowledge and agree that we may access in real-time, record and store archives of any User Generated Content on our servers to make use of it in connection with the Service. If you submit a review, recommendation, endorsement, or other User Generated Content through the Service, or through other websites including Facebook, Instagram, Google, Yelp, and other similar channels, we may share that review, recommendation, endorsement or content publicly on the Service.</p>
 
 	<p>&nbsp;</p>
 	<p><strong>What are the sources of personal information collected by <?php echo esc_html($company); ?>?</strong></p>
@@ -255,13 +262,13 @@ function privacy_policy($company, $address, $email, $tel){
 	<p><strong>Cookies, Device Data, and How it is Used</strong></p>
 	<p>When you use our Service, we may record unique identifiers associated with your device (such as the device ID and IP address), your activity within the Service, and your network location. <?php echo esc_html($company); ?> uses aggregated information (such as anonymous user usage information, cookies, IP addresses, browser type, clickstream information, etc.) to improve the quality and design of the Service and to create new features, promotions, functionality, and services by storing, tracking, and analyzing user preferences and trends. Specifically, we may automatically collect the following information about your use of Service through cookies, web beacons, and other technologies:</p>
 	<ul>
-		<li>domain name;
-		<li>browser type and operating system;
-		<li>web pages you view;
-		<li>links you click;
-		<li>IP address;
-		<li>the length of time you visit the Sites, Portals, and/or Services;
-		<li>the referring URL or the webpage that led you to the Sites;
+		<li>domain name;</li>
+		<li>browser type and operating system;</li>
+		<li>web pages you view;</li>
+		<li>links you click;</li>
+		<li>IP address;</li>
+		<li>the length of time you visit the Sites, Portals, and/or Services;</li>
+		<li>the referring URL or the webpage that led you to the Sites.</li>
 	</ul>
 
 	<p>&nbsp;</p>
@@ -280,7 +287,7 @@ function privacy_policy($company, $address, $email, $tel){
     <p>If you are located outside the South Africa, in particular if you are located in Switzerland, the United Kingdom, or the European Economic Area (“EEA”), please note that have servers located multiple datacenter locations worldwide, including but not limited to South Africa, the United States of America, the European Union, the United Kingdom, India and Asia. Any information that you provide to us may be transferred to and processed in South Africa or other countries around the world where we do business. Although this may include recipients of information located in countries where there may be a lower level of legal protection for your personal information than in your country, we will attempt to protect your information in accordance with requirements applicable to the law in your particular jurisdiction and take steps to only share with third parties that offer similar protection. By using our Service, you unambiguously consent to your information being collected, processed, used, and transferred as disclosed herein.</p>
 
     <p>&nbsp;</p>
-    <p>For individuals located outside the South Africa, in particular in Switzerland, the United Kingdom and the European Economic Area (EEA), please note that <?php echo $company; ?> is a South African based company. Thus, users of the Service should not expect to avail themselves of the rights provided under the EU’s General Data Protection Regulation (“GDPR”). If you use the Service, all information, including personal information, will be transferred to <?php echo $company; ?> in South Africa. By using the Service, you unambiguously consent to the transfer of your personal information and other information to the South Africa and elsewhere for the purposes and uses described in this notice. Further, you acknowledge that <?php echo $company; ?> is not subject to the GDPR or similar international privacy laws, and, therefore, you will be unable to claim the privacy rights provided in those laws.</p>
+    <p>For individuals located outside South Africa, in particular in Switzerland, the United Kingdom and the European Economic Area (EEA), please note that <?php echo $company; ?> is a South African based company. Thus, users of the Service should not expect to avail themselves of the rights provided under the EU’s General Data Protection Regulation (“GDPR”). If you use the Service, all information, including personal information, will be transferred to <?php echo $company; ?> in South Africa. By using the Service, you unambiguously consent to the transfer of your personal information and other information to South Africa and elsewhere for the purposes and uses described in this notice. Further, you acknowledge that <?php echo $company; ?> is not subject to the GDPR or similar international privacy laws, and, therefore, you will be unable to claim the privacy rights provided in those laws.</p>
 
 	<p>&nbsp;</p>
 	<p>We may use third party service providers to help us deliver certain services, and it may result in the processing of personal information in data centers and locations outside of the South Africa. For example, these service providers may provide us with essential information technology or tools we use to run our business. We may permit these service providers to process our business information and/or your personal information. We do not permit these service providers to process any personal information outside of a contract, and these service providers may collect personal information on our behalf. Our third-party service providers are required to comply fully with this Privacy Notice.</p>
@@ -300,7 +307,7 @@ function privacy_policy($company, $address, $email, $tel){
 		<li>The right to withdraw consent. You also have the right to withdraw your consent at any time where we relied on your consent to process your personal information.</li>
 	</ul>
 	<p>&nbsp;</p>
-	<p>In order make a request regarding your personal information, please contact us via e-mail on <?php echo $email; ?>, this may take 30 days to respond to your request and in some cases, we may require proof of identity.</p>    
+	<p>In order to make a request regarding your personal information, please contact us via e-mail on <?php echo $email; ?>. We will respond within a reasonable period, which may be up to 30 days, and in some cases we may require proof of identity.</p>
 
 	<p>&nbsp;</p>
 	<p>If you have a comment, question, or complaint about how we are handling your personal information, we hope that you contact us at <?php echo $email; ?> in order to allow us to resolve the matter. In addition, if you are located in the EEA, you may submit a complaint regarding the processing of your personal information to the EU data protection authorities (each a “DPA”). The following link may assist you in finding the appropriate DPA: <a href="https://ec.europa.eu/justice/data-protection/bodies/authorities/index_en.htm" target="_blank">https://ec.europa.eu/justice/data-protection/bodies/authorities/index_en.htm</a></p>
@@ -323,7 +330,7 @@ function privacy_policy($company, $address, $email, $tel){
 
 	<p>&nbsp;</p>
 	<p><strong>South African Privacy Rights</strong></p>
-	<p>If you are a South African resident, South Africa law may provide you with certain rights with regard to your personal information under the Protection of Personal Information Act (“POPIA”) and Promotion of Access to Information Act (“PAIA”).as well the Consumer Protection Act Throughout this Privacy Notice you will find information required by POPIA regarding the categories of personal information collected from you; the purposes for which we use personal information, and the categories of third parties your data may be shared with.  This information is current as of the date of the Notice and is applicable in the 12 months preceding the effective date of the Notice.</p>
+	<p>If you are a South African resident, South African law may provide you with certain rights with regard to your personal information under the Protection of Personal Information Act (“POPIA”), the Promotion of Access to Information Act (“PAIA”), as well as the Consumer Protection Act. Throughout this Privacy Notice you will find information required by POPIA regarding the categories of personal information collected from you, the purposes for which we use personal information, and the categories of third parties your data may be shared with. This information is current as of the date of the Notice and is applicable in the 12 months preceding the effective date of the Notice.</p>
 
 	<p>&nbsp;</p>
 	<p>As a South African resident, the POPIA and PAIA provide you the ability to make inquiries regarding to your personal information. Specifically, the degree to which the information is not already provided in this Privacy Notice, you have the right to request disclosure or action your personal information, including:</p>
@@ -341,7 +348,7 @@ function privacy_policy($company, $address, $email, $tel){
 	<p>You may submit a request regarding your rights under POPIA or PAIA by submitting a request through e-mailing <?php echo $email; ?> or by contacting us in writing at one of the following address: <?php echo $address; ?>.</p>
 
 	<p>&nbsp;</p>
-	<p>If we receive a POPIA request from you, we will first make a determination regarding the applicability of the law, and we will then take steps to verify your identity prior to responding. The steps to verify your identity may vary based on our relationship with you, but, at a minimum, it will take the form of confirming and matching the information submitted in the request with information already held by <?php echo $company; ?> and/or contacting you through previously used channels to confirm that you submitted the request (i.e. confirming identity through contact information that we have on file, and/or the contact information submitted to make the request).</p>
+	<p>If we receive a POPIA request from you, we will first make a determination regarding the applicability of the law, and we will then take steps to verify your identity prior to responding. The steps to verify your identity may vary based on our relationship with you, but, at a minimum, they will take the form of confirming and matching the information submitted in the request with information already held by <?php echo $company; ?> and/or contacting you through previously used channels to confirm that you submitted the request (i.e. confirming identity through contact information that we have on file, and/or the contact information submitted to make the request).</p>
 
 	<p>&nbsp;</p>
 	<p><?php echo $company; ?> does not knowingly collect or process the special personal information such as your religious or philosophical beliefs, race or ethnic origins, trade union memberships, political persuasion, health or sex life, or your criminal behavior or biometric information.</p>
@@ -569,6 +576,43 @@ function social_media_release($social_media_platform, $company){
     // Start HTML?>
     <div id="d3v-legal-smr" class="d3v-legal d3v-legal-smr">
         <p>This activity is in no way sponsored, endorsed or administered by, or associated with <?php echo $social_media_platform; ?>. By submitting this form you agree to a complete release of <?php echo $social_media_platform; ?>. You understand that you are providing your information to <?php echo $company; ?> and not to <?php echo $social_media_platform; ?>.</p>
+    </div>
+    <?php // End HTML
+}
+
+// PAIA Manual Notice
+function paia_manual($company, $address, $email, $tel, $officer, $regno){
+    $company = esc_html($company);
+    $address = esc_html($address);
+    $email = esc_html($email);
+    $tel = esc_html($tel);
+    $officer = esc_html($officer);
+    $regno = esc_html($regno);
+
+    // Start HTML?>
+    <div id="d3v-legal-paia" class="d3v-legal d3v-legal-paia">
+        <p>This notice is published in terms of section 32 of the Constitution of the Republic of South Africa, 1996, read with section 14 of the Promotion of Access to Information Act 2 of 2000 (“PAIA”), and the Protection of Personal Information Act 4 of 2013 (“POPIA”).</p>
+        <p>&nbsp;</p>
+        <p><strong>Information Officer</strong></p>
+        <p>The Information Officer is responsible for dealing with access-to-information requests:</p>
+        <p>Name: <?php echo $officer ?: $company; ?></p>
+        <p>Address: <?php echo $address; ?></p>
+        <p>Email: <?php echo $email; ?></p>
+        <p>Telephone: <?php echo $tel; ?></p>
+        <p>&nbsp;</p>
+        <p><strong>Records available in terms of PAIA</strong></p>
+        <p><?php echo $company; ?> holds records relating to, but not necessarily limited to, contact details, company records, customer information, supplier information, financial records, personnel records, and information technology records.</p>
+        <p>&nbsp;</p>
+        <p><strong>Requesting access</strong></p>
+        <p>Requests for access to records must be made on the prescribed PAIA application form and submitted to the Information Officer. A request fee may be payable as prescribed by law. The Information Officer will respond in accordance with the timeframes provided for in PAIA.</p>
+        <p>&nbsp;</p>
+        <p><strong>Grounds for refusal</strong></p>
+        <p>Access to certain records may be refused in terms of the grounds for refusal set out in PAIA, including records that are protected by legal privilege, confidential commercial information, third-party personal information, or records whose disclosure could reasonably be expected to endanger the life or physical safety of an individual.</p>
+        <?php if ($regno) : ?>
+        <p>&nbsp;</p>
+        <p><strong>Registration number</strong></p>
+        <p><?php echo $regno; ?></p>
+        <?php endif; ?>
     </div>
     <?php // End HTML
 }

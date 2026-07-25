@@ -1,7 +1,10 @@
 # Agent Memory
 
-- The plugin entry point is d3v-legal.php.
-- Shortcode rendering should return a string and be testable outside WordPress.
-- PHP linting is available via `php -l d3v-legal.php`.
-- The plugin currently targets South African legal notice content and POPIA-related wording.
-- Future work should focus on safer templating, admin settings, and translation support.
+- The plugin entry point is [d3v-legal.php](d3v-legal.php).
+- Shortcode `[d3v-legal]` renders legal notices and returns a string so it is testable outside WordPress.
+- Attributes: `notice`, `company`, `email`, `address`, `tel`, `smp`, `websiteurl`, `officer`, `regno`.
+- PHP linting: `php -l d3v-legal.php`.
+- Test suite: `composer test` or `vendor/bin/phpunit --configuration phpunit.xml.dist`.
+- Targets South African legal notice content, including POPIA and PAIA.
+- Renderer functions are wrapped in an include guard so the plugin can be loaded repeatedly.
+- Future work: admin settings page, translation / i18n support, and a cookie-consent mechanism.

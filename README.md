@@ -17,7 +17,7 @@ WordPress plugin that outputs legal notices such as privacy policy, copyright, d
 
 ## Shortcode Usage
 ```text
-[d3v-legal notice='' company='' email='' address='' tel='' smp='' websiteurl='']
+[d3v-legal notice='' company='' email='' address='' tel='' smp='' websiteurl='' officer='' regno='']
 ```
 
 - `notice`: Type of notice to render.
@@ -27,6 +27,8 @@ WordPress plugin that outputs legal notices such as privacy policy, copyright, d
 - `tel`: Contact number.
 - `smp`: Social media platform name.
 - `websiteurl`: Website URL for email disclaimer content.
+- `officer`: Information Officer name, used in the PAIA manual.
+- `regno`: Company registration number, used in the PAIA manual.
 
 ## Shortcode Examples
 
@@ -38,6 +40,11 @@ WordPress plugin that outputs legal notices such as privacy policy, copyright, d
 ### Privacy Policy
 ```text
 [d3v-legal notice='privacy' company='ABC Holdings' address='21 Random Street, Somewhere, South Africa' email='info@abc.com' tel='+27 82 000 0000']
+```
+
+### PAIA Manual
+```text
+[d3v-legal notice='paia' company='ABC Holdings' address='21 Random Street, Somewhere, South Africa' email='info@abc.com' tel='+27 82 000 0000' officer='A. B. Officer' regno='2020/123456/07']
 ```
 
 ### Copyright Notice
