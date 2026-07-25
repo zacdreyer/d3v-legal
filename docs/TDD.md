@@ -18,6 +18,8 @@ The repository includes a PHPUnit test file at [tests/TestPluginTest.php](tests/
 - Shipping notice references the ECTA 30-day default.
 - Payment notice references PCI-DSS.
 - Support notice renders the supplied email and telephone number.
+- Support notice uses `support_email` when supplied, otherwise falls back to `email`.
+- Privacy notice uses `officer_email` when supplied, otherwise falls back to `email`.
 - Accessibility notice renders equality/non-discrimination text.
 - `policyurl` attribute renders a context-specific "Read our full ..." link in the cookie and privacy notices.
 - A `policyurl` without a protocol is normalised to HTTPS in the rendered link.
@@ -25,11 +27,12 @@ The repository includes a PHPUnit test file at [tests/TestPluginTest.php](tests/
 - Shortcode attributes take priority over backend defaults.
 - Backend defaults are used when a shortcode attribute is missing or empty.
 - The backend default return window is applied when it is not supplied in the shortcode.
-- Default country is `ZA` when no `country` shortcode attribute and no backend default are set.
-- Backend `default_country` setting is applied when the shortcode omits `country`.
+- Default country is `ZAF` and default language is `ENG` when no `country`/`language` shortcode attributes and no backend defaults are set.
+- Backend `default_country` and `default_language` settings are applied when the shortcode omits `country`/`language`.
 - Shortcode `country` attribute overrides the backend `default_country`.
-- `country='UK'` renders United Kingdom library content referencing UK GDPR and the ICO.
+- `country='GBR'` renders United Kingdom library content referencing UK GDPR and the ICO.
 - UK cookie notice references PECR and a cookie banner.
+- `country` and `language` attributes are case-insensitive and match the exact ISO3/language codes from the `legal-libraries/` filenames.
 
 ## 3. How to Run Tests
 1. Install dependencies with `composer install` (or `php composer.phar install` if Composer is not on PATH).
@@ -53,8 +56,8 @@ The repository includes a PHPUnit test file at [tests/TestPluginTest.php](tests/
 ## 5. Suggested Additional Tests
 
 - Confirm unsupported/invalid `country` values return an empty string.
-- Confirm `ZA-legals.json` and `UK-legals.json` contain every supported notice slug.
+- Confirm `ZAF-eng-legals.json` and `GBR-eng-legals.json` contain every supported notice slug.
 - Confirm `d3v_legal_get_library_path()` rejects directory traversal attempts.
-- Confirm placeholder fallback syntax (e.g. `{{company||We}}`) renders correctly when a field is empty.
+- Confirm placeholder fallback syntax (e.g. `{{company||We}}`) and nested fallback chains (e.g. `{{support_email||{{email}}}}`) render correctly when a field is empty.
 - Confirm policy-link sections render in all notices when `policyurl` is supplied.
 - Confirm backend `default_country` values outside the supported list are rejected on save.

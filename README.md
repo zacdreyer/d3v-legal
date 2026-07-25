@@ -1,5 +1,5 @@
 # d3v-legal
-WordPress plugin that outputs legal notices such as privacy policy, copyright, disclaimer, cookie notices, terms and conditions, and social media statements for South African and United Kingdom websites. Additional countries can be supported by adding a `{ISO2}-legals.json` file to the `legal-libraries/` directory.
+WordPress plugin that outputs legal notices such as privacy policy, copyright, disclaimer, cookie notices, terms and conditions, and social media statements for South African and United Kingdom websites. Additional countries can be supported by adding a `{ISO3}-{LANG}-legals.json` file to the `legal-libraries/` directory.
 
 > Note: This plugin is provided for informational purposes only and does not constitute legal advice. Please consult a qualified attorney or compliance professional before relying on it for legal or regulatory compliance.
 
@@ -21,15 +21,18 @@ The plugin adds a **Settings > D3V Legal** page where you can store default valu
 
 ## Shortcode Usage
 ```text
-[d3v-legal notice='' country='' company='' email='' address='' tel='' smp='' websiteurl='' officer='' regno='' vatno='' returnwindow='' policyurl='']
+[d3v-legal notice='' country='' language='' company='' email='' support_email='' officer_email='' address='' tel='' smp='' websiteurl='' officer='' regno='' vatno='' returnwindow='' policyurl='']
 ```
 
 All attributes are optional except `notice`. Values supplied in the shortcode take priority; missing or empty values fall back to the backend defaults configured under **Settings > D3V Legal**.
 
 - `notice`: Type of notice to render.
-- `country`: ISO2 country code (`ZA` or `UK`). Defaults to the backend setting, or `ZA` if none is configured.
+- `country`: ISO3 country code taken from the library filename (e.g. `ZAF` or `GBR`). Case-insensitive. Defaults to the backend setting, or `ZAF` if none is configured.
+- `language`: Three-letter language code taken from the library filename (e.g. `eng`). Case-insensitive. Defaults to the backend setting, or the first available language for the selected country, otherwise `ENG`.
 - `company`: Company or brand name shown in the output.
-- `email`: Contact email used in notices.
+- `email`: General contact email address used as the default for all notices.
+- `support_email`: Customer support email address. Used in support, returns, shipping, e-commerce and accessibility notices. Falls back to `email` if not provided.
+- `officer_email`: Information Officer / privacy / data protection email address. Used in privacy, PAIA and data-rights notices. Falls back to `email` if not provided.
 - `address`: Physical address or registered office.
 - `tel`: Contact number.
 - `smp`: Social media platform name.
@@ -49,10 +52,15 @@ If you have saved your details under **Settings > D3V Legal**:
 [d3v-legal notice='privacy']
 ```
 
-### Selecting a country
+### Selecting a country and language
 Render the UK cookie notice explicitly:
 ```text
-[d3v-legal notice='cookies' country='UK' company='ABC Holdings']
+[d3v-legal notice='cookies' country='GBR' company='ABC Holdings']
+```
+
+The language is case-insensitive and read directly from the filename:
+```text
+[d3v-legal notice='cookies' country='gbr' language='eng' company='ABC Holdings']
 ```
 
 ### Cookie Notice

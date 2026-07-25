@@ -112,7 +112,7 @@ class TestPluginTest extends TestCase
         $output = d3v_legal_notices(array(
             'notice' => 'cookies',
             'company' => 'Example Co',
-            'country' => 'UK',
+            'country' => 'GBR',
         ));
         $this->assertStringContainsString('UK GDPR', $output);
         $this->assertStringContainsString('cookie banner', strtolower($output));
@@ -123,13 +123,22 @@ class TestPluginTest extends TestCase
         $output = d3v_legal_notices(array(
             'notice' => 'privacy',
             'company' => 'Example Co',
-            'country' => 'UK',
+            'country' => 'GBR',
         ));
         $this->assertStringContainsString('Information Commissioner\'s Office', $output);
         $this->assertStringContainsString('data controller', strtolower($output));
     }
 
-    public function testDefaultCountryIsZaWhenNoBackendSetting(): void
+    public function testCountryAttributeIsCaseInsensitive(): void
+    {
+        $output = d3v_legal_notices(array(
+            'notice' => 'cookies',
+            'country' => 'gbr',
+        ));
+        $this->assertStringContainsString('UK GDPR', $output);
+    }
+
+    public function testDefaultCountryIsZafWhenNoBackendSetting(): void
     {
         $output = d3v_legal_notices(array('notice' => 'cookies'));
         $this->assertStringContainsString('POPIA', $output);
@@ -137,17 +146,29 @@ class TestPluginTest extends TestCase
 
     public function testBackendDefaultCountryIsUsedWhenNoCountryAttribute(): void
     {
-        $GLOBALS['d3v_legal_test_settings'] = array('default_country' => 'UK');
+        $GLOBALS['d3v_legal_test_settings'] = array('default_country' => 'GBR');
         $output = d3v_legal_notices(array('notice' => 'cookies'));
         $this->assertStringContainsString('UK GDPR', $output);
     }
 
     public function testShortcodeCountryAttributeOverridesBackendDefault(): void
     {
-        $GLOBALS['d3v_legal_test_settings'] = array('default_country' => 'UK');
-        $output = d3v_legal_notices(array('notice' => 'cookies', 'country' => 'ZA'));
+        $GLOBALS['d3v_legal_test_settings'] = array('default_country' => 'GBR');
+        $output = d3v_legal_notices(array('notice' => 'cookies', 'country' => 'ZAF'));
         $this->assertStringContainsString('POPIA', $output);
         $this->assertStringNotContainsString('UK GDPR', $output);
+    }
+
+    public function testLanguageAttributeOverridesBackendDefault(): void
+    {
+        // No translated ZAF-afrikaans library exists, so an unsupported language
+        // should fall back to the default language for the requested country.
+        $output = d3v_legal_notices(array(
+            'notice' => 'cookies',
+            'country' => 'ZAF',
+            'language' => 'AFR',
+        ));
+        $this->assertStringContainsString('POPIA', $output);
     }
 
     public function testDynamicValuesAreEscapedInOutput(): void
@@ -238,5 +259,49 @@ class TestPluginTest extends TestCase
         $output = shell_exec($command);
 
         $this->assertSame('ok', trim((string) $output));
+    }
+
+    public function testSupportEmailIsUsedInSupportNoticeWhenProvided(): void
+    {
+        $output = d3v_legal_notices(array(
+            'notice' => 'support',
+            'email' => 'general@example.com',
+            'support_email' => 'help@example.com',
+        ));
+
+        $this->assertStringContainsString('help@example.com', $output);
+        $this->assertStringNotContainsString('general@example.com', $output);
+    }
+
+    public function testSupportNoticeFallsBackToGeneralEmailWhenSupportEmailMissing(): void
+    {
+        $output = d3v_legal_notices(array(
+            'notice' => 'support',
+            'email' => 'general@example.com',
+        ));
+
+        $this->assertStringContainsString('general@example.com', $output);
+    }
+
+    public function testOfficerEmailIsUsedInPrivacyNoticeWhenProvided(): void
+    {
+        $output = d3v_legal_notices(array(
+            'notice' => 'privacy',
+            'email' => 'general@example.com',
+            'officer_email' => 'dpo@example.com',
+        ));
+
+        $this->assertStringContainsString('dpo@example.com', $output);
+        $this->assertStringNotContainsString('general@example.com', $output);
+    }
+
+    public function testPrivacyNoticeFallsBackToGeneralEmailWhenOfficerEmailMissing(): void
+    {
+        $output = d3v_legal_notices(array(
+            'notice' => 'privacy',
+            'email' => 'general@example.com',
+        ));
+
+        $this->assertStringContainsString('general@example.com', $output);
     }
 }

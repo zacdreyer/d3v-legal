@@ -1,5 +1,5 @@
 {
-  "UK": {
+  "GBR": {
     "meta": {
       "name": "United Kingdom",
       "currency": "GBP",
@@ -70,13 +70,13 @@
             "fields": [
               {"value": "{{company||Data controller}}"},
               {"value": "{{address}}", "condition": "address"},
-              {"value": "Email: {{email}}", "condition": "email"},
+              {"value": "Email: {{officer_email||{{email}}}}", "condition": "any"},
               {"value": "Telephone: {{tel}}", "condition": "tel"}
             ]
           },
           {
             "title": "Data Protection Officer",
-            "template": "We have appointed a Data Protection Officer (DPO) who is responsible for overseeing questions in relation to this privacy policy.{{email|| If you have any questions, please contact our DPO at {{email}}.}}"
+            "template": "We have appointed a Data Protection Officer (DPO) who is responsible for overseeing questions in relation to this privacy policy. If you have any questions, please contact our DPO at {{officer_email||{{email}}}}."
           },
           {
             "title": "What personal information we collect",
@@ -121,7 +121,7 @@
           },
           {
             "title": "Direct marketing and opt-out",
-            "template": "We may send you promotional communications by email, SMS or other channels, but only where permitted by UK GDPR and PECR. You may opt out of direct marketing at any time{{email|| by contacting us at {{email}} or using the unsubscribe link in any marketing message}}."
+            "template": "We may send you promotional communications by email, SMS or other channels, but only where permitted by UK GDPR and PECR. You may opt out of direct marketing at any time by contacting us at {{officer_email||{{email}}}} or using the unsubscribe link in any marketing message."
           },
           {
             "title": "Cookies",
@@ -153,8 +153,8 @@
             ]
           },
           {
-            "template": "To exercise your rights, please contact us at {{email}}. We may require proof of identity before processing your request.",
-            "condition": "email"
+            "template": "To exercise your rights, please contact us at {{officer_email||{{email}}}}. We may require proof of identity before processing your request.",
+            "condition": "any"
           },
           {
             "title": "Retention",
@@ -210,9 +210,9 @@
             "type": "contact_list",
             "condition": "any",
             "fields": [
-              {"value": "Name: {{officer||{{company||Data protection contact}}}"},
+              {"value": "Name: {{officer||{{company||Data protection contact}}}}"},
               {"value": "Address: {{address}}", "condition": "address"},
-              {"value": "Email: {{email}}", "condition": "email"},
+              {"value": "Email: {{officer_email||{{email}}}}", "condition": "any"},
               {"value": "Telephone: {{tel}}", "condition": "tel"}
             ]
           },
@@ -490,7 +490,7 @@
         ],
         "sections": [
           {
-            "template": "If you have any questions about how {{company||we}} process your personal information, wish to access or correct your information, or want to object to direct marketing, please contact us{{email|| at {{email}}}}."
+            "template": "If you have any questions about how {{company||we}} process your personal information, wish to access or correct your information, or want to object to direct marketing, please contact us at {{officer_email||{{email}}}}."
           },
           {
             "template": "You may also contact our Data Protection Officer to make a subject access request or to lodge a complaint relating to the processing of your personal information."
@@ -588,7 +588,7 @@
           },
           {
             "title": "Faulty or misdescribed goods",
-            "template": "If goods are faulty, not as described or not fit for purpose, please contact us{{email|| at {{email}}}} within 30 days of delivery to reject the goods and receive a full refund, or to request a repair or replacement."
+            "template": "If goods are faulty, not as described or not fit for purpose, please contact us at {{support_email||{{email}}}} within 30 days of delivery to reject the goods and receive a full refund, or to request a repair or replacement."
           },
           {
             "title": "Cooling-off for distance and off-premises contracts",
@@ -622,7 +622,7 @@
           },
           {
             "title": "How to return goods",
-            "template": "To initiate a return, please contact us{{email|| at {{email}}}}{{address|| or write to us at {{address}}}}. We will provide you with return instructions.",
+            "template": "To initiate a return, please contact us at {{support_email||{{email}}}} or write to us at {{address}}. We will provide you with return instructions.",
             "condition": "any"
           },
           {
@@ -647,7 +647,7 @@
             "type": "contact_list",
             "condition": "any",
             "fields": [
-              {"value": "Email: {{email}}", "condition": "email"},
+              {"value": "Email: {{support_email||{{email}}}}", "condition": "any"},
               {"value": "Telephone: {{tel}}", "condition": "tel"},
               {"value": "Postal address: {{address}}", "condition": "address"}
             ]
@@ -702,8 +702,8 @@
           },
           {
             "title": "Delivery queries",
-            "template": "For delivery queries, please contact us at {{email}}.",
-            "condition": "email"
+            "template": "For delivery queries, please contact us at {{support_email||{{email}}}}.",
+            "condition": "any"
           },
           {
             "type": "policy_link",
@@ -770,7 +770,7 @@
             "fields": [
               {"value": "{{company||Supplier}}"},
               {"value": "{{address}}", "condition": "address"},
-              {"value": "Email: {{email}}", "condition": "email"},
+              {"value": "Email: {{support_email||{{email}}}}", "condition": "any"},
               {"value": "Telephone: {{tel}}", "condition": "tel"},
               {"value": "VAT number: {{vatno}}", "condition": "vatno"},
               {"value": "Company registration number: {{regno}}", "condition": "regno"}
@@ -843,8 +843,8 @@
           },
           {
             "title": "Feedback",
-            "template": "We welcome feedback on how we can improve the accessibility of our website. Please contact us at {{email}} with your suggestions or to report any accessibility barriers.",
-            "condition": "email"
+            "template": "We welcome feedback on how we can improve the accessibility of our website. Please contact us at {{support_email||{{email}}}} with your suggestions or to report any accessibility barriers.",
+            "condition": "any"
           },
           {
             "type": "policy_link",

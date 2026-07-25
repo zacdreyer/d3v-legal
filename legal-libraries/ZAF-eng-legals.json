@@ -1,5 +1,5 @@
 {
-  "ZA": {
+  "ZAF": {
     "meta": {
       "name": "South Africa",
       "currency": "ZAR",
@@ -67,7 +67,7 @@
             "fields": [
               {"value": "{{company||Responsible party}}"},
               {"value": "{{address}}", "condition": "address"},
-              {"value": "Email: {{email}}", "condition": "email"},
+              {"value": "Email: {{officer_email||{{email}}}}", "condition": "any"},
               {"value": "Telephone: {{tel}}", "condition": "tel"}
             ]
           },
@@ -113,7 +113,7 @@
           },
           {
             "title": "Direct marketing and opt-out",
-            "template": "We may use your personal information to send you promotional communications by email, SMS or other channels, but only where permitted by POPIA. You may opt out of direct marketing at any time{{email|| by contacting us at {{email}} or using the unsubscribe link in any marketing message}}."
+            "template": "We may use your personal information to send you promotional communications by email, SMS or other channels, but only where permitted by POPIA. You may opt out of direct marketing at any time by contacting us at {{officer_email||{{email}}}} or using the unsubscribe link in any marketing message."
           },
           {
             "title": "Cookies and device data",
@@ -142,8 +142,8 @@
             ]
           },
           {
-            "template": "To exercise your rights, please contact us at {{email}}. We may require proof of identity before processing your request.",
-            "condition": "email"
+            "template": "To exercise your rights, please contact us at {{officer_email||{{email}}}}. We may require proof of identity before processing your request.",
+            "condition": "any"
           },
           {
             "title": "Retention",
@@ -155,7 +155,7 @@
           },
           {
             "title": "Information Officer",
-            "template": "{{company||We}} have appointed an Information Officer who is responsible for POPIA compliance and for handling access-to-information requests. Contact details are available on request{{email|| at {{email}}}}."
+            "template": "{{company||We}} have appointed an Information Officer who is responsible for POPIA compliance and for handling access-to-information requests. Contact details are available on request at {{officer_email||{{email}}}}."
           },
           {
             "title": "Complaints to the Information Regulator",
@@ -206,9 +206,9 @@
             "type": "contact_list",
             "condition": "any",
             "fields": [
-              {"value": "Name: {{officer||{{company||Information Officer}}}"},
+              {"value": "Name: {{officer||{{company||Information Officer}}}}"},
               {"value": "Address: {{address}}", "condition": "address"},
-              {"value": "Email: {{email}}", "condition": "email"},
+              {"value": "Email: {{officer_email||{{email}}}}", "condition": "any"},
               {"value": "Telephone: {{tel}}", "condition": "tel"}
             ]
           },
@@ -499,7 +499,7 @@
         ],
         "sections": [
           {
-            "template": "If you have any questions about how {{company||we}} process your personal information, wish to access or correct your information, or want to object to direct marketing, please contact us{{email|| at {{email}}}}."
+            "template": "If you have any questions about how {{company||we}} process your personal information, wish to access or correct your information, or want to object to direct marketing, please contact us at {{officer_email||{{email}}}}."
           },
           {
             "template": "You may also contact our Information Officer to make a request in terms of PAIA or to lodge a complaint relating to the processing of your personal information."
@@ -599,7 +599,7 @@
           },
           {
             "title": "Defective or unsafe goods",
-            "template": "If goods are defective, unsafe or not as described, please contact us{{email|| at {{email}}}} within a reasonable time after discovering the defect. We will, at our discretion and where permitted by law, repair, replace or refund the goods."
+            "template": "If goods are defective, unsafe or not as described, please contact us at {{support_email||{{email}}}} within a reasonable time after discovering the defect. We will, at our discretion and where permitted by law, repair, replace or refund the goods."
           },
           {
             "title": "Cooling-off for direct marketing",
@@ -633,7 +633,7 @@
           },
           {
             "title": "How to return goods",
-            "template": "To initiate a return, please contact us{{email|| at {{email}}}}{{address|| or write to us at {{address}}}}. We will provide you with return instructions.",
+            "template": "To initiate a return, please contact us at {{support_email||{{email}}}} or write to us at {{address}}. We will provide you with return instructions.",
             "condition": "any"
           },
           {
@@ -657,7 +657,7 @@
             "type": "contact_list",
             "condition": "any",
             "fields": [
-              {"value": "Email: {{email}}", "condition": "email"},
+              {"value": "Email: {{support_email||{{email}}}}", "condition": "any"},
               {"value": "Telephone: {{tel}}", "condition": "tel"},
               {"value": "Physical address: {{address}}", "condition": "address"}
             ]
@@ -712,8 +712,8 @@
           },
           {
             "title": "Delivery queries",
-            "template": "For delivery queries, please contact us at {{email}}.",
-            "condition": "email"
+            "template": "For delivery queries, please contact us at {{support_email||{{email}}}}.",
+            "condition": "any"
           },
           {
             "type": "policy_link",
@@ -785,7 +785,7 @@
             "fields": [
               {"value": "{{company||Supplier}}"},
               {"value": "{{address}}", "condition": "address"},
-              {"value": "Email: {{email}}", "condition": "email"},
+              {"value": "Email: {{support_email||{{email}}}}", "condition": "any"},
               {"value": "Telephone: {{tel}}", "condition": "tel"},
               {"value": "VAT number: {{vatno}}", "condition": "vatno"}
             ]
@@ -857,8 +857,8 @@
           },
           {
             "title": "Feedback",
-            "template": "We welcome feedback on how we can improve the accessibility of our website. Please contact us at {{email}} with your suggestions or to report any accessibility barriers.",
-            "condition": "email"
+            "template": "We welcome feedback on how we can improve the accessibility of our website. Please contact us at {{support_email||{{email}}}} with your suggestions or to report any accessibility barriers.",
+            "condition": "any"
           },
           {
             "type": "policy_link",

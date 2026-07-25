@@ -1,7 +1,7 @@
 # Software Design Document (SDD)
 
 ## 1. Purpose
-This plugin provides reusable legal notice markup for WordPress sites. It is being refactored into a jurisdiction-agnostic module that supports multiple countries via selectable legal libraries. The first supported jurisdictions are South Africa (`ZA`) and the United Kingdom (`UK`).
+This plugin provides reusable legal notice markup for WordPress sites. It is being refactored into a jurisdiction-agnostic module that supports multiple countries via selectable legal libraries. The first supported jurisdictions are South Africa (`ZAF`) and the United Kingdom (`GBR`).
 
 ## 2. Scope
 The plugin exposes the `[d3v-legal]` shortcode and renders the following notices:
@@ -30,7 +30,7 @@ The supplied text is intended as a broad, company-agnostic starting point. It mu
 - Shortcode handler: `d3v_legal_notices()`
 - Settings API page: `d3v_legal_settings_page()` registered under **Settings > D3V Legal**
 - Default lookup: `d3v_legal_get_backend_defaults()` reads the `d3v_legal_settings` option and returns an array of defaults
-- Country library lookup: `d3v_legal_load_country_library($country)` reads the JSON library for the selected country, restricted to files inside the plugin directory
+- Country library lookup: `d3v_legal_load_country_library($country, $language)` reads the `{ISO3}-{LANG}-legals.json` library for the selected country and language, restricted to files inside the plugin directory
 - Generic renderer: `d3v_legal_render_notice()` renders a notice from its JSON library definition using pluggable section types (`paragraph`, `list`, `contact_list`, `joined_fields`, `policy_link`)
 - Rendering approach: each notice is built as an HTML string and returned so it can be tested outside the WordPress runtime.
 - Attribute resolution: shortcode attributes take priority; missing or empty values fall back to the backend settings; hardcoded safe defaults apply only when no value is available (e.g. `returnwindow` defaults to `30`).
@@ -40,7 +40,9 @@ The supplied text is intended as a broad, company-agnostic starting point. It mu
 |-----------|---------|---------|
 | `notice` | all | Type of notice to render |
 | `company` | most | Company or brand name |
-| `email` | privacy, contact, comptscs, paia, returns, support, shipping, ecomtscs, accessibility | Contact email |
+| `email` | all | General contact email address; default for any notice-specific email |
+| `support_email` | support, returns, shipping, ecomtscs, accessibility | Customer support email; falls back to `email` |
+| `officer_email` | privacy, paia, contact, direct-marketing clauses | Information Officer / privacy / DPO email; falls back to `email` |
 | `address` | privacy, tscs, comptscs, emaildisclaimer, paia, returns, support, ecomtscs | Physical/registered address |
 | `tel` | privacy, comptscs, paia, support, ecomtscs | Telephone number |
 | `smp` | smr, smn, comptscs | Social media platform name |
@@ -50,7 +52,8 @@ The supplied text is intended as a broad, company-agnostic starting point. It mu
 | `vatno` | ecomtscs | VAT registration number |
 | `returnwindow` | returns | Return window in days (default `30`) |
 | `policyurl` | all notices | Optional URL to a full standalone policy page; renders a "Read our full ..." link when supplied |
-| `country` | all | ISO2 country code selecting the legal library to use (`ZA` or `UK`); defaults to the backend default or `ZA` |
+| `country` | all | ISO3 country code selecting the legal library to use (`ZAF` or `GBR`); taken from the library filename; case-insensitive; defaults to the backend default or `ZAF` |
+| `language` | all | Three-letter language code taken from the library filename (e.g. `eng`); case-insensitive; defaults to the backend setting, then to the first available language for the selected country, then `ENG` |
 
 ## 5. Design Notes
 - Attributes are sanitized with `sanitize_text_field()` before being passed to renderers.
@@ -61,7 +64,7 @@ The supplied text is intended as a broad, company-agnostic starting point. It mu
 - E-commerce notices align with each jurisdiction's consumer protection, supplier obligation and payment-data safeguard laws.
 - The optional `policyurl` attribute is accepted by every notice and renders a context-specific link to a full standalone policy page.
 - Backend defaults are stored in a single `d3v_legal_settings` option array and merged into shortcode attributes so users rarely need to repeat company details on every shortcode.
-- Country-specific legal content is stored in JSON files (`ZA-legals.json`, `UK-legals.json`) loaded by a generic renderer based on the `country` attribute or backend default. Direct HTTP access to the directory should be blocked by server rules; the plugin reads files only from its own directory with strict path validation (`realpath()` checks) to prevent directory traversal.
+- Country-specific legal content is stored in JSON files (`{ISO3}-{LANG}-legals.json`, e.g. `ZAF-eng-legals.json`, `GBR-eng-legals.json`) in the `legal-libraries/` subdirectory, loaded by a generic renderer based on the `country` and `language` attributes or backend defaults. Direct HTTP access to the directory should be blocked by server rules; the plugin reads files only from its own directory with strict path validation (`realpath()` checks) to prevent directory traversal.
 
 ## 6. Future Enhancements
 - Add admin notice support for legal-policy links.
@@ -72,10 +75,10 @@ The supplied text is intended as a broad, company-agnostic starting point. It mu
 ## 7. Globalization Plan
 
 ### 7.1 Goal
-Remove the ZA-only focus from the plugin name and code, then add a United Kingdom (`UK`) legal library alongside the existing South Africa (`ZA`) content. Users select a country with an ISO2 code; the plugin loads the relevant legal library. The default remains `ZA` for backward compatibility. Content libraries are implemented as JSON files loaded and validated by the plugin.
+Remove the ZA-only focus from the plugin name and code, then add a United Kingdom (`GBR`) legal library alongside the existing South Africa (`ZAF`) content. Users select a country with an ISO3 code matching the filename exactly; the plugin loads the relevant legal library. The default remains `ZAF` for backward compatibility. Content libraries are implemented as JSON files loaded and validated by the plugin.
 
 ### 7.2 Content Architecture
-- Legal libraries live in the `legal-libraries/` subdirectory as `ZA-legals.json` and `UK-legals.json`.
+- Legal libraries live in the `legal-libraries/` subdirectory as `{ISO3}-{LANG}-legals.json` files (e.g. `ZAF-eng-legals.json`, `GBR-eng-legals.json`).
 - Each file is a JSON object keyed by country code. Although JSON files are readable by design, the library directory is protected by a `.htaccess` rule (for Apache) and a `web.config` rule (for IIS) to block direct HTTP access. Additionally, [d3v-legal.php](d3v-legal.php) validates the file path, reads the files only via `file_get_contents()` from the plugin directory, and JSON-decodes them safely.
 - Each library contains:
   - `notices`: keyed by notice slug (`cookies`, `privacy`, `paia`, `copyright`, `copyrightfooter`, `disclaimer`, `emaildisclaimer`, `tscs`, `comptscs`, `contact`, `smr`, `smn`, `returns`, `support`, `shipping`, `payments`, `ecomtscs`, `accessibility`).
@@ -88,18 +91,20 @@ Remove the ZA-only focus from the plugin name and code, then add a United Kingdo
     - `legal_sources` (optional): section-level law references rendered as HTML comments.
 
 ### 7.3 Country Selection
-- New shortcode attribute `country` accepts an ISO2 code (`ZA`, `UK`).
-- New backend setting `default_country` is added to **Settings > D3V Legal**; it defaults to `ZA`.
-- Resolution order for `country` is: shortcode attribute → backend `default_country` → `ZA`.
-- The selected country is validated against available JSON library keys; invalid selections return an empty string.
+- New shortcode attribute `country` accepts an ISO3 code exactly as it appears in the library filename (e.g. `ZAF`, `GBR`). The attribute is case-insensitive.
+- New shortcode attribute `language` accepts a three-letter language code exactly as it appears in the library filename (e.g. `eng`). The attribute is case-insensitive.
+- New backend settings `default_country` and `default_language` are added to **Settings > D3V Legal**; they default to `ZAF` and `ENG`.
+- Resolution order for `country` is: shortcode attribute → backend `default_country` → `ZAF`.
+- Resolution order for `language` is: shortcode attribute → backend `default_language` → first available language for the resolved country → `ENG`.
+- The selected country and language are validated against files discovered in `legal-libraries/`; invalid selections return an empty string.
 
 ### 7.4 Renderer Refactor
 - The per-notice PHP renderer functions have been replaced by a generic renderer:
-  - `d3v_legal_get_library_path($country)` resolves and validates the JSON file path within the plugin directory.
-  - `d3v_legal_load_country_library($country)` reads and JSON-decodes the relevant library.
-  - `d3v_legal_render_notice($notice_key, $notice, $atts, $country)` sanitises fields, applies section conditions and renders the notice sections from JSON.
+  - `d3v_legal_get_library_path($country, $language)` resolves and validates the `{ISO3}-{LANG}-legals.json` file path within the plugin directory.
+  - `d3v_legal_load_country_library($country, $language)` reads and JSON-decodes the relevant library.
+  - `d3v_legal_render_notice($notice_key, $notice, $atts, $country, $language)` sanitises fields, applies section conditions and renders the notice sections from JSON.
 - All dynamic values are escaped with `esc_html()` via `d3v_legal_escape()`; URLs use `esc_url()`.
-- Placeholder parsing supports fallback values so generic text (e.g. "We") is used when a company name is not supplied.
+- Placeholder parsing supports fallback values (e.g. `{{company||We}}`) and nested fallback chains (e.g. `{{support_email||{{email}}}}`) so a notice-specific email role can fall back to the general contact email.
 
 ### 7.5 UK Legal Content
 The UK library will mirror the ZA notice types and will be researched against:
@@ -116,6 +121,7 @@ The UK library will mirror the ZA notice types and will be researched against:
 Each UK notice section will include `legal_sources` comments citing the relevant sections, matching the existing ZA approach.
 
 ### 7.6 Backward Compatibility
-- Existing shortcodes without a `country` attribute continue to render South African content.
+- Existing shortcodes without a `country` attribute continue to render South African English content.
 - The plugin header name will change from `D3V Legal Notices ZA` to `D3V Legal Notices`.
 - The text domain and shortcode tag remain unchanged.
+- Any `{ISO3}-{LANG}-legals.json` file placed in `legal-libraries/` is automatically discovered and supported without code changes.

@@ -201,18 +201,21 @@ if (! function_exists('d3v_legal_get_backend_defaults')) {
         }
 
         $defaults = array(
-            'default_country' => 'ZA',
-            'company'         => '',
-            'email'           => '',
-            'address'         => '',
-            'tel'             => '',
-            'smp'             => '',
-            'websiteurl'      => '',
-            'officer'         => '',
-            'regno'           => '',
-            'vatno'           => '',
-            'returnwindow'    => '',
-            'policyurl'       => '',
+            'default_country'  => 'ZAF',
+            'default_language' => 'ENG',
+            'company'          => '',
+            'email'            => '',
+            'support_email'    => '',
+            'officer_email'    => '',
+            'address'          => '',
+            'tel'              => '',
+            'smp'              => '',
+            'websiteurl'       => '',
+            'officer'          => '',
+            'regno'            => '',
+            'vatno'            => '',
+            'returnwindow'     => '',
+            'policyurl'        => '',
         );
 
         if (! function_exists('get_option')) {
@@ -257,20 +260,24 @@ if (! function_exists('d3v_legal_notices')) {
         $backend_defaults = d3v_legal_get_backend_defaults();
 
         $empty_defaults = array(
-            'notice'          => '',
-            'country'         => '',
-            'company'         => '',
-            'email'           => '',
-            'address'         => '',
-            'tel'             => '',
-            'smp'             => '',
-            'websiteurl'      => '',
-            'officer'         => '',
-            'regno'           => '',
-            'vatno'           => '',
-            'returnwindow'    => '',
-            'policyurl'       => '',
-            'default_country' => '',
+            'notice'           => '',
+            'country'          => '',
+            'language'         => '',
+            'company'          => '',
+            'email'            => '',
+            'support_email'    => '',
+            'officer_email'    => '',
+            'address'          => '',
+            'tel'              => '',
+            'smp'              => '',
+            'websiteurl'       => '',
+            'officer'          => '',
+            'regno'            => '',
+            'vatno'            => '',
+            'returnwindow'     => '',
+            'policyurl'        => '',
+            'default_country'  => '',
+            'default_language' => '',
         );
 
         $parsed = shortcode_atts($empty_defaults, is_array($atts) ? $atts : array());
@@ -279,6 +286,14 @@ if (! function_exists('d3v_legal_notices')) {
             if ('' === $parsed[$key] && '' !== $value) {
                 $parsed[$key] = $value;
             }
+        }
+
+        if ('' === $parsed['support_email'] && '' !== $parsed['email']) {
+            $parsed['support_email'] = $parsed['email'];
+        }
+
+        if ('' === $parsed['officer_email'] && '' !== $parsed['email']) {
+            $parsed['officer_email'] = $parsed['email'];
         }
 
         if ('' === $parsed['returnwindow']) {
@@ -291,12 +306,20 @@ if (! function_exists('d3v_legal_notices')) {
             return '';
         }
 
-        $country = strtoupper(sanitize_text_field($normalized['country']));
-        if (! in_array($country, d3v_legal_supported_countries(), true)) {
+        $country  = strtoupper(sanitize_text_field($normalized['country']));
+        $language = strtoupper(sanitize_text_field($normalized['language']));
+
+        $supported_countries = d3v_legal_supported_countries();
+        if (! in_array($country, $supported_countries, true)) {
             $country = d3v_legal_get_default_country();
         }
 
-        $library = d3v_legal_load_country_library($country);
+        $supported_languages = d3v_legal_supported_languages($country);
+        if (! in_array($language, $supported_languages, true)) {
+            $language = d3v_legal_get_default_language($country);
+        }
+
+        $library = d3v_legal_load_country_library($country, $language);
         if (empty($library) || ! isset($library[$country]['notices'][$normalized['notice']])) {
             return '';
         }
@@ -308,90 +331,6 @@ if (! function_exists('d3v_legal_notices')) {
         $notice = $library[$country]['notices'][$normalized['notice']];
 
         return d3v_legal_render_notice($normalized['notice'], $notice, $normalized, $country);
-    }
-}
-
-if (! function_exists('d3v_legal_supported_countries')) {
-    /**
-     * Return the list of supported country ISO2 codes.
-     *
-     * Countries are discovered dynamically by scanning the plugin directory
-     * for files matching the pattern {ISO2}-legals.json. This allows users to
-     * add new jurisdictions simply by dropping a correctly-named JSON library
-     * into the plugin folder.
-     *
-     * @return array Supported uppercase country codes.
-     */
-    function d3v_legal_supported_countries() {
-        $plugin_dir = plugin_dir_path(__FILE__);
-        if ('' === $plugin_dir) {
-            $plugin_dir = trailingslashit(__DIR__);
-        }
-
-        $allowed_base = realpath($plugin_dir);
-        if (false === $allowed_base) {
-            return array('ZA');
-        }
-
-        $countries   = array();
-        $library_dir = $plugin_dir . 'legal-libraries' . DIRECTORY_SEPARATOR;
-        $files       = glob($library_dir . '*-legals.json');
-        if (! is_array($files)) {
-            return array('ZA');
-        }
-
-        foreach ($files as $file) {
-            $basename = basename((string) $file);
-            if (! preg_match('/^([A-Za-z]{2})-legals\.json$/', $basename, $matches)) {
-                continue;
-            }
-
-            $real_file = realpath($file);
-            if (false === $real_file) {
-                continue;
-            }
-
-            if (0 !== strpos($real_file, $allowed_base . DIRECTORY_SEPARATOR)) {
-                continue;
-            }
-
-            $countries[] = strtoupper($matches[1]);
-        }
-
-        $countries = array_values(array_unique($countries));
-
-        if (empty($countries)) {
-            return array('ZA');
-        }
-
-        return $countries;
-    }
-}
-
-if (! function_exists('d3v_legal_get_default_country')) {
-    /**
-     * Determine the default country for rendering notices.
-     *
-     * Priority: backend setting > discovered fallback (ZA if present, else the
-     * first supported country).
-     *
-     * @return string ISO2 country code.
-     */
-    function d3v_legal_get_default_country() {
-        $supported = d3v_legal_supported_countries();
-        $backend   = d3v_legal_get_backend_defaults();
-        $country   = isset($backend['default_country']) ? sanitize_text_field($backend['default_country']) : '';
-        $country   = strtoupper($country);
-
-        if (in_array($country, $supported, true)) {
-            return $country;
-        }
-
-        if (in_array('ZA', $supported, true)) {
-            return 'ZA';
-        }
-
-        return isset($supported[0]) ? $supported[0] : 'ZA';
     }
 }
 
@@ -411,26 +350,188 @@ if (! function_exists('d3v_legal_get_library_directory')) {
     }
 }
 
+if (! function_exists('d3v_legal_discover_libraries')) {
+    /**
+     * Discover all legal library files and parse their country/language codes.
+     *
+     * Files must match the pattern {ISO3}-{LANG}-legals.json, where ISO3 is a
+     * three-letter country code and LANG is a language code.
+     *
+     * @return array Map of ISO3 country codes to arrays of uppercase language codes.
+     */
+    function d3v_legal_discover_libraries() {
+        $plugin_dir = plugin_dir_path(__FILE__);
+        if ('' === $plugin_dir) {
+            $plugin_dir = trailingslashit(__DIR__);
+        }
+
+        $allowed_base = realpath($plugin_dir);
+        if (false === $allowed_base) {
+            return array();
+        }
+
+        $library_dir = d3v_legal_get_library_directory();
+        $files       = glob($library_dir . '*-legals.json');
+        if (! is_array($files)) {
+            return array();
+        }
+
+        $libraries = array();
+
+        foreach ($files as $file) {
+            $basename = basename((string) $file);
+            if (! preg_match('/^([A-Za-z]{3})-([A-Za-z]+)-legals\.json$/', $basename, $matches)) {
+                continue;
+            }
+
+            $real_file = realpath($file);
+            if (false === $real_file) {
+                continue;
+            }
+
+            if (0 !== strpos($real_file, $allowed_base . DIRECTORY_SEPARATOR)) {
+                continue;
+            }
+
+            $country  = strtoupper($matches[1]);
+            $language = strtoupper($matches[2]);
+
+            if (! isset($libraries[$country])) {
+                $libraries[$country] = array();
+            }
+
+            if (! in_array($language, $libraries[$country], true)) {
+                $libraries[$country][] = $language;
+            }
+        }
+
+        return $libraries;
+    }
+}
+
+if (! function_exists('d3v_legal_supported_countries')) {
+    /**
+     * Return the list of supported country ISO3 codes.
+     *
+     * Countries are discovered dynamically by scanning the plugin's
+     * legal-libraries directory for files matching the pattern
+     * {ISO3}-{LANG}-legals.json. This allows users to add new jurisdictions
+     * simply by dropping a correctly-named JSON library into the folder.
+     *
+     * @return array Supported uppercase ISO3 country codes.
+     */
+    function d3v_legal_supported_countries() {
+        $libraries = d3v_legal_discover_libraries();
+        $countries = array_keys($libraries);
+
+        if (empty($countries)) {
+            return array('ZAF');
+        }
+
+        sort($countries);
+        return $countries;
+    }
+}
+
+if (! function_exists('d3v_legal_supported_languages')) {
+    /**
+     * Return the list of supported language codes for a given country.
+     *
+     * @param string $country ISO3 country code.
+     * @return array Supported uppercase language codes.
+     */
+    function d3v_legal_supported_languages($country) {
+        $libraries = d3v_legal_discover_libraries();
+        $country   = strtoupper(sanitize_text_field($country));
+
+        if (! isset($libraries[$country]) || empty($libraries[$country])) {
+            return array('ENG');
+        }
+
+        $languages = $libraries[$country];
+        sort($languages);
+        return $languages;
+    }
+}
+
+if (! function_exists('d3v_legal_get_default_country')) {
+    /**
+     * Determine the default country for rendering notices.
+     *
+     * Priority: backend setting > discovered fallback (ZAF if present, else the
+     * first supported country).
+     *
+     * @return string ISO3 country code.
+     */
+    function d3v_legal_get_default_country() {
+        $supported = d3v_legal_supported_countries();
+        $backend   = d3v_legal_get_backend_defaults();
+        $country   = isset($backend['default_country']) ? strtoupper(sanitize_text_field($backend['default_country'])) : '';
+
+        if (in_array($country, $supported, true)) {
+            return $country;
+        }
+
+        if (in_array('ZAF', $supported, true)) {
+            return 'ZAF';
+        }
+
+        return isset($supported[0]) ? $supported[0] : 'ZAF';
+    }
+}
+
+if (! function_exists('d3v_legal_get_default_language')) {
+    /**
+     * Determine the default language for a given country.
+     *
+     * Priority: backend setting > discovered fallback (ENG if present, else the
+     * first supported language for the country).
+     *
+     * @param string $country ISO3 country code.
+     * @return string Uppercase language code.
+     */
+    function d3v_legal_get_default_language($country) {
+        $supported = d3v_legal_supported_languages($country);
+        $backend   = d3v_legal_get_backend_defaults();
+        $language  = isset($backend['default_language']) ? strtoupper(sanitize_text_field($backend['default_language'])) : '';
+
+        if (in_array($language, $supported, true)) {
+            return $language;
+        }
+
+        if (in_array('ENG', $supported, true)) {
+            return 'ENG';
+        }
+
+        return isset($supported[0]) ? $supported[0] : 'ENG';
+    }
+}
+
 if (! function_exists('d3v_legal_get_library_path')) {
     /**
-     * Resolve the absolute path to a country legal library JSON file.
+     * Resolve the absolute path to a country/language legal library JSON file.
      *
      * Only files within the plugin's legal-libraries directory are accepted to
      * prevent path traversal and to ensure external JSON cannot be loaded.
      *
-     * @param string $country ISO2 country code.
+     * @param string $country  ISO3 country code.
+     * @param string $language Language code.
      * @return string Normalised file path, or empty string if invalid.
      */
-    function d3v_legal_get_library_path($country) {
-        $country = sanitize_text_field($country);
-        $country = strtoupper($country);
+    function d3v_legal_get_library_path($country, $language) {
+        $country  = strtoupper(sanitize_text_field($country));
+        $language = strtoupper(sanitize_text_field($language));
 
-        if (! preg_match('/^[A-Z]{2}$/', $country)) {
+        if (! preg_match('/^[A-Z]{3}$/', $country)) {
+            return '';
+        }
+
+        if (! preg_match('/^[A-Z]+$/', $language)) {
             return '';
         }
 
         $library_dir = d3v_legal_get_library_directory();
-        $file = realpath($library_dir . $country . '-legals.json');
+        $file = realpath($library_dir . $country . '-' . $language . '-legals.json');
         if (false === $file) {
             return '';
         }
@@ -450,13 +551,14 @@ if (! function_exists('d3v_legal_get_library_path')) {
 
 if (! function_exists('d3v_legal_load_country_library')) {
     /**
-     * Load the JSON legal library for a given country.
+     * Load the JSON legal library for a given country and language.
      *
-     * @param string $country ISO2 country code.
+     * @param string $country  ISO3 country code.
+     * @param string $language Language code.
      * @return array Decoded library data, or empty array if unavailable.
      */
-    function d3v_legal_load_country_library($country) {
-        $file = d3v_legal_get_library_path($country);
+    function d3v_legal_load_country_library($country, $language) {
+        $file = d3v_legal_get_library_path($country, $language);
         if ('' === $file) {
             return array();
         }
@@ -482,7 +584,7 @@ if (! function_exists('d3v_legal_render_notice')) {
      * @param string $notice_key Shortcode notice identifier.
      * @param array  $notice     Notice definition from JSON.
      * @param array  $atts       Normalised shortcode attributes.
-     * @param string $country    ISO2 country code.
+     * @param string $country    ISO3 country code.
      * @return string Rendered HTML.
      */
     function d3v_legal_render_notice($notice_key, $notice, $atts, $country) {
@@ -591,13 +693,15 @@ if (! function_exists('d3v_legal_extract_placeholders')) {
     /**
      * Extract placeholder names from a template string.
      *
-     * Placeholders use the syntax {{key}} or {{key||fallback}}.
+     * Placeholders use the syntax {{key}} or {{key||fallback}}. Nested
+     * placeholders inside a fallback are also discovered so that visibility
+     * checks and joined-field rendering can consider the full fallback chain.
      *
      * @param string $template Template string.
      * @return array List of placeholder names.
      */
     function d3v_legal_extract_placeholders($template) {
-        if (! preg_match_all('/\{\{([a-z0-9_]+)(?:\|\|[^}]*)?\}\}/i', $template, $matches)) {
+        if (! preg_match_all('/\{\{([a-z0-9_]+)/i', $template, $matches)) {
             return array();
         }
         return array_unique($matches[1]);
@@ -626,21 +730,36 @@ if (! function_exists('d3v_legal_replace_placeholders')) {
     /**
      * Replace all placeholders in a template string with their values.
      *
+     * Supports nested fallback placeholders (e.g. {{support_email||{{email}}}})
+     * by applying replacements iteratively until the output stabilises.
+     *
      * @param string $template Template string.
      * @param array  $atts     Normalised shortcode attributes.
      * @return string Rendered text.
      */
     function d3v_legal_replace_placeholders($template, $atts) {
-        return preg_replace_callback(
-            '/\{\{([a-z0-9_]+)(?:\|\|([^}]*))?\}\}/i',
-            function ($matches) use ($atts) {
-                $key = $matches[1];
-                $fallback = isset($matches[2]) ? $matches[2] : '';
-                $value = d3v_legal_get_placeholder_value($key, $atts);
-                return '' !== $value ? d3v_legal_escape($value) : esc_html($fallback);
-            },
-            $template
-        );
+        $max_iterations = 5;
+        $rendered = $template;
+
+        for ($i = 0; $i < $max_iterations; $i++) {
+            $previous = $rendered;
+            $rendered = preg_replace_callback(
+                '/\{\{([a-z0-9_]+)(?:\|\|([^}]*))?\}\}/i',
+                function ($matches) use ($atts) {
+                    $key = $matches[1];
+                    $fallback = isset($matches[2]) ? $matches[2] : '';
+                    $value = d3v_legal_get_placeholder_value($key, $atts);
+                    return '' !== $value ? d3v_legal_escape($value) : esc_html($fallback);
+                },
+                $rendered
+            );
+
+            if ($rendered === $previous) {
+                break;
+            }
+        }
+
+        return $rendered;
     }
 }
 
@@ -650,7 +769,7 @@ if (! function_exists('d3v_legal_render_paragraph_section')) {
      *
      * @param array  $section Section definition.
      * @param array  $atts    Normalised shortcode attributes.
-     * @param string $country ISO2 country code.
+     * @param string $country ISO3 country code.
      * @return string HTML.
      */
     function d3v_legal_render_paragraph_section($section, $atts, $country) {
@@ -877,18 +996,21 @@ if (! function_exists('d3v_legal_register_settings')) {
         );
 
         $fields = array(
-            array('section' => 'd3v_legal_section_country',  'id' => 'default_country', 'label' => __('Default country (ISO2)', 'legalnotices'), 'type' => 'select'),
-            array('section' => 'd3v_legal_section_business', 'id' => 'company',         'label' => __('Company / brand name', 'legalnotices'),      'type' => 'text'),
-            array('section' => 'd3v_legal_section_business', 'id' => 'regno',           'label' => __('Company registration number', 'legalnotices'), 'type' => 'text'),
-            array('section' => 'd3v_legal_section_business', 'id' => 'vatno',           'label' => __('VAT registration number', 'legalnotices'),     'type' => 'text'),
-            array('section' => 'd3v_legal_section_contact',  'id' => 'email',           'label' => __('Email address', 'legalnotices'),               'type' => 'text'),
-            array('section' => 'd3v_legal_section_contact',  'id' => 'tel',             'label' => __('Telephone number', 'legalnotices'),            'type' => 'text'),
-            array('section' => 'd3v_legal_section_contact',  'id' => 'address',         'label' => __('Physical / registered address', 'legalnotices'), 'type' => 'text'),
-            array('section' => 'd3v_legal_section_contact',  'id' => 'websiteurl',      'label' => __('Website URL', 'legalnotices'),                 'type' => 'text'),
-            array('section' => 'd3v_legal_section_legal',    'id' => 'officer',         'label' => __('Information Officer name', 'legalnotices'),    'type' => 'text'),
-            array('section' => 'd3v_legal_section_legal',    'id' => 'smp',             'label' => __('Default social media platform', 'legalnotices'), 'type' => 'text'),
-            array('section' => 'd3v_legal_section_legal',    'id' => 'returnwindow',    'label' => __('Default return window (days)', 'legalnotices'),  'type' => 'number'),
-            array('section' => 'd3v_legal_section_legal',    'id' => 'policyurl',       'label' => __('Default policy page URL', 'legalnotices'),     'type' => 'text'),
+            array('section' => 'd3v_legal_section_country',  'id' => 'default_country',  'label' => __('Default country (ISO3)', 'legalnotices'),             'type' => 'select_country'),
+            array('section' => 'd3v_legal_section_country',  'id' => 'default_language', 'label' => __('Default language', 'legalnotices'),                   'type' => 'select_language'),
+            array('section' => 'd3v_legal_section_business', 'id' => 'company',          'label' => __('Company / brand name', 'legalnotices'),               'type' => 'text'),
+            array('section' => 'd3v_legal_section_business', 'id' => 'regno',            'label' => __('Company registration number', 'legalnotices'),        'type' => 'text'),
+            array('section' => 'd3v_legal_section_business', 'id' => 'vatno',            'label' => __('VAT registration number', 'legalnotices'),            'type' => 'text'),
+            array('section' => 'd3v_legal_section_contact',  'id' => 'email',            'label' => __('General contact email address', 'legalnotices'),        'type' => 'text'),
+            array('section' => 'd3v_legal_section_contact',  'id' => 'support_email',    'label' => __('Support email address (optional)', 'legalnotices'),     'type' => 'text'),
+            array('section' => 'd3v_legal_section_contact',  'id' => 'officer_email',    'label' => __('Information Officer / privacy email (optional)', 'legalnotices'), 'type' => 'text'),
+            array('section' => 'd3v_legal_section_contact',  'id' => 'tel',              'label' => __('Telephone number', 'legalnotices'),                   'type' => 'text'),
+            array('section' => 'd3v_legal_section_contact',  'id' => 'address',          'label' => __('Physical / registered address', 'legalnotices'),        'type' => 'text'),
+            array('section' => 'd3v_legal_section_contact',  'id' => 'websiteurl',       'label' => __('Website URL', 'legalnotices'),                        'type' => 'text'),
+            array('section' => 'd3v_legal_section_legal',    'id' => 'officer',          'label' => __('Information Officer name', 'legalnotices'),           'type' => 'text'),
+            array('section' => 'd3v_legal_section_legal',    'id' => 'smp',              'label' => __('Default social media platform', 'legalnotices'),      'type' => 'text'),
+            array('section' => 'd3v_legal_section_legal',    'id' => 'returnwindow',     'label' => __('Default return window (days)', 'legalnotices'),       'type' => 'number'),
+            array('section' => 'd3v_legal_section_legal',    'id' => 'policyurl',        'label' => __('Default policy page URL', 'legalnotices'),          'type' => 'text'),
         );
 
         foreach ($fields as $field) {
@@ -917,7 +1039,7 @@ if (! function_exists('d3v_legal_sanitize_settings')) {
      */
     function d3v_legal_sanitize_settings($input) {
         $sanitized = array();
-        $keys      = array('default_country', 'company', 'email', 'address', 'tel', 'smp', 'websiteurl', 'officer', 'regno', 'vatno', 'returnwindow', 'policyurl');
+        $keys      = array('default_country', 'default_language', 'company', 'email', 'support_email', 'officer_email', 'address', 'tel', 'smp', 'websiteurl', 'officer', 'regno', 'vatno', 'returnwindow', 'policyurl');
 
         foreach ($keys as $key) {
             if (! isset($input[$key])) {
@@ -935,6 +1057,14 @@ if (! function_exists('d3v_legal_sanitize_settings')) {
                 if (! in_array($sanitized[$key], d3v_legal_supported_countries(), true)) {
                     $sanitized[$key] = '';
                 }
+            } elseif ('default_language' === $key) {
+                $sanitized[$key] = strtoupper(sanitize_text_field($input[$key]));
+                $country = isset($sanitized['default_country']) && '' !== $sanitized['default_country']
+                    ? $sanitized['default_country']
+                    : d3v_legal_get_default_country();
+                if (! in_array($sanitized[$key], d3v_legal_supported_languages($country), true)) {
+                    $sanitized[$key] = '';
+                }
             } else {
                 $sanitized[$key] = sanitize_text_field($input[$key]);
             }
@@ -946,7 +1076,7 @@ if (! function_exists('d3v_legal_sanitize_settings')) {
 
 if (! function_exists('d3v_legal_section_country_callback')) {
     function d3v_legal_section_country_callback() {
-        echo '<p>' . esc_html__('Select the default country used when no country attribute is supplied in the shortcode.', 'legalnotices') . '</p>';
+        echo '<p>' . esc_html__('Select the default country and language used when no country/language attributes are supplied in the shortcode.', 'legalnotices') . '</p>';
     }
 }
 
@@ -981,13 +1111,32 @@ if (! function_exists('d3v_legal_render_field')) {
         $type     = isset($args['type']) ? $args['type'] : 'text';
         $value    = isset($settings[$name]) ? $settings[$name] : '';
 
-        if ('select' === $type) {
+        if ('select_country' === $type) {
             printf(
                 '<select id="%s" name="d3v_legal_settings[%s]">',
                 esc_attr($id),
                 esc_attr($name)
             );
             foreach (d3v_legal_supported_countries() as $code) {
+                printf(
+                    '<option value="%s" %s>%s</option>',
+                    esc_attr($code),
+                    selected($value, $code, false),
+                    esc_html($code)
+                );
+            }
+            echo '</select>';
+        } elseif ('select_language' === $type) {
+            $country = isset($settings['default_country']) && '' !== $settings['default_country']
+                ? $settings['default_country']
+                : d3v_legal_get_default_country();
+
+            printf(
+                '<select id="%s" name="d3v_legal_settings[%s]">',
+                esc_attr($id),
+                esc_attr($name)
+            );
+            foreach (d3v_legal_supported_languages($country) as $code) {
                 printf(
                     '<option value="%s" %s>%s</option>',
                     esc_attr($code),
