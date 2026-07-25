@@ -6,7 +6,8 @@ WordPress plugin that outputs legal notices such as privacy policy, copyright, d
 ## Installation
 1. Copy the plugin folder to your WordPress plugins directory.
 2. Activate the plugin from the WordPress admin area.
-3. Add shortcode snippets to your content or templates.
+3. Go to **Settings > D3V Legal** in the WordPress admin and fill in your default business and contact details.
+4. Add shortcode snippets to your content or templates. Shortcode attributes are optional; any value omitted from the shortcode will fall back to the value saved in Settings > D3V Legal.
 
 ### Local development
 - Install PHP 8.1+.
@@ -15,10 +16,15 @@ WordPress plugin that outputs legal notices such as privacy policy, copyright, d
 - Run `php -l d3v-legal.php` to lint the plugin.
 - Run `composer test` to execute the PHPUnit regression suite.
 
+## Backend Settings
+The plugin adds a **Settings > D3V Legal** page where you can store default values for company name, contact details, VAT number, Information Officer, default return window and policy URL. Once saved, shortcodes only need to supply the `notice` attribute (and any values you want to override per page).
+
 ## Shortcode Usage
 ```text
-[d3v-legal notice='' company='' email='' address='' tel='' smp='' websiteurl='' officer='' regno='']
+[d3v-legal notice='' company='' email='' address='' tel='' smp='' websiteurl='' officer='' regno='' vatno='' returnwindow='' policyurl='']
 ```
+
+All attributes are optional except `notice`. Values supplied in the shortcode take priority; missing or empty values fall back to the backend defaults configured under **Settings > D3V Legal**.
 
 - `notice`: Type of notice to render.
 - `company`: Company or brand name shown in the output.
@@ -29,8 +35,18 @@ WordPress plugin that outputs legal notices such as privacy policy, copyright, d
 - `websiteurl`: Website URL for email disclaimer content.
 - `officer`: Information Officer name, used in the PAIA manual.
 - `regno`: Company registration number, used in the PAIA manual.
+- `vatno`: VAT registration number, used in e-commerce terms.
+- `returnwindow`: Number of days within which returns are accepted (default `30`), used in the returns/refunds policy.
+- `policyurl`: Optional URL to a full standalone policy page. When supplied, a "Read our full ..." link is appended to the notice.
 
 ## Shortcode Examples
+
+### Minimal usage (backend defaults)
+If you have saved your details under **Settings > D3V Legal**:
+```text
+[d3v-legal notice='cookies']
+[d3v-legal notice='privacy']
+```
 
 ### Cookie Notice
 ```text
@@ -90,6 +106,36 @@ WordPress plugin that outputs legal notices such as privacy policy, copyright, d
 ### Social Media Netiquette
 ```text
 [d3v-legal notice='smn' company='ABC Holdings' smp='Facebook']
+```
+
+### Returns and Refunds Policy
+```text
+[d3v-legal notice='returns' company='ABC Holdings' email='info@abc.com' address='21 Random Street, Somewhere, South Africa' returnwindow='30']
+```
+
+### Customer Support Notice
+```text
+[d3v-legal notice='support' company='ABC Holdings' email='info@abc.com' tel='+27 82 000 0000' address='21 Random Street, Somewhere, South Africa']
+```
+
+### Shipping and Delivery Notice
+```text
+[d3v-legal notice='shipping' company='ABC Holdings' email='info@abc.com']
+```
+
+### Payment and Security Notice
+```text
+[d3v-legal notice='payments' company='ABC Holdings']
+```
+
+### E-commerce Terms and Conditions
+```text
+[d3v-legal notice='ecomtscs' company='ABC Holdings' address='21 Random Street, Somewhere, South Africa' email='info@abc.com' tel='+27 82 000 0000' vatno='4567890123']
+```
+
+### Accessibility Notice
+```text
+[d3v-legal notice='accessibility' company='ABC Holdings' email='info@abc.com']
 ```
 
 ## Documentation
