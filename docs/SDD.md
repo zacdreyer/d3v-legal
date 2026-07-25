@@ -1,7 +1,7 @@
 # Software Design Document (SDD)
 
 ## 1. Purpose
-This plugin provides reusable legal notice markup for WordPress sites, with a focus on South African compliance language and POPIA- and PAIA-related notices.
+This plugin provides reusable legal notice markup for WordPress sites. It is being refactored into a jurisdiction-agnostic module that supports multiple countries via selectable legal libraries. The first supported jurisdictions are South Africa (`ZA`) and the United Kingdom (`UK`).
 
 ## 2. Scope
 The plugin exposes the `[d3v-legal]` shortcode and renders the following notices:
@@ -49,6 +49,7 @@ The supplied text is intended as a broad, company-agnostic starting point. It mu
 | `vatno` | ecomtscs | VAT registration number |
 | `returnwindow` | returns | Return window in days (default `30`) |
 | `policyurl` | all notices | Optional URL to a full standalone policy page; renders a "Read our full ..." link when supplied |
+| `country` | all | ISO2 country code selecting the legal library to use (`ZA` or `UK`); defaults to the backend default or `ZA` |
 
 ## 5. Design Notes
 - Attributes are sanitized with `sanitize_text_field()` before being passed to renderers.
@@ -59,8 +60,61 @@ The supplied text is intended as a broad, company-agnostic starting point. It mu
 - E-commerce notices align with ECTA Chapter VII (consumer protection), CPA supplier obligations, and POPIA payment-data safeguards.
 - The optional `policyurl` attribute is accepted by every notice renderer and renders a context-specific link to a full standalone policy page.
 - Backend defaults are stored in a single `d3v_legal_settings` option array and merged into shortcode attributes so users rarely need to repeat company details on every shortcode.
+- Country-specific legal content is stored in JSON files (`ZA-legals.json`, `UK-legals.json`) loaded by a generic renderer based on the `country` attribute or backend default. Direct HTTP access to the directory is blocked by server rules, and the plugin reads files only from its own directory with strict validation.
+- Each JSON notice contains `legal_sources` and per-section `legal_sources` so law references travel with the content and can be exposed as HTML comments in the rendered output.
 
 ## 6. Future Enhancements
 - Add admin notice support for legal-policy links.
 - Add more granular notice templates and full translation / i18n support.
 - Implement a cookie-consent mechanism that can integrate with the cookie notice.
+- Add further country legal libraries (e.g. `EU`, `US`, `AU`).
+
+## 7. Globalization Plan
+
+### 7.1 Goal
+Remove the ZA-only focus from the plugin name and code, then add a United Kingdom (`UK`) legal library alongside the existing South Africa (`ZA`) content. Users select a country with an ISO2 code; the plugin loads the relevant legal library. The default remains `ZA` for backward compatibility. Content libraries are implemented as protected PHP files to prevent tampering and direct access.
+
+### 7.2 Content Architecture
+- Legal libraries live at the repository root as `ZA-legals.json` and `UK-legals.json`.
+- Each file is a JSON object keyed by country code. Although JSON files are readable by design, the library directory is protected by a `.htaccess` rule (for Apache) and a `web.config` rule (for IIS) to block direct HTTP access. Additionally, [d3v-legal.php](d3v-legal.php) validates the file path, reads the files only via `file_get_contents()` from the plugin directory, and JSON-decodes them safely.
+- Each library contains:
+  - `notices`: keyed by notice slug (`cookies`, `privacy`, `paia`, `copyright`, `copyrightfooter`, `disclaimer`, `emaildisclaimer`, `tscs`, `comptscs`, `contact`, `smr`, `smn`, `returns`, `support`, `shipping`, `payments`, `ecomtscs`, `accessibility`).
+  - Each notice has `legal_sources` (array of legislation citations) and an ordered `sections` array.
+  - Each section has:
+    - `title` (optional): rendered as a `<strong>` heading.
+    - `template`: text with `{{field}}` placeholders and optional fallback syntax `{{field||default}}`.
+    - `condition` (optional): a field that must be non-empty for the section to render.
+    - `type` (optional): e.g. `policy_link` to append a "Read our full ..." link using `policyurl`.
+    - `legal_sources` (optional): section-level law references rendered as HTML comments.
+
+### 7.3 Country Selection
+- New shortcode attribute `country` accepts an ISO2 code (`ZA`, `UK`).
+- New backend setting `default_country` is added to **Settings > D3V Legal**; it defaults to `ZA`.
+- Resolution order for `country` is: shortcode attribute → backend `default_country` → `ZA`.
+- The selected country is validated against available JSON library keys; invalid selections return an empty string.
+
+### 7.4 Renderer Refactor
+- The existing per-notice PHP renderer functions will be replaced by a generic renderer:
+  - `d3v_legal_load_country_content($country)` reads and caches the relevant JSON file.
+  - `d3v_legal_render_notice($notice, $country, $atts)` merges shortcode and backend values, validates the country, sanitizes fields, and renders the notice sections from JSON.
+- All dynamic values are escaped with `esc_html()`; URLs use `esc_url()`.
+- Placeholder parsing supports fallback values so generic text (e.g. "We") is used when a company name is not supplied.
+
+### 7.5 UK Legal Content
+The UK library will mirror the ZA notice types and will be researched against:
+- UK GDPR (Regulation (EU) 2016/679 as retained in UK law)
+- Data Protection Act 2018
+- Privacy and Electronic Communications Regulations (PECR) 2003
+- Consumer Rights Act 2015
+- Consumer Contracts (Information, Cancellation and Additional Charges) Regulations 2013
+- Electronic Commerce (EC Directive) Regulations 2002
+- Companies Act 2006
+- Copyright, Designs and Patents Act 1988
+- Equality Act 2010
+
+Each UK notice section will include `legal_sources` comments citing the relevant sections, matching the existing ZA approach.
+
+### 7.6 Backward Compatibility
+- Existing shortcodes without a `country` attribute continue to render South African content.
+- The plugin header name will change from `D3V Legal Notices ZA` to `D3V Legal Notices`.
+- The text domain and shortcode tag remain unchanged.

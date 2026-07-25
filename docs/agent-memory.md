@@ -13,6 +13,7 @@
 - Renderer functions are wrapped in an include guard so the plugin can be loaded repeatedly.
 - E-commerce notices added: `returns`, `support`, `shipping`, `payments`, `ecomtscs`, plus an `accessibility` notice.
 - WordPress function fallbacks (`shortcode_atts`, `add_shortcode`, `sanitize_text_field`, `esc_html`, `esc_url`, `esc_attr`, `__`, `is_admin`, `get_option`, `add_action`) allow the plugin to be linted and unit-tested outside WordPress.
+- Refactoring in progress (2026-07-25): globalize the plugin to support multiple countries. Plan is to use JSON legal libraries (`ZA-legals.json`, `UK-legals.json`) loaded by a generic renderer, with a `country` shortcode attribute and backend `default_country` selector. Default country remains `ZA`.
 - Future work: admin notice support for legal-policy links, translation / i18n support, and a cookie-consent mechanism.
 
 ## Session history

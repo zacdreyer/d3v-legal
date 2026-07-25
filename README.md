@@ -141,7 +141,7 @@ If you have saved your details under **Settings > D3V Legal**:
 ## Documentation
 - [docs/SDD.md](docs/SDD.md)
 - [docs/TDD.md](docs/TDD.md)
-- [docs/AGENT_MEMORY.md](docs/AGENT_MEMORY.md)
+- [docs/agent-memory.md](docs/agent-memory.md)
 
 ## Release Process
 The repository includes a GitHub Actions workflow in [.github/workflows/release.yml](.github/workflows/release.yml) that lints the plugin, runs the PHP test suite, and packages a release archive whenever a version tag is pushed.

@@ -44,3 +44,20 @@ The repository includes a PHPUnit test file at [tests/TestPluginTest.php](tests/
 - Confirm `policyurl` values are escaped consistently across all notices.
 - Confirm backend values are sanitised before being saved (numeric return window, escaped strings).
 - Confirm the settings page renders without fatal errors in a WordPress environment.
+
+## 5. Globalization Test Plan
+
+The following tests will be added when the multi-country refactor is implemented:
+
+- Default country is `ZA` when no `country` shortcode attribute and no backend default are set.
+- Backend `default_country` setting is applied when the shortcode omits `country`.
+- Shortcode `country` attribute overrides the backend `default_country`.
+- `country='ZA'` renders the South African library content.
+- `country='UK'` renders the United Kingdom library content.
+- An unsupported/invalid `country` value returns an empty string.
+- `ZA-legals.json` and `UK-legals.json` are valid JSON, contain all supported notice slugs, and are only read from the plugin directory.
+- UK privacy notice references UK GDPR and the Data Protection Act 2018.
+- UK cookie notice references PECR.
+- UK e-commerce terms reference the Consumer Rights Act 2015 and Electronic Commerce Regulations 2002.
+- Placeholder fallback syntax (e.g. `{{company||We}}`) renders correctly when a field is empty.
+- Policy-link sections in JSON render the same "Read our full ..." output as the current PHP renderers.
