@@ -30,8 +30,9 @@ The supplied text is intended as a broad, company-agnostic starting point. It mu
 - Shortcode handler: `d3v_legal_notices()`
 - Settings API page: `d3v_legal_settings_page()` registered under **Settings > D3V Legal**
 - Default lookup: `d3v_legal_get_backend_defaults()` reads the `d3v_legal_settings` option and returns an array of defaults
-- Output functions: `cookies()`, `privacy_policy()`, `paia_manual()`, `copyright()`, `copyright_footer()`, `disclaimer()`, `email_disclaimer()`, `tscs()`, `comp_tscs()`, `contact()`, `social_media_release()`, `social_media_netiquette()`, `returns_refunds()`, `customer_support()`, `shipping_delivery()`, `payment_security()`, `ecommerce_tscs()`, `accessibility()`
-- Rendering approach: output is buffered and returned as a string so it can be tested outside the WordPress runtime.
+- Country library lookup: `d3v_legal_load_country_library($country)` reads the JSON library for the selected country, restricted to files inside the plugin directory
+- Generic renderer: `d3v_legal_render_notice()` renders a notice from its JSON library definition using pluggable section types (`paragraph`, `list`, `contact_list`, `joined_fields`, `policy_link`)
+- Rendering approach: each notice is built as an HTML string and returned so it can be tested outside the WordPress runtime.
 - Attribute resolution: shortcode attributes take priority; missing or empty values fall back to the backend settings; hardcoded safe defaults apply only when no value is available (e.g. `returnwindow` defaults to `30`).
 
 ## 4. Shortcode attributes
@@ -53,15 +54,14 @@ The supplied text is intended as a broad, company-agnostic starting point. It mu
 
 ## 5. Design Notes
 - Attributes are sanitized with `sanitize_text_field()` before being passed to renderers.
-- Renderers escape dynamic values with `esc_html()` before output.
-- Fallback implementations of WordPress functions (`shortcode_atts()`, `add_shortcode()`, `sanitize_text_field()`, `esc_html()`, `esc_url()`, `esc_attr()`, `__()`, `is_admin()`, `get_option()`, `add_action()`) are provided so the plugin can be linted and unit tested outside WordPress.
-- Renderer functions are wrapped in an initialization guard so the plugin can be included more than once without fatal redeclaration errors.
-- Each renderer function is preceded by a PHP docblock that cites the relevant sections of South African legislation, making it easier to audit compliance claims.
-- E-commerce notices align with ECTA Chapter VII (consumer protection), CPA supplier obligations, and POPIA payment-data safeguards.
-- The optional `policyurl` attribute is accepted by every notice renderer and renders a context-specific link to a full standalone policy page.
+- Renderers escape dynamic values with `esc_html()` before output; URLs are passed through `esc_url()`.
+- Fallback implementations of WordPress functions (`shortcode_atts()`, `add_shortcode()`, `sanitize_text_field()`, `esc_html()`, `esc_url()`, `esc_attr()`, `__()`, `is_admin()`, `get_option()`, `add_action()`, `trailingslashit()`, `plugin_dir_path()`) are provided so the plugin can be linted and unit tested outside WordPress.
+- Renderer functions are wrapped in initialization guards so the plugin can be included more than once without fatal redeclaration errors.
+- Each JSON library notice contains a `legal_sources` array citing the relevant legislation, making it easier to audit compliance claims. South African notices cite POPIA, PAIA, ECTA, the CPA and other local statutes; UK notices cite UK GDPR, the Data Protection Act 2018, the Consumer Rights Act 2015, PECR and other applicable laws.
+- E-commerce notices align with each jurisdiction's consumer protection, supplier obligation and payment-data safeguard laws.
+- The optional `policyurl` attribute is accepted by every notice and renders a context-specific link to a full standalone policy page.
 - Backend defaults are stored in a single `d3v_legal_settings` option array and merged into shortcode attributes so users rarely need to repeat company details on every shortcode.
-- Country-specific legal content is stored in JSON files (`ZA-legals.json`, `UK-legals.json`) loaded by a generic renderer based on the `country` attribute or backend default. Direct HTTP access to the directory is blocked by server rules, and the plugin reads files only from its own directory with strict validation.
-- Each JSON notice contains `legal_sources` and per-section `legal_sources` so law references travel with the content and can be exposed as HTML comments in the rendered output.
+- Country-specific legal content is stored in JSON files (`ZA-legals.json`, `UK-legals.json`) loaded by a generic renderer based on the `country` attribute or backend default. Direct HTTP access to the directory should be blocked by server rules; the plugin reads files only from its own directory with strict path validation (`realpath()` checks) to prevent directory traversal.
 
 ## 6. Future Enhancements
 - Add admin notice support for legal-policy links.
@@ -72,7 +72,7 @@ The supplied text is intended as a broad, company-agnostic starting point. It mu
 ## 7. Globalization Plan
 
 ### 7.1 Goal
-Remove the ZA-only focus from the plugin name and code, then add a United Kingdom (`UK`) legal library alongside the existing South Africa (`ZA`) content. Users select a country with an ISO2 code; the plugin loads the relevant legal library. The default remains `ZA` for backward compatibility. Content libraries are implemented as protected PHP files to prevent tampering and direct access.
+Remove the ZA-only focus from the plugin name and code, then add a United Kingdom (`UK`) legal library alongside the existing South Africa (`ZA`) content. Users select a country with an ISO2 code; the plugin loads the relevant legal library. The default remains `ZA` for backward compatibility. Content libraries are implemented as JSON files loaded and validated by the plugin.
 
 ### 7.2 Content Architecture
 - Legal libraries live at the repository root as `ZA-legals.json` and `UK-legals.json`.
@@ -94,10 +94,11 @@ Remove the ZA-only focus from the plugin name and code, then add a United Kingdo
 - The selected country is validated against available JSON library keys; invalid selections return an empty string.
 
 ### 7.4 Renderer Refactor
-- The existing per-notice PHP renderer functions will be replaced by a generic renderer:
-  - `d3v_legal_load_country_content($country)` reads and caches the relevant JSON file.
-  - `d3v_legal_render_notice($notice, $country, $atts)` merges shortcode and backend values, validates the country, sanitizes fields, and renders the notice sections from JSON.
-- All dynamic values are escaped with `esc_html()`; URLs use `esc_url()`.
+- The per-notice PHP renderer functions have been replaced by a generic renderer:
+  - `d3v_legal_get_library_path($country)` resolves and validates the JSON file path within the plugin directory.
+  - `d3v_legal_load_country_library($country)` reads and JSON-decodes the relevant library.
+  - `d3v_legal_render_notice($notice_key, $notice, $atts, $country)` sanitises fields, applies section conditions and renders the notice sections from JSON.
+- All dynamic values are escaped with `esc_html()` via `d3v_legal_escape()`; URLs use `esc_url()`.
 - Placeholder parsing supports fallback values so generic text (e.g. "We") is used when a company name is not supplied.
 
 ### 7.5 UK Legal Content

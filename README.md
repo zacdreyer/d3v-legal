@@ -1,5 +1,5 @@
 # d3v-legal
-WordPress plugin that outputs legal notices such as privacy policy, copyright, disclaimer, cookie notices, terms and conditions, and social media statements for South African websites.
+WordPress plugin that outputs legal notices such as privacy policy, copyright, disclaimer, cookie notices, terms and conditions, and social media statements for South African and United Kingdom websites. Additional countries can be supported by adding a `{ISO2}-legals.json` file to the plugin directory.
 
 > Note: This plugin is provided for informational purposes only and does not constitute legal advice. Please consult a qualified attorney or compliance professional before relying on it for legal or regulatory compliance.
 
@@ -17,16 +17,17 @@ WordPress plugin that outputs legal notices such as privacy policy, copyright, d
 - Run `composer test` to execute the PHPUnit regression suite.
 
 ## Backend Settings
-The plugin adds a **Settings > D3V Legal** page where you can store default values for company name, contact details, VAT number, Information Officer, default return window and policy URL. Once saved, shortcodes only need to supply the `notice` attribute (and any values you want to override per page).
+The plugin adds a **Settings > D3V Legal** page where you can store default values for country, company name, contact details, VAT number, Information Officer, default return window and policy URL. Once saved, shortcodes only need to supply the `notice` attribute (and any values you want to override per page).
 
 ## Shortcode Usage
 ```text
-[d3v-legal notice='' company='' email='' address='' tel='' smp='' websiteurl='' officer='' regno='' vatno='' returnwindow='' policyurl='']
+[d3v-legal notice='' country='' company='' email='' address='' tel='' smp='' websiteurl='' officer='' regno='' vatno='' returnwindow='' policyurl='']
 ```
 
 All attributes are optional except `notice`. Values supplied in the shortcode take priority; missing or empty values fall back to the backend defaults configured under **Settings > D3V Legal**.
 
 - `notice`: Type of notice to render.
+- `country`: ISO2 country code (`ZA` or `UK`). Defaults to the backend setting, or `ZA` if none is configured.
 - `company`: Company or brand name shown in the output.
 - `email`: Contact email used in notices.
 - `address`: Physical address or registered office.
@@ -46,6 +47,12 @@ If you have saved your details under **Settings > D3V Legal**:
 ```text
 [d3v-legal notice='cookies']
 [d3v-legal notice='privacy']
+```
+
+### Selecting a country
+Render the UK cookie notice explicitly:
+```text
+[d3v-legal notice='cookies' country='UK' company='ABC Holdings']
 ```
 
 ### Cookie Notice

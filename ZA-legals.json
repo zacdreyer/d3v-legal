@@ -1,0 +1,872 @@
+{
+  "ZA": {
+    "meta": {
+      "name": "South Africa",
+      "currency": "ZAR",
+      "default_return_window": 30
+    },
+    "notices": {
+      "cookies": {
+        "legal_sources": [
+          "POPIA s1 (definition of personal information)",
+          "POPIA s11 (lawfulness of processing)",
+          "ECTA s43 (information to be provided for electronic transactions)"
+        ],
+        "sections": [
+          {
+            "template": "{{company||We}} use cookies and similar tracking technologies on this website. Cookies are small text files placed on your device to help the site function, remember your preferences, analyse traffic and improve your experience."
+          },
+          {
+            "title": "Types of cookies we use",
+            "type": "list",
+            "items": [
+              "Essential cookies: required for the website to operate and to maintain security. These cookies do not collect personal information.",
+              "Preference cookies: remember your settings and choices to improve your experience.",
+              "Analytics cookies: help us understand how visitors interact with the website so that we can improve it. Where analytics data may identify you, we rely on an appropriate lawful basis under POPIA.",
+              "Third-party cookies: set by approved service providers (for example, analytics or advertising partners) and governed by their own privacy notices."
+            ]
+          },
+          {
+            "template": "You can manage or disable cookies through your browser settings. Please note that restricting essential cookies may affect the functionality of the website. By continuing to use this website, you consent to the use of cookies in accordance with this notice."
+          },
+          {
+            "type": "policy_link",
+            "label": "Read our full cookie policy",
+            "condition": "policyurl"
+          }
+        ]
+      },
+      "privacy": {
+        "legal_sources": [
+          "POPIA s1 (definitions)",
+          "POPIA s11 (lawfulness)",
+          "POPIA s13 (consent)",
+          "POPIA s14 (justification)",
+          "POPIA s18 (collection directly from data subject)",
+          "POPIA s19 (collection from other source)",
+          "POPIA s21 (purpose specification)",
+          "POPIA s23 (further processing limitation)",
+          "POPIA s24 (information quality)",
+          "POPIA s58 (security safeguards)",
+          "POPIA s69 (participation of data subject)",
+          "POPIA s71 (access to personal information)",
+          "POPIA s73 (correction of personal information)",
+          "PAIA s51 (private-body manual)"
+        ],
+        "sections": [
+          {
+            "template": "This privacy policy explains how {{company||we}} collects, uses, protects and shares personal information. By using our website or providing your personal information to us, you acknowledge that you have read and understood this policy."
+          },
+          {
+            "title": "Identity of the responsible party",
+            "template": "{{company||We}} are the responsible party for the processing of personal information collected through this website and our related services. Our contact details are:"
+          },
+          {
+            "type": "contact_list",
+            "condition": "any",
+            "fields": [
+              {"value": "{{company||Responsible party}}"},
+              {"value": "{{address}}", "condition": "address"},
+              {"value": "Email: {{email}}", "condition": "email"},
+              {"value": "Telephone: {{tel}}", "condition": "tel"}
+            ]
+          },
+          {
+            "title": "What personal information we collect",
+            "template": "\"Personal information\" has the meaning ascribed to it in POPIA. We may collect:"
+          },
+          {
+            "type": "list",
+            "items": [
+              "Directly from you: name, contact details, identity or company registration number, billing and payment information, and any other information you provide when you register, request a quote, place an order, subscribe to newsletters or contact us.",
+              "Automatically: IP address, browser type and version, device information, operating system, pages viewed, time spent on the site, referring URLs and other analytics data collected via cookies and similar technologies."
+            ]
+          },
+          {
+            "title": "Purpose of processing",
+            "template": "We process personal information only for lawful and specified purposes, including to:"
+          },
+          {
+            "type": "list",
+            "items": [
+              "provide our products and services;",
+              "process orders, payments and deliveries;",
+              "communicate with you, including service-related messages;",
+              "carry out direct marketing where permitted and with an opportunity to opt out;",
+              "improve our website, services and customer experience;",
+              "comply with legal and regulatory obligations; and",
+              "protect our rights, property and legitimate interests."
+            ]
+          },
+          {
+            "title": "Legal basis for processing",
+            "template": "We process personal information only where a lawful basis exists, such as:"
+          },
+          {
+            "type": "list",
+            "items": [
+              "Consent: where you have given express consent, for example to receive marketing communications.",
+              "Contract: where processing is necessary to perform a contract with you or to take steps at your request before entering into a contract.",
+              "Legal obligation: where we are required to process information by law.",
+              "Legitimate interest: where processing is necessary for our legitimate business interests, provided your rights and interests do not override those interests."
+            ]
+          },
+          {
+            "title": "Direct marketing and opt-out",
+            "template": "We may use your personal information to send you promotional communications by email, SMS or other channels, but only where permitted by POPIA. You may opt out of direct marketing at any time{{email|| by contacting us at {{email}} or using the unsubscribe link in any marketing message}}."
+          },
+          {
+            "title": "Cookies and device data",
+            "template": "We use cookies and similar technologies to collect device and usage data. For more information, please see our cookie notice."
+          },
+          {
+            "title": "Sharing with third parties",
+            "template": "We do not sell personal information. We may share personal information with trusted third parties who assist us in operating our business, such as payment processors, delivery partners, IT service providers, marketing service providers, legal advisers and auditors. These third parties are required to maintain appropriate confidentiality and security safeguards."
+          },
+          {
+            "title": "Transborder flows",
+            "template": "Personal information may be transferred to and processed in countries outside South Africa. Where this occurs, we will take reasonable steps to ensure that the recipient provides an adequate level of protection for the personal information, or that the transfer is otherwise lawful under POPIA."
+          },
+          {
+            "title": "Data subject rights",
+            "template": "Under POPIA and PAIA, you have the right to:"
+          },
+          {
+            "type": "list",
+            "items": [
+              "request access to your personal information;",
+              "request correction or deletion of inaccurate or irrelevant personal information;",
+              "object to the processing of your personal information;",
+              "lodge a complaint with the Information Regulator; and",
+              "withdraw consent where processing is based on consent."
+            ]
+          },
+          {
+            "template": "To exercise your rights, please contact us at {{email}}. We may require proof of identity before processing your request.",
+            "condition": "email"
+          },
+          {
+            "title": "Retention",
+            "template": "We retain personal information only for as long as necessary to fulfil the purposes for which it was collected, to comply with legal obligations, to resolve disputes and to enforce our agreements."
+          },
+          {
+            "title": "Security",
+            "template": "We implement appropriate technical and organisational security measures to safeguard personal information against loss, unauthorised access, disclosure, alteration or destruction. No internet-based system can be guaranteed to be completely secure."
+          },
+          {
+            "title": "Information Officer",
+            "template": "{{company||We}} have appointed an Information Officer who is responsible for POPIA compliance and for handling access-to-information requests. Contact details are available on request{{email|| at {{email}}}}."
+          },
+          {
+            "title": "Complaints to the Information Regulator",
+            "template": "If you believe we have infringed your privacy rights, you may contact the Information Regulator of South Africa. Contact details are available at <a href=\"https://www.justice.gov.za/inforeg/contact.html\" target=\"_blank\" rel=\"noopener noreferrer\">www.justice.gov.za/inforeg/contact.html</a>."
+          },
+          {
+            "title": "Children's privacy",
+            "template": "Our services are not directed to children under the age of 18, and we do not knowingly collect personal information from children without appropriate consent."
+          },
+          {
+            "title": "Changes to this privacy policy",
+            "template": "We may update this privacy policy from time to time. The current version will be published on our website with the date of the latest revision. Continued use of the website after changes constitutes acceptance of the revised policy."
+          },
+          {
+            "type": "policy_link",
+            "label": "Read our full privacy policy",
+            "condition": "policyurl"
+          }
+        ]
+      },
+      "paia": {
+        "legal_sources": [
+          "PAIA s9 (objects)",
+          "PAIA s10 (guide)",
+          "PAIA s50 (right of access for private bodies)",
+          "PAIA s51 (manual)",
+          "PAIA s52 (voluntary disclosure)",
+          "PAIA s53 (form of request)",
+          "PAIA s54 (fees)",
+          "PAIA s56 (decision period)",
+          "PAIA ss63-70 (grounds for refusal)",
+          "PAIA s77A (complaints to Regulator)",
+          "PAIA s83 (additional functions of Regulator)"
+        ],
+        "sections": [
+          {
+            "template": "This manual is published in terms of section 51 of the Promotion of Access to Information Act 2 of 2000 (PAIA), read with section 32 of the Constitution of the Republic of South Africa, 1996, and the Protection of Personal Information Act 4 of 2013 (POPIA)."
+          },
+          {
+            "title": "Right of access",
+            "template": "PAIA gives every person a right of access to records held by a public or private body, subject to the grounds for refusal set out in PAIA."
+          },
+          {
+            "title": "Information Officer",
+            "template": "The Information Officer is responsible for dealing with access-to-information requests:"
+          },
+          {
+            "type": "contact_list",
+            "condition": "any",
+            "fields": [
+              {"value": "Name: {{officer||{{company||Information Officer}}}"},
+              {"value": "Address: {{address}}", "condition": "address"},
+              {"value": "Email: {{email}}", "condition": "email"},
+              {"value": "Telephone: {{tel}}", "condition": "tel"}
+            ]
+          },
+          {
+            "title": "Records held",
+            "template": "{{company||We}} hold records relating to, but not necessarily limited to:"
+          },
+          {
+            "type": "list",
+            "items": [
+              "company records and statutory filings;",
+              "customer, supplier and client information;",
+              "financial, accounting and tax records;",
+              "personnel and human-resources records;",
+              "contracts and agreements;",
+              "information technology and system records; and",
+              "marketing and communication records."
+            ]
+          },
+          {
+            "title": "Request procedure and form",
+            "template": "Requests for access to records must be made on the prescribed PAIA application form and submitted to the Information Officer. The request must provide sufficient detail to identify the record requested and the requester's preferred form of access."
+          },
+          {
+            "title": "Fees",
+            "template": "A request fee and further access fees may be payable as prescribed by law. The Information Officer will inform you of any applicable fees before processing your request."
+          },
+          {
+            "title": "Decision period",
+            "template": "The Information Officer will notify you of the decision on your request within the period prescribed by PAIA, normally 30 days, unless an extension applies."
+          },
+          {
+            "title": "Grounds for refusal",
+            "template": "Access to certain records may be refused in terms of PAIA, including records that are protected by legal privilege, contain confidential commercial information, include third-party personal information, or whose disclosure could reasonably be expected to endanger the life or physical safety of an individual or prejudice law enforcement or national security."
+          },
+          {
+            "title": "Complaint to the Information Regulator",
+            "template": "If you are dissatisfied with the decision on your request or the manner in which it was handled, you may lodge a complaint with the Information Regulator in terms of PAIA."
+          },
+          {
+            "title": "Registration number",
+            "template": "{{regno}}",
+            "condition": "regno"
+          },
+          {
+            "type": "policy_link",
+            "label": "Read our full PAIA manual",
+            "condition": "policyurl"
+          }
+        ]
+      },
+      "copyright": {
+        "legal_sources": [
+          "Copyright Act 98 of 1978"
+        ],
+        "sections": [
+          {
+            "template": "This website and its content are copyright of {{company||the owner}} &copy; {{year}}. All rights reserved."
+          },
+          {
+            "template": "Unless otherwise indicated, all text, images, designs, graphics, logos, icons, audio, video, software and other material on this website are protected by copyright and other intellectual property laws."
+          },
+          {
+            "template": "You may view, print or download content for your personal and non-commercial use only. Any redistribution, reproduction, transmission, storage or commercial exploitation of the content, in whole or in part, without the prior written permission of {{company||the owner}} is prohibited."
+          },
+          {
+            "template": "All third-party trademarks, logos and brands displayed on this website are the property of their respective owners and are used for identification purposes only."
+          },
+          {
+            "type": "policy_link",
+            "label": "Read our full copyright notice",
+            "condition": "policyurl"
+          }
+        ]
+      },
+      "copyrightfooter": {
+        "legal_sources": [
+          "Copyright Act 98 of 1978"
+        ],
+        "sections": [
+          {
+            "template": "Copyright &copy; {{year}} {{company||All rights reserved}}. All rights reserved."
+          },
+          {
+            "type": "policy_link",
+            "label": "Read our full copyright notice",
+            "condition": "policyurl"
+          }
+        ]
+      },
+      "disclaimer": {
+        "legal_sources": [
+          "ECTA s93 (limitation of liability)",
+          "Common law principles regarding misrepresentation, negligence and professional advice"
+        ],
+        "sections": [
+          {
+            "template": "The information contained on this website is provided for general information purposes only and does not constitute professional, legal, financial or other advice. {{company||We}} make no representations or warranties of any kind, express or implied, about the accuracy, reliability, completeness, suitability or availability of the information, products, services or related graphics contained on this website."
+          },
+          {
+            "template": "Any reliance you place on the information on this website is strictly at your own risk. To the fullest extent permitted by law, {{company||we}} will not be liable for any loss or damage, including indirect or consequential loss or damage, or any loss or damage whatsoever arising from loss of data or profits arising out of, or in connection with, the use of this website."
+          },
+          {
+            "template": "This website may contain links to third-party websites. {{company||We}} have no control over the content of those websites and are not responsible for their content, privacy practices or availability. The inclusion of any link does not necessarily imply endorsement."
+          },
+          {
+            "template": "{{company||We}} make every effort to keep this website available and functioning correctly. However, we take no responsibility for, and will not be liable for, the website being temporarily unavailable due to technical issues beyond our reasonable control."
+          },
+          {
+            "type": "policy_link",
+            "label": "Read our full disclaimer",
+            "condition": "policyurl"
+          }
+        ]
+      },
+      "emaildisclaimer": {
+        "legal_sources": [
+          "ECTA ss 11-16 (legal recognition of data messages, writing, signature, retention)",
+          "Common law regarding confidentiality, privilege and misdelivery"
+        ],
+        "sections": [
+          {
+            "title": "Confidentiality and privilege",
+            "template": "This email and any files transmitted with it are confidential and intended solely for the use of the individual or entity to whom they are addressed. This communication may be legally privileged or protected by other legal rules. If you have received this email in error, please notify the sender immediately and delete it from your system."
+          },
+          {
+            "title": "Misdelivery",
+            "template": "Unauthorised use, disclosure, copying or distribution of this email or its contents is prohibited. The views expressed in this email are those of the sender and do not necessarily reflect the views of {{company||us}}."
+          },
+          {
+            "title": "Virus check",
+            "template": "{{company||We}} use reasonable efforts to ensure that this email and any attachments are free from viruses or other harmful content. However, we cannot accept responsibility for any loss or damage arising from the use of this email or its attachments. The recipient is responsible for checking this email and any attachments for viruses before opening them."
+          },
+          {
+            "title": "No binding agreement",
+            "template": "No employee or agent of {{company||us}} is authorised to conclude a binding agreement on behalf of the company by email without express written confirmation by an authorised representative."
+          },
+          {
+            "title": "Liability",
+            "template": "{{company||We}} accept no liability for any loss or damage arising from the interception, corruption, delay or non-delivery of this email, or from any action taken in reliance on its contents."
+          },
+          {
+            "template": "{{company}}{{address}}{{websiteurl}}",
+            "condition": "any",
+            "type": "joined_fields",
+            "separator": ", "
+          },
+          {
+            "type": "policy_link",
+            "label": "Read our full email disclaimer",
+            "condition": "policyurl"
+          }
+        ]
+      },
+      "tscs": {
+        "legal_sources": [
+          "ECTA s22 (formation and validity of agreements)",
+          "ECTA s23 (time and place of communications)",
+          "ECTA s43 (information to be provided)",
+          "CPA s49 (prohibition of unfair contract terms)",
+          "CPA s50 (consumer agreements in plain language)"
+        ],
+        "sections": [
+          {
+            "template": "Welcome to the {{company||our}} website. By accessing and using this website, you agree to be bound by these terms and conditions. If you do not agree with any part of these terms, please do not use this website."
+          },
+          {
+            "title": "Definitions",
+            "template": "\"We\", \"us\" or \"{{company||the owner}}\" refers to {{company||the website owner}}{{address||, whose registered/physical address is {{address}}}}. \"You\" or \"user\" refers to any person who accesses or uses this website."
+          },
+          {
+            "title": "Use of the website",
+            "template": "You agree to use this website only for lawful purposes and in a manner that does not infringe the rights of, or restrict or inhibit the use and enjoyment of this website by, any third party."
+          },
+          {
+            "title": "Intellectual property",
+            "template": "All content on this website, including text, graphics, logos, images, software and code, is the property of {{company||us}} or our licensors and is protected by copyright, trademark and other intellectual property laws. You may not reproduce, distribute, modify, transmit or otherwise use the content for commercial purposes without our prior written consent."
+          },
+          {
+            "title": "Prohibited use",
+            "template": "You may not use this website in any way that causes, or may cause, damage to the website or impairment of its availability, or in any way that is unlawful, fraudulent, harmful or connected with any unlawful, fraudulent or harmful purpose or activity."
+          },
+          {
+            "title": "Links to third-party websites",
+            "template": "This website may include links to third-party websites for your convenience. We do not endorse the content of those websites and are not responsible for their content, accuracy, privacy practices or availability."
+          },
+          {
+            "title": "Limitation of liability",
+            "template": "To the fullest extent permitted by law, {{company||we}} will not be liable for any direct, indirect, incidental, consequential or punitive damages arising out of or in connection with your use of this website or reliance on any information contained on it."
+          },
+          {
+            "title": "Governing law",
+            "template": "These terms and conditions are governed by and construed in accordance with the laws of the Republic of South Africa. You submit to the non-exclusive jurisdiction of the South African courts."
+          },
+          {
+            "title": "Variation",
+            "template": "{{company||We}} reserve the right to amend these terms and conditions at any time. The amended terms will be effective immediately upon publication on this website. Continued use of the website constitutes acceptance of the amended terms."
+          },
+          {
+            "type": "policy_link",
+            "label": "Read our full terms and conditions",
+            "condition": "policyurl"
+          }
+        ]
+      },
+      "comptscs": {
+        "legal_sources": [
+          "CPA s36 (promotional competitions)",
+          "Lotteries Act 57 of 1997",
+          "Common law relating to offers, acceptance and breach"
+        ],
+        "sections": [
+          {
+            "template": "Please read these terms and conditions carefully. By entering this competition, you agree to be bound by these terms. If you do not agree, do not enter."
+          },
+          {
+            "title": "Promoter",
+            "template": "The promoter is {{company||the promoter}}{{address||, {{address}}}}{{tel||, {{tel}}}}{{email||, {{email}}}}."
+          },
+          {
+            "title": "Eligibility",
+            "type": "list",
+            "items": [
+              "The competition is open to permanent residents of South Africa who are 18 years of age or older, unless otherwise stated.",
+              "Directors, members, partners, employees, agents and consultants of the promoter, their immediate family members and any supplier directly involved with the competition are not eligible to enter, unless expressly permitted."
+            ]
+          },
+          {
+            "title": "Entry",
+            "type": "list",
+            "items": [
+              "Entry is via the mechanism specified in the competition communication.",
+              "Only one entry per person may be permitted unless otherwise stated.",
+              "Entries received after the closing date and time will not be considered.",
+              "The promoter reserves the right to disqualify any entry that does not comply with these terms or that is fraudulent or offensive."
+            ]
+          },
+          {
+            "title": "Prizes",
+            "type": "list",
+            "items": [
+              "Prizes are as described in the competition communication and are not transferable or exchangeable for cash, unless otherwise stated.",
+              "The promoter reserves the right to substitute a prize of equal or greater value if the advertised prize is unavailable.",
+              "Prizes will be delivered or made available within a reasonable period after winner verification."
+            ]
+          },
+          {
+            "title": "Winner selection and publicity",
+            "type": "list",
+            "items": [
+              "Winners will be selected in accordance with the selection criteria stated in the competition communication.",
+              "The promoter will attempt to contact winners using the details provided. If a winner cannot be contacted within the period specified, the prize may be forfeited and an alternative winner selected.",
+              "Winners may be required to provide identification and consent to the use of their name and image for publicity purposes."
+            ]
+          },
+          {
+            "title": "Personal information",
+            "template": "Personal information collected for the competition will be used to administer the competition, award prizes and communicate future promotions. By entering, you consent to this processing in accordance with our privacy policy."
+          },
+          {
+            "title": "Social media platform release",
+            "template": "This competition is in no way sponsored, endorsed or administered by, or associated with {{smp}}. By entering, you release {{smp}} from any and all liability relating to the competition.",
+            "condition": "smp"
+          },
+          {
+            "title": "Errors and omissions",
+            "template": "While every care has been taken in presenting this competition, the promoter accepts no responsibility for errors or omissions. The promoter reserves the right to cancel, amend or suspend the competition if circumstances arise beyond its reasonable control."
+          },
+          {
+            "title": "General provisions",
+            "type": "list",
+            "items": [
+              "These terms and conditions are governed by the laws of South Africa.",
+              "If any provision is found to be invalid, the remaining provisions will continue in full force and effect.{{email|| A copy of these terms is available on request by emailing {{email}}.}}"
+            ]
+          },
+          {
+            "type": "policy_link",
+            "label": "Read our full competition terms and conditions",
+            "condition": "policyurl"
+          }
+        ]
+      },
+      "contact": {
+        "legal_sources": [
+          "POPIA s55 (appointment and responsibilities of Information Officer)",
+          "PAIA s51 (private-body manual and contact details)"
+        ],
+        "sections": [
+          {
+            "template": "If you have any questions about how {{company||we}} process your personal information, wish to access or correct your information, or want to object to direct marketing, please contact us{{email|| at {{email}}}}."
+          },
+          {
+            "template": "You may also contact our Information Officer to make a request in terms of PAIA or to lodge a complaint relating to the processing of your personal information."
+          },
+          {
+            "type": "policy_link",
+            "label": "Read our full data administration notice",
+            "condition": "policyurl"
+          }
+        ]
+      },
+      "smr": {
+        "legal_sources": [
+          "Common law release",
+          "POPIA s11 (consent as lawful basis for processing)"
+        ],
+        "sections": [
+          {
+            "template": "This activity is in no way sponsored, endorsed or administered by, or associated with {{smp||the social media platform}}."
+          },
+          {
+            "template": "By participating, you agree to a complete release of {{smp||the social media platform}} from any liability arising out of or relating to this activity. You understand that you are providing your information to {{company||us}} and not to {{smp||the social media platform}}."
+          },
+          {
+            "template": "Any questions, comments or complaints about this activity should be directed to {{company||us}} and not to {{smp||the social media platform}}."
+          },
+          {
+            "type": "policy_link",
+            "label": "Read our full social media release statement",
+            "condition": "policyurl"
+          }
+        ]
+      },
+      "smn": {
+        "legal_sources": [
+          "Common law relating to defamation, harassment and intellectual property",
+          "POPIA s11 (consent)",
+          "PEPUDA (equality and non-discrimination)"
+        ],
+        "sections": [
+          {
+            "template": "Welcome to the {{company||our}} {{smp||social media}} community. We encourage open, respectful and relevant conversation. By participating, you agree to the following guidelines."
+          },
+          {
+            "title": "Relevance",
+            "template": "Please keep your contributions relevant to our business, products, services and community purpose. We may remove content that is off-topic, repetitive, promotional or otherwise irrelevant."
+          },
+          {
+            "title": "Respectful conduct",
+            "template": "Do not post content that is unlawful, harmful, threatening, abusive, harassing, defamatory, hateful, discriminatory, obscene, fraudulent or misleading. Respect the privacy and rights of others."
+          },
+          {
+            "title": "Personal information",
+            "template": "For your own privacy and safety, do not share personal information such as your identity number, home address, phone number or banking details in public posts or comments."
+          },
+          {
+            "title": "Intellectual property",
+            "template": "Do not post content that infringes the copyright, trademark or other intellectual property rights of {{company||us}} or any third party."
+          },
+          {
+            "title": "Moderation",
+            "template": "We reserve the right to hide, edit or remove any content that breaches these guidelines or applicable law, and to suspend or ban users who repeatedly breach the rules. Our moderation decisions are final."
+          },
+          {
+            "title": "Not our views",
+            "template": "Views expressed by community members are their own and do not necessarily reflect the views of {{company||us}}. Likes, shares or other interactions do not constitute endorsement."
+          },
+          {
+            "title": "Contact",
+            "template": "If you have questions about these guidelines or wish to report inappropriate conduct, please contact us via direct message on {{smp||the platform}} or through our website."
+          },
+          {
+            "type": "policy_link",
+            "label": "Read our full social media netiquette guidelines",
+            "condition": "policyurl"
+          }
+        ]
+      },
+      "returns": {
+        "legal_sources": [
+          "CPA s16 (right to fair and honest dealing)",
+          "CPA s17 (right to fair, just and reasonable terms)",
+          "CPA s20 (right to safe, good-quality goods)",
+          "CPA s44 (cooling-off period after direct marketing)",
+          "CPA s55 (implied warranty of quality)",
+          "CPA s56 (remedy for unsafe/defective goods)",
+          "ECTA s43(1)(n) (return/exchange/refund policy disclosure)",
+          "ECTA s44 (cooling-off period for electronic transactions)"
+        ],
+        "sections": [
+          {
+            "template": "At {{company||we}} want you to be satisfied with your purchase. This returns and refunds policy sets out your rights and our procedures."
+          },
+          {
+            "title": "CPA-implied warranty",
+            "template": "In addition to any manufacturer warranty, the Consumer Protection Act gives you an implied warranty that goods are reasonably suitable for the purpose for which they are generally intended, are of good quality, free of defects and useable and durable for a reasonable period."
+          },
+          {
+            "title": "Defective or unsafe goods",
+            "template": "If goods are defective, unsafe or not as described, please contact us{{email|| at {{email}}}} within a reasonable time after discovering the defect. We will, at our discretion and where permitted by law, repair, replace or refund the goods."
+          },
+          {
+            "title": "Cooling-off for direct marketing",
+            "template": "If you purchased goods as a result of direct marketing, you have the right to cancel the transaction within five business days after the date of purchase or delivery, whichever is later, for any reason. You will receive a full refund within the period prescribed by law."
+          },
+          {
+            "title": "Return window",
+            "template": "Subject to the exclusions below, you may return goods within {{returnwindow}} days of delivery, provided the goods are unused, undamaged and in their original packaging with all tags and accessories."
+          },
+          {
+            "title": "Condition of returned goods",
+            "template": "Returned goods must be in original condition. We reserve the right to refuse a refund or exchange if the goods show signs of use, damage or wear that is not due to a defect, or if original packaging, accessories or documentation are missing."
+          },
+          {
+            "title": "Refund method",
+            "template": "Refunds will be processed using the original payment method or by electronic funds transfer, unless otherwise agreed. Refund processing times may vary depending on your payment provider."
+          },
+          {
+            "title": "Exclusions",
+            "template": "Unless required by law, the following items may not be returned or refunded:"
+          },
+          {
+            "type": "list",
+            "items": [
+              "perishable goods;",
+              "personalised or custom-made goods;",
+              "goods that are intimate or hygienic in nature;",
+              "sealed audio recordings, video recordings or computer software that have been opened after delivery; and",
+              "any other goods excluded by law or clearly identified as non-returnable at the time of purchase."
+            ]
+          },
+          {
+            "title": "How to return goods",
+            "template": "To initiate a return, please contact us{{email|| at {{email}}}}{{address|| or write to us at {{address}}}}. We will provide you with return instructions.",
+            "condition": "any"
+          },
+          {
+            "type": "policy_link",
+            "label": "Read our full returns and refunds policy",
+            "condition": "policyurl"
+          }
+        ]
+      },
+      "support": {
+        "legal_sources": [
+          "ECTA s43(1)(a)-(g) (supplier contact and description requirements)",
+          "CPA s33 (national consumer commission and complaints)"
+        ],
+        "sections": [
+          {
+            "template": "{{company||We}} are committed to providing accessible and responsive customer support. Our support channels are listed below."
+          },
+          {
+            "title": "Contact channels",
+            "type": "contact_list",
+            "condition": "any",
+            "fields": [
+              {"value": "Email: {{email}}", "condition": "email"},
+              {"value": "Telephone: {{tel}}", "condition": "tel"},
+              {"value": "Physical address: {{address}}", "condition": "address"}
+            ]
+          },
+          {
+            "title": "Support hours",
+            "template": "Our support team is available during normal South African business hours, excluding public holidays. Specific operating hours may be published on our website from time to time."
+          },
+          {
+            "title": "Response times",
+            "template": "We aim to acknowledge support queries within one business day and to resolve standard queries within a reasonable time. Complex issues may require additional time, and we will keep you informed of progress."
+          },
+          {
+            "title": "Escalation",
+            "template": "If you are dissatisfied with the handling of your query, you may request that it be escalated to a supervisor or manager. We will provide escalation contact details upon request."
+          },
+          {
+            "title": "Complaints",
+            "template": "If your complaint is not resolved to your satisfaction, you may approach the relevant industry ombud or consumer tribunal in terms of the Consumer Protection Act."
+          },
+          {
+            "type": "policy_link",
+            "label": "Read our full customer support notice",
+            "condition": "policyurl"
+          }
+        ]
+      },
+      "shipping": {
+        "legal_sources": [
+          "ECTA s46 (performance of electronic transactions)",
+          "CPA s19 (delivery of goods and passing of risk)"
+        ],
+        "sections": [
+          {
+            "template": "{{company||We}} provides delivery services to addresses within South Africa and, where indicated, to selected international destinations. Delivery areas and options are displayed during the checkout process."
+          },
+          {
+            "title": "Delivery timeframes",
+            "template": "Estimated delivery timeframes are provided at checkout and are calculated from the date of payment confirmation. Under the Electronic Communications and Transactions Act, goods must generally be delivered within 30 days of purchase unless a different period is expressly agreed. We will notify you if unforeseen delays occur."
+          },
+          {
+            "title": "Risk and title",
+            "template": "Risk in the goods passes to you upon delivery to the address provided. Title to the goods passes once full payment has been received and the goods have been delivered, unless otherwise agreed in writing."
+          },
+          {
+            "title": "Failed delivery",
+            "template": "If delivery fails because you provided an incorrect address or were not available to receive the goods, we may charge an additional delivery fee or cancel the order in accordance with our terms and conditions."
+          },
+          {
+            "title": "Inspection on delivery",
+            "template": "Please inspect goods on delivery and notify us of any damage, defect or discrepancy within a reasonable time. Failure to report visible damage promptly may affect your ability to claim a remedy."
+          },
+          {
+            "title": "Delivery queries",
+            "template": "For delivery queries, please contact us at {{email}}.",
+            "condition": "email"
+          },
+          {
+            "type": "policy_link",
+            "label": "Read our full shipping and delivery notice",
+            "condition": "policyurl"
+          }
+        ]
+      },
+      "payments": {
+        "legal_sources": [
+          "ECTA s43(1)(j) (manner of payment disclosure)",
+          "ECTA s43(5) (secure payment systems)",
+          "POPIA s19 (security safeguards)",
+          "National Payment System Act 78 of 1998"
+        ],
+        "sections": [
+          {
+            "template": "{{company||We}} are committed to providing secure payment processing. This notice explains our payment practices and security measures."
+          },
+          {
+            "title": "Payment methods",
+            "template": "We accept the payment methods displayed at checkout, which may include credit and debit cards, electronic funds transfer and approved third-party payment services."
+          },
+          {
+            "title": "Secure payment",
+            "template": "Payment information is transmitted using industry-standard encryption and security technologies. Our payment processors are required to comply with the Payment Card Industry Data Security Standard (PCI-DSS) or equivalent applicable standards."
+          },
+          {
+            "title": "Currency",
+            "template": "All transactions are processed in South African Rand (ZAR) unless another currency is expressly offered and accepted during checkout."
+          },
+          {
+            "title": "Privacy of payment information",
+            "template": "We do not store your full credit card details on our servers unless you expressly consent to secure storage for future transactions. Where card details are stored, they are encrypted and protected in accordance with POPIA and PCI-DSS requirements."
+          },
+          {
+            "title": "Fraud prevention",
+            "template": "We reserve the right to verify orders, request additional information and refuse transactions that appear fraudulent or unauthorised. We may report suspected fraud to the relevant authorities and payment networks."
+          },
+          {
+            "type": "policy_link",
+            "label": "Read our full payment and security notice",
+            "condition": "policyurl"
+          }
+        ]
+      },
+      "ecomtscs": {
+        "legal_sources": [
+          "ECTA s22 (formation and validity of agreements)",
+          "ECTA s23 (time and place of communications)",
+          "ECTA s43 (information to be provided)",
+          "ECTA s44 (cooling-off period)",
+          "ECTA s46 (performance)",
+          "CPA s16, s17 (fair dealing)",
+          "CPA s19 (delivery and passing of risk)",
+          "CPA s49 (unfair contract terms)",
+          "CPA s50 (plain language)",
+          "CPA s55 (implied warranty)",
+          "CPA s56 (remedy for unsafe/defective goods)"
+        ],
+        "sections": [
+          {
+            "template": "These e-commerce terms and conditions govern the sale of goods and services by {{company||us}} through our website. By placing an order, you agree to be bound by these terms."
+          },
+          {
+            "title": "Our details",
+            "type": "contact_list",
+            "condition": "any",
+            "fields": [
+              {"value": "{{company||Supplier}}"},
+              {"value": "{{address}}", "condition": "address"},
+              {"value": "Email: {{email}}", "condition": "email"},
+              {"value": "Telephone: {{tel}}", "condition": "tel"},
+              {"value": "VAT number: {{vatno}}", "condition": "vatno"}
+            ]
+          },
+          {
+            "title": "Ordering process",
+            "template": "Placing an item in your cart does not constitute an offer to purchase. An order is placed when you complete the checkout process and submit payment. We will confirm acceptance of your order by email."
+          },
+          {
+            "title": "Acceptance and rejection",
+            "template": "We reserve the right to accept or reject any order for any reason, including product availability, errors in pricing or product descriptions, or suspected fraud. If we reject your order, we will refund any payment received."
+          },
+          {
+            "title": "Price and payment",
+            "template": "Prices are displayed in South African Rand and include value-added tax where applicable. Payment must be made before goods are dispatched, unless a credit account has been approved in writing."
+          },
+          {
+            "title": "Delivery",
+            "template": "We will deliver goods to the address provided during checkout within the timeframe communicated at the time of order, or within 30 days if no timeframe is specified, subject to ECTA and CPA requirements."
+          },
+          {
+            "title": "Risk and title",
+            "template": "Risk passes on delivery. Title passes once full payment has been received and delivery has occurred, unless otherwise agreed in writing."
+          },
+          {
+            "title": "Returns and refunds",
+            "template": "Our returns and refunds policy applies to all purchases made through this website. You may also have statutory rights under the Consumer Protection Act, including the cooling-off right for direct marketing sales."
+          },
+          {
+            "title": "Warranty",
+            "template": "Goods are sold with the implied warranty of quality provided by the Consumer Protection Act and any applicable manufacturer warranty. Defective goods will be repaired, replaced or refunded in accordance with the CPA."
+          },
+          {
+            "title": "Limitation of liability",
+            "template": "To the fullest extent permitted by law, {{company||we}} will not be liable for indirect, consequential or special damages arising from the use of this website or the purchase of goods or services, except where liability cannot be excluded by law."
+          },
+          {
+            "title": "Governing law",
+            "template": "These terms are governed by the laws of the Republic of South Africa. Any dispute arising from these terms or your purchase will be subject to the jurisdiction of the South African courts."
+          },
+          {
+            "title": "Variation",
+            "template": "We may amend these terms from time to time. The terms in force at the time you place your order will apply to that order."
+          },
+          {
+            "type": "policy_link",
+            "label": "Read our full e-commerce terms and conditions",
+            "condition": "policyurl"
+          }
+        ]
+      },
+      "accessibility": {
+        "legal_sources": [
+          "Constitution s9 (equality)",
+          "ECTA s2(l) (special needs of particular communities and the disabled)",
+          "Promotion of Equality and Prevention of Unfair Discrimination Act 4 of 2000"
+        ],
+        "sections": [
+          {
+            "template": "{{company||We}} are committed to ensuring that our website and digital services are accessible to as many people as possible, including persons with disabilities. We aim to comply with the equality and non-discrimination principles in the Constitution of the Republic of South Africa, 1996, and the Promotion of Equality and Prevention of Unfair Discrimination Act 4 of 2000."
+          },
+          {
+            "title": "Our commitment",
+            "template": "We endeavour to present information in a clear and consistent manner, provide readable text, support keyboard navigation, and make reasonable adjustments to improve accessibility."
+          },
+          {
+            "title": "Alternative formats",
+            "template": "If you require information from this website in an alternative format, such as larger print, plain language or another accessible format, please contact us and we will make reasonable efforts to assist you."
+          },
+          {
+            "title": "Feedback",
+            "template": "We welcome feedback on how we can improve the accessibility of our website. Please contact us at {{email}} with your suggestions or to report any accessibility barriers.",
+            "condition": "email"
+          },
+          {
+            "type": "policy_link",
+            "label": "Read our full accessibility statement",
+            "condition": "policyurl"
+          }
+        ]
+      }
+    }
+  }
+}

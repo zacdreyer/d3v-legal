@@ -25,6 +25,11 @@ The repository includes a PHPUnit test file at [tests/TestPluginTest.php](tests/
 - Shortcode attributes take priority over backend defaults.
 - Backend defaults are used when a shortcode attribute is missing or empty.
 - The backend default return window is applied when it is not supplied in the shortcode.
+- Default country is `ZA` when no `country` shortcode attribute and no backend default are set.
+- Backend `default_country` setting is applied when the shortcode omits `country`.
+- Shortcode `country` attribute overrides the backend `default_country`.
+- `country='UK'` renders United Kingdom library content referencing UK GDPR and the ICO.
+- UK cookie notice references PECR and a cookie banner.
 
 ## 3. How to Run Tests
 1. Install dependencies with `composer install` (or `php composer.phar install` if Composer is not on PATH).
@@ -45,19 +50,11 @@ The repository includes a PHPUnit test file at [tests/TestPluginTest.php](tests/
 - Confirm backend values are sanitised before being saved (numeric return window, escaped strings).
 - Confirm the settings page renders without fatal errors in a WordPress environment.
 
-## 5. Globalization Test Plan
+## 5. Suggested Additional Tests
 
-The following tests will be added when the multi-country refactor is implemented:
-
-- Default country is `ZA` when no `country` shortcode attribute and no backend default are set.
-- Backend `default_country` setting is applied when the shortcode omits `country`.
-- Shortcode `country` attribute overrides the backend `default_country`.
-- `country='ZA'` renders the South African library content.
-- `country='UK'` renders the United Kingdom library content.
-- An unsupported/invalid `country` value returns an empty string.
-- `ZA-legals.json` and `UK-legals.json` are valid JSON, contain all supported notice slugs, and are only read from the plugin directory.
-- UK privacy notice references UK GDPR and the Data Protection Act 2018.
-- UK cookie notice references PECR.
-- UK e-commerce terms reference the Consumer Rights Act 2015 and Electronic Commerce Regulations 2002.
-- Placeholder fallback syntax (e.g. `{{company||We}}`) renders correctly when a field is empty.
-- Policy-link sections in JSON render the same "Read our full ..." output as the current PHP renderers.
+- Confirm unsupported/invalid `country` values return an empty string.
+- Confirm `ZA-legals.json` and `UK-legals.json` contain every supported notice slug.
+- Confirm `d3v_legal_get_library_path()` rejects directory traversal attempts.
+- Confirm placeholder fallback syntax (e.g. `{{company||We}}`) renders correctly when a field is empty.
+- Confirm policy-link sections render in all notices when `policyurl` is supplied.
+- Confirm backend `default_country` values outside the supported list are rejected on save.

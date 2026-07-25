@@ -1,9 +1,9 @@
 <?php
 /*
- Plugin Name: D3V Legal Notices ZA
+ Plugin Name: D3V Legal Notices
  Plugin URI: https://github.com/zacdreyer/d3v-legal/
- Description: Output relevant legal notices as required by POPIA, PAIA, ECTA, the CPA and other South African laws. Backend defaults are configured under Settings > D3V Legal.
- Version: 2026.07.25
+ Description: Output relevant legal notices by country, including South Africa and the United Kingdom. Backend defaults are configured under Settings > D3V Legal.
+ Version: 2026.07.26
  Author: Zac Dreyer
  Author URI: https://github.com/zacdreyer/
  Text Domain: legalnotices
@@ -144,6 +144,24 @@ if (! function_exists('add_action')) {
     }
 }
 
+if (! function_exists('trailingslashit')) {
+    /**
+     * Fallback implementation of trailingslashit for CLI/PHPUnit contexts.
+     */
+    function trailingslashit($string) {
+        return rtrim($string, '/\\') . '/';
+    }
+}
+
+if (! function_exists('plugin_dir_path')) {
+    /**
+     * Fallback implementation of plugin_dir_path for CLI/PHPUnit contexts.
+     */
+    function plugin_dir_path($file) {
+        return trailingslashit(dirname($file));
+    }
+}
+
 if (! function_exists('d3v_legal_escape')) {
     /**
      * Central escaping helper used by all renderers.
@@ -183,17 +201,18 @@ if (! function_exists('d3v_legal_get_backend_defaults')) {
         }
 
         $defaults = array(
-            'company'      => '',
-            'email'        => '',
-            'address'      => '',
-            'tel'          => '',
-            'smp'          => '',
-            'websiteurl'   => '',
-            'officer'      => '',
-            'regno'        => '',
-            'vatno'        => '',
-            'returnwindow' => '',
-            'policyurl'    => '',
+            'default_country' => 'ZA',
+            'company'         => '',
+            'email'           => '',
+            'address'         => '',
+            'tel'             => '',
+            'smp'             => '',
+            'websiteurl'      => '',
+            'officer'         => '',
+            'regno'           => '',
+            'vatno'           => '',
+            'returnwindow'    => '',
+            'policyurl'       => '',
         );
 
         if (! function_exists('get_option')) {
@@ -238,18 +257,20 @@ if (! function_exists('d3v_legal_notices')) {
         $backend_defaults = d3v_legal_get_backend_defaults();
 
         $empty_defaults = array(
-            'notice'       => '',
-            'company'      => '',
-            'email'        => '',
-            'address'      => '',
-            'tel'          => '',
-            'smp'          => '',
-            'websiteurl'   => '',
-            'officer'      => '',
-            'regno'        => '',
-            'vatno'        => '',
-            'returnwindow' => '',
-            'policyurl'    => '',
+            'notice'          => '',
+            'country'         => '',
+            'company'         => '',
+            'email'           => '',
+            'address'         => '',
+            'tel'             => '',
+            'smp'             => '',
+            'websiteurl'      => '',
+            'officer'         => '',
+            'regno'           => '',
+            'vatno'           => '',
+            'returnwindow'    => '',
+            'policyurl'       => '',
+            'default_country' => '',
         );
 
         $parsed = shortcode_atts($empty_defaults, is_array($atts) ? $atts : array());
@@ -270,68 +291,446 @@ if (! function_exists('d3v_legal_notices')) {
             return '';
         }
 
-        ob_start();
-
-        switch ($normalized['notice']) {
-            case 'cookies':
-                cookies($normalized['company'], $normalized['policyurl']);
-                break;
-            case 'privacy':
-                privacy_policy($normalized['company'], $normalized['address'], $normalized['email'], $normalized['tel'], $normalized['policyurl']);
-                break;
-            case 'copyright':
-                copyright($normalized['company'], $normalized['policyurl']);
-                break;
-            case 'copyrightfooter':
-                copyright_footer($normalized['company'], $normalized['policyurl']);
-                break;
-            case 'disclaimer':
-                disclaimer($normalized['company'], $normalized['policyurl']);
-                break;
-            case 'emaildisclaimer':
-                email_disclaimer($normalized['company'], $normalized['address'], $normalized['websiteurl'], $normalized['policyurl']);
-                break;
-            case 'tscs':
-                tscs($normalized['company'], $normalized['address'], $normalized['policyurl']);
-                break;
-            case 'comptscs':
-                comp_tscs($normalized['company'], $normalized['email'], $normalized['address'], $normalized['tel'], $normalized['smp'], $normalized['policyurl']);
-                break;
-            case 'contact':
-                contact($normalized['company'], $normalized['email'], $normalized['policyurl']);
-                break;
-            case 'smr':
-                social_media_release($normalized['smp'], $normalized['company'], $normalized['policyurl']);
-                break;
-            case 'smn':
-                social_media_netiquette($normalized['smp'], $normalized['company'], $normalized['policyurl']);
-                break;
-            case 'paia':
-                paia_manual($normalized['company'], $normalized['address'], $normalized['email'], $normalized['tel'], $normalized['officer'], $normalized['regno'], $normalized['policyurl']);
-                break;
-            case 'returns':
-                returns_refunds($normalized['company'], $normalized['email'], $normalized['address'], $normalized['returnwindow'], $normalized['policyurl']);
-                break;
-            case 'support':
-                customer_support($normalized['company'], $normalized['email'], $normalized['tel'], $normalized['address'], $normalized['policyurl']);
-                break;
-            case 'shipping':
-                shipping_delivery($normalized['company'], $normalized['email'], $normalized['policyurl']);
-                break;
-            case 'payments':
-                payment_security($normalized['company'], $normalized['policyurl']);
-                break;
-            case 'ecomtscs':
-                ecommerce_tscs($normalized['company'], $normalized['address'], $normalized['email'], $normalized['tel'], $normalized['vatno'], $normalized['policyurl']);
-                break;
-            case 'accessibility':
-                accessibility($normalized['company'], $normalized['email'], $normalized['policyurl']);
-                break;
-            default:
-                break;
+        $country = strtoupper(sanitize_text_field($normalized['country']));
+        if (! in_array($country, d3v_legal_supported_countries(), true)) {
+            $country = d3v_legal_get_default_country();
         }
 
-        return ob_get_clean();
+        $library = d3v_legal_load_country_library($country);
+        if (empty($library) || ! isset($library[$country]['notices'][$normalized['notice']])) {
+            return '';
+        }
+
+        $notice = $library[$country]['notices'][$normalized['notice']];
+
+        return d3v_legal_render_notice($normalized['notice'], $notice, $normalized, $country);
+    }
+}
+
+if (! function_exists('d3v_legal_supported_countries')) {
+    /**
+     * Return the list of supported country ISO2 codes.
+     *
+     * @return array Supported country codes.
+     */
+    function d3v_legal_supported_countries() {
+        return array('ZA', 'UK');
+    }
+}
+
+if (! function_exists('d3v_legal_get_default_country')) {
+    /**
+     * Determine the default country for rendering notices.
+     *
+     * Priority: backend setting > hardcoded fallback (ZA).
+     *
+     * @return string ISO2 country code.
+     */
+    function d3v_legal_get_default_country() {
+        $backend = d3v_legal_get_backend_defaults();
+        $country = isset($backend['default_country']) ? sanitize_text_field($backend['default_country']) : '';
+        $country = strtoupper($country);
+
+        if (in_array($country, d3v_legal_supported_countries(), true)) {
+            return $country;
+        }
+
+        return 'ZA';
+    }
+}
+
+if (! function_exists('d3v_legal_get_library_path')) {
+    /**
+     * Resolve the absolute path to a country legal library JSON file.
+     *
+     * Only files within the plugin directory are accepted to prevent path
+     * traversal and to ensure external JSON cannot be loaded.
+     *
+     * @param string $country ISO2 country code.
+     * @return string Normalised file path, or empty string if invalid.
+     */
+    function d3v_legal_get_library_path($country) {
+        $country = sanitize_text_field($country);
+        $country = strtoupper($country);
+
+        if (! preg_match('/^[A-Z]{2}$/', $country)) {
+            return '';
+        }
+
+        $plugin_dir = plugin_dir_path(__FILE__);
+        if ('' === $plugin_dir) {
+            $plugin_dir = trailingslashit(__DIR__);
+        }
+
+        $file = realpath($plugin_dir . $country . '-legals.json');
+        if (false === $file) {
+            return '';
+        }
+
+        $allowed_base = realpath($plugin_dir);
+        if (false === $allowed_base) {
+            return '';
+        }
+
+        if (0 !== strpos($file, $allowed_base . DIRECTORY_SEPARATOR)) {
+            return '';
+        }
+
+        return $file;
+    }
+}
+
+if (! function_exists('d3v_legal_load_country_library')) {
+    /**
+     * Load the JSON legal library for a given country.
+     *
+     * @param string $country ISO2 country code.
+     * @return array Decoded library data, or empty array if unavailable.
+     */
+    function d3v_legal_load_country_library($country) {
+        $file = d3v_legal_get_library_path($country);
+        if ('' === $file) {
+            return array();
+        }
+
+        $json = file_get_contents($file);
+        if (false === $json) {
+            return array();
+        }
+
+        $data = json_decode($json, true);
+        if (! is_array($data) || json_last_error() !== JSON_ERROR_NONE) {
+            return array();
+        }
+
+        return $data;
+    }
+}
+
+if (! function_exists('d3v_legal_render_notice')) {
+    /**
+     * Render a notice from its JSON library definition.
+     *
+     * @param string $notice_key Shortcode notice identifier.
+     * @param array  $notice     Notice definition from JSON.
+     * @param array  $atts       Normalised shortcode attributes.
+     * @param string $country    ISO2 country code.
+     * @return string Rendered HTML.
+     */
+    function d3v_legal_render_notice($notice_key, $notice, $atts, $country) {
+        $id = 'd3v-legal-' . preg_replace('/[^a-z0-9-]+/', '-', strtolower($notice_key));
+        $html = '<div id="' . esc_attr($id) . '" class="d3v-legal d3v-legal-' . esc_attr(strtolower($notice_key)) . '">';
+
+        if (isset($notice['sections']) && is_array($notice['sections'])) {
+            foreach ($notice['sections'] as $section) {
+                if (! is_array($section)) {
+                    continue;
+                }
+
+                if (! d3v_legal_section_is_visible($section, $atts)) {
+                    continue;
+                }
+
+                $type = isset($section['type']) ? sanitize_text_field($section['type']) : 'paragraph';
+
+                switch ($type) {
+                    case 'list':
+                        $html .= d3v_legal_render_list_section($section, $atts);
+                        break;
+                    case 'contact_list':
+                        $html .= d3v_legal_render_contact_list_section($section, $atts);
+                        break;
+                    case 'joined_fields':
+                        $html .= d3v_legal_render_joined_fields_section($section, $atts);
+                        break;
+                    case 'policy_link':
+                        $html .= d3v_legal_render_policy_link_section($section, $atts);
+                        break;
+                    default:
+                        $html .= d3v_legal_render_paragraph_section($section, $atts, $country);
+                        break;
+                }
+            }
+        }
+
+        $html .= '</div>';
+        return $html;
+    }
+}
+
+if (! function_exists('d3v_legal_section_is_visible')) {
+    /**
+     * Determine whether a section should be rendered based on its condition.
+     *
+     * @param array $section Section definition.
+     * @param array $atts    Normalised shortcode attributes.
+     * @return bool True if the section should be rendered.
+     */
+    function d3v_legal_section_is_visible($section, $atts) {
+        if (! isset($section['condition'])) {
+            return true;
+        }
+
+        $condition = sanitize_text_field($section['condition']);
+
+        if ('any' === $condition) {
+            if (! isset($section['fields'])) {
+                return true;
+            }
+            foreach ($section['fields'] as $field) {
+                if (! is_array($field)) {
+                    continue;
+                }
+                $placeholder = isset($field['value']) ? $field['value'] : '';
+                if (d3v_legal_has_replacement_value($placeholder, $atts)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        if (isset($atts[$condition]) && '' !== $atts[$condition]) {
+            return true;
+        }
+
+        return false;
+    }
+}
+
+if (! function_exists('d3v_legal_has_replacement_value')) {
+    /**
+     * Check whether a template placeholder would receive a non-empty value.
+     *
+     * @param string $template Template string containing placeholders.
+     * @param array  $atts     Normalised shortcode attributes.
+     * @return bool True if at least one placeholder maps to a non-empty value.
+     */
+    function d3v_legal_has_replacement_value($template, $atts) {
+        $tokens = d3v_legal_extract_placeholders($template);
+
+        foreach ($tokens as $token) {
+            $value = d3v_legal_get_placeholder_value($token, $atts);
+            if ('' !== $value) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+}
+
+if (! function_exists('d3v_legal_extract_placeholders')) {
+    /**
+     * Extract placeholder names from a template string.
+     *
+     * Placeholders use the syntax {{key}} or {{key||fallback}}.
+     *
+     * @param string $template Template string.
+     * @return array List of placeholder names.
+     */
+    function d3v_legal_extract_placeholders($template) {
+        if (! preg_match_all('/\{\{([a-z0-9_]+)(?:\|\|[^}]*)?\}\}/i', $template, $matches)) {
+            return array();
+        }
+        return array_unique($matches[1]);
+    }
+}
+
+if (! function_exists('d3v_legal_get_placeholder_value')) {
+    /**
+     * Resolve a single placeholder against the shortcode attributes.
+     *
+     * @param string $key  Placeholder key.
+     * @param array  $atts Normalised shortcode attributes.
+     * @return string Resolved value.
+     */
+    function d3v_legal_get_placeholder_value($key, $atts) {
+        if ('year' === $key) {
+            return (string) date('Y');
+        }
+
+        $value = isset($atts[$key]) ? sanitize_text_field($atts[$key]) : '';
+        return $value;
+    }
+}
+
+if (! function_exists('d3v_legal_replace_placeholders')) {
+    /**
+     * Replace all placeholders in a template string with their values.
+     *
+     * @param string $template Template string.
+     * @param array  $atts     Normalised shortcode attributes.
+     * @return string Rendered text.
+     */
+    function d3v_legal_replace_placeholders($template, $atts) {
+        return preg_replace_callback(
+            '/\{\{([a-z0-9_]+)(?:\|\|([^}]*))?\}\}/i',
+            function ($matches) use ($atts) {
+                $key = $matches[1];
+                $fallback = isset($matches[2]) ? $matches[2] : '';
+                $value = d3v_legal_get_placeholder_value($key, $atts);
+                return '' !== $value ? d3v_legal_escape($value) : esc_html($fallback);
+            },
+            $template
+        );
+    }
+}
+
+if (! function_exists('d3v_legal_render_paragraph_section')) {
+    /**
+     * Render a simple paragraph section.
+     *
+     * @param array  $section Section definition.
+     * @param array  $atts    Normalised shortcode attributes.
+     * @param string $country ISO2 country code.
+     * @return string HTML.
+     */
+    function d3v_legal_render_paragraph_section($section, $atts, $country) {
+        $html = '';
+
+        if (isset($section['title']) && '' !== trim((string) $section['title'])) {
+            $html .= '<p><strong>' . esc_html($section['title']) . '</strong></p>';
+        }
+
+        if (isset($section['template'])) {
+            $template = (string) $section['template'];
+            $html .= '<p>' . d3v_legal_replace_placeholders($template, $atts) . '</p>';
+        }
+
+        return $html;
+    }
+}
+
+if (! function_exists('d3v_legal_render_list_section')) {
+    /**
+     * Render a section as a list.
+     *
+     * @param array $section Section definition.
+     * @param array $atts    Normalised shortcode attributes.
+     * @return string HTML.
+     */
+    function d3v_legal_render_list_section($section, $atts) {
+        $html = '';
+
+        if (isset($section['title']) && '' !== trim((string) $section['title'])) {
+            $html .= '<p><strong>' . esc_html($section['title']) . '</strong></p>';
+        }
+
+        if (isset($section['items']) && is_array($section['items'])) {
+            $html .= '<ul>';
+            foreach ($section['items'] as $item) {
+                $html .= '<li>' . d3v_legal_replace_placeholders((string) $item, $atts) . '</li>';
+            }
+            $html .= '</ul>';
+        }
+
+        return $html;
+    }
+}
+
+if (! function_exists('d3v_legal_render_contact_list_section')) {
+    /**
+     * Render a contact details list, omitting empty entries.
+     *
+     * @param array $section Section definition.
+     * @param array $atts    Normalised shortcode attributes.
+     * @return string HTML.
+     */
+    function d3v_legal_render_contact_list_section($section, $atts) {
+        $items = array();
+
+        if (isset($section['fields']) && is_array($section['fields'])) {
+            foreach ($section['fields'] as $field) {
+                if (! is_array($field) || ! isset($field['value'])) {
+                    continue;
+                }
+
+                if (isset($field['condition'])) {
+                    if ('any' === $field['condition'] && ! d3v_legal_has_replacement_value($field['value'], $atts)) {
+                        continue;
+                    }
+                    if ('any' !== $field['condition'] && (! isset($atts[$field['condition']]) || '' === $atts[$field['condition']])) {
+                        continue;
+                    }
+                }
+
+                $rendered = d3v_legal_replace_placeholders($field['value'], $atts);
+                if ('' !== trim(strip_tags($rendered))) {
+                    $items[] = $rendered;
+                }
+            }
+        }
+
+        if (empty($items)) {
+            return '';
+        }
+
+        $html = '';
+        if (isset($section['title']) && '' !== trim((string) $section['title'])) {
+            $html .= '<p><strong>' . esc_html($section['title']) . '</strong></p>';
+        }
+
+        $html .= '<ul>';
+        foreach ($items as $item) {
+            $html .= '<li>' . $item . '</li>';
+        }
+        $html .= '</ul>';
+
+        return $html;
+    }
+}
+
+if (! function_exists('d3v_legal_render_joined_fields_section')) {
+    /**
+     * Render fields joined by a separator, omitting empties.
+     *
+     * @param array $section Section definition.
+     * @param array $atts    Normalised shortcode attributes.
+     * @return string HTML.
+     */
+    function d3v_legal_render_joined_fields_section($section, $atts) {
+        $template = isset($section['template']) ? (string) $section['template'] : '';
+        $separator = isset($section['separator']) ? (string) $section['separator'] : ', ';
+
+        $parts = array();
+        $tokens = d3v_legal_extract_placeholders($template);
+        foreach ($tokens as $token) {
+            $value = d3v_legal_get_placeholder_value($token, $atts);
+            if ('' !== $value) {
+                $parts[] = d3v_legal_escape($value);
+            }
+        }
+
+        if (empty($parts)) {
+            return '';
+        }
+
+        $html = '';
+        if (isset($section['title']) && '' !== trim((string) $section['title'])) {
+            $html .= '<p><strong>' . esc_html($section['title']) . '</strong></p>';
+        }
+
+        $html .= '<p>' . implode(esc_html($separator), $parts) . '</p>';
+        return $html;
+    }
+}
+
+if (! function_exists('d3v_legal_render_policy_link_section')) {
+    /**
+     * Render a policy link section when a policy URL is available.
+     *
+     * @param array $section Section definition.
+     * @param array $atts    Normalised shortcode attributes.
+     * @return string HTML.
+     */
+    function d3v_legal_render_policy_link_section($section, $atts) {
+        $policyurl = isset($atts['policyurl']) ? esc_url($atts['policyurl']) : '';
+        if ('' === $policyurl) {
+            return '';
+        }
+
+        $label = isset($section['label']) ? (string) $section['label'] : __('Read full policy', 'legalnotices');
+        return d3v_legal_policy_link($policyurl, $label);
     }
 }
 
@@ -382,6 +781,13 @@ if (! function_exists('d3v_legal_register_settings')) {
         );
 
         add_settings_section(
+            'd3v_legal_section_country',
+            __('Country Defaults', 'legalnotices'),
+            'd3v_legal_section_country_callback',
+            'd3v-legal'
+        );
+
+        add_settings_section(
             'd3v_legal_section_business',
             __('Business Details', 'legalnotices'),
             'd3v_legal_section_business_callback',
@@ -403,17 +809,18 @@ if (! function_exists('d3v_legal_register_settings')) {
         );
 
         $fields = array(
-            array('section' => 'd3v_legal_section_business', 'id' => 'company', 'label' => __('Company / brand name', 'legalnotices')),
-            array('section' => 'd3v_legal_section_business', 'id' => 'regno',   'label' => __('Company registration number', 'legalnotices')),
-            array('section' => 'd3v_legal_section_business', 'id' => 'vatno',   'label' => __('VAT registration number', 'legalnotices')),
-            array('section' => 'd3v_legal_section_contact',  'id' => 'email',   'label' => __('Email address', 'legalnotices')),
-            array('section' => 'd3v_legal_section_contact',  'id' => 'tel',     'label' => __('Telephone number', 'legalnotices')),
-            array('section' => 'd3v_legal_section_contact',  'id' => 'address', 'label' => __('Physical / registered address', 'legalnotices')),
-            array('section' => 'd3v_legal_section_contact',  'id' => 'websiteurl', 'label' => __('Website URL', 'legalnotices')),
-            array('section' => 'd3v_legal_section_legal',    'id' => 'officer', 'label' => __('Information Officer name', 'legalnotices')),
-            array('section' => 'd3v_legal_section_legal',    'id' => 'smp',     'label' => __('Default social media platform', 'legalnotices')),
-            array('section' => 'd3v_legal_section_legal',    'id' => 'returnwindow', 'label' => __('Default return window (days)', 'legalnotices')),
-            array('section' => 'd3v_legal_section_legal',    'id' => 'policyurl',    'label' => __('Default policy page URL', 'legalnotices')),
+            array('section' => 'd3v_legal_section_country',  'id' => 'default_country', 'label' => __('Default country (ISO2)', 'legalnotices'), 'type' => 'select'),
+            array('section' => 'd3v_legal_section_business', 'id' => 'company',         'label' => __('Company / brand name', 'legalnotices'),      'type' => 'text'),
+            array('section' => 'd3v_legal_section_business', 'id' => 'regno',           'label' => __('Company registration number', 'legalnotices'), 'type' => 'text'),
+            array('section' => 'd3v_legal_section_business', 'id' => 'vatno',           'label' => __('VAT registration number', 'legalnotices'),     'type' => 'text'),
+            array('section' => 'd3v_legal_section_contact',  'id' => 'email',           'label' => __('Email address', 'legalnotices'),               'type' => 'text'),
+            array('section' => 'd3v_legal_section_contact',  'id' => 'tel',             'label' => __('Telephone number', 'legalnotices'),            'type' => 'text'),
+            array('section' => 'd3v_legal_section_contact',  'id' => 'address',         'label' => __('Physical / registered address', 'legalnotices'), 'type' => 'text'),
+            array('section' => 'd3v_legal_section_contact',  'id' => 'websiteurl',      'label' => __('Website URL', 'legalnotices'),                 'type' => 'text'),
+            array('section' => 'd3v_legal_section_legal',    'id' => 'officer',         'label' => __('Information Officer name', 'legalnotices'),    'type' => 'text'),
+            array('section' => 'd3v_legal_section_legal',    'id' => 'smp',             'label' => __('Default social media platform', 'legalnotices'), 'type' => 'text'),
+            array('section' => 'd3v_legal_section_legal',    'id' => 'returnwindow',    'label' => __('Default return window (days)', 'legalnotices'),  'type' => 'number'),
+            array('section' => 'd3v_legal_section_legal',    'id' => 'policyurl',       'label' => __('Default policy page URL', 'legalnotices'),     'type' => 'text'),
         );
 
         foreach ($fields as $field) {
@@ -426,6 +833,7 @@ if (! function_exists('d3v_legal_register_settings')) {
                 array(
                     'label_for' => 'd3v_legal_' . $field['id'],
                     'name'      => $field['id'],
+                    'type'      => $field['type'],
                 )
             );
         }
@@ -441,24 +849,36 @@ if (! function_exists('d3v_legal_sanitize_settings')) {
      */
     function d3v_legal_sanitize_settings($input) {
         $sanitized = array();
-        $keys      = array('company', 'email', 'address', 'tel', 'smp', 'websiteurl', 'officer', 'regno', 'vatno', 'returnwindow', 'policyurl');
+        $keys      = array('default_country', 'company', 'email', 'address', 'tel', 'smp', 'websiteurl', 'officer', 'regno', 'vatno', 'returnwindow', 'policyurl');
 
         foreach ($keys as $key) {
-            if (isset($input[$key])) {
-                if ('returnwindow' === $key) {
-                    $sanitized[$key] = absint($input[$key]);
-                    if ($sanitized[$key] < 1) {
-                        $sanitized[$key] = '';
-                    }
-                } else {
-                    $sanitized[$key] = sanitize_text_field($input[$key]);
+            if (! isset($input[$key])) {
+                $sanitized[$key] = '';
+                continue;
+            }
+
+            if ('returnwindow' === $key) {
+                $sanitized[$key] = absint($input[$key]);
+                if ($sanitized[$key] < 1) {
+                    $sanitized[$key] = '';
+                }
+            } elseif ('default_country' === $key) {
+                $sanitized[$key] = strtoupper(sanitize_text_field($input[$key]));
+                if (! in_array($sanitized[$key], d3v_legal_supported_countries(), true)) {
+                    $sanitized[$key] = '';
                 }
             } else {
-                $sanitized[$key] = '';
+                $sanitized[$key] = sanitize_text_field($input[$key]);
             }
         }
 
         return $sanitized;
+    }
+}
+
+if (! function_exists('d3v_legal_section_country_callback')) {
+    function d3v_legal_section_country_callback() {
+        echo '<p>' . esc_html__('Select the default country used when no country attribute is supplied in the shortcode.', 'legalnotices') . '</p>';
     }
 }
 
@@ -490,16 +910,33 @@ if (! function_exists('d3v_legal_render_field')) {
         $settings = get_option('d3v_legal_settings', array());
         $name     = $args['name'];
         $id       = $args['label_for'];
+        $type     = isset($args['type']) ? $args['type'] : 'text';
         $value    = isset($settings[$name]) ? $settings[$name] : '';
-        $type     = ('returnwindow' === $name) ? 'number' : 'text';
 
-        printf(
-            '<input type="%s" id="%s" name="d3v_legal_settings[%s]" value="%s" class="regular-text" />',
-            esc_attr($type),
-            esc_attr($id),
-            esc_attr($name),
-            esc_attr($value)
-        );
+        if ('select' === $type) {
+            printf(
+                '<select id="%s" name="d3v_legal_settings[%s]">',
+                esc_attr($id),
+                esc_attr($name)
+            );
+            foreach (d3v_legal_supported_countries() as $code) {
+                printf(
+                    '<option value="%s" %s>%s</option>',
+                    esc_attr($code),
+                    selected($value, $code, false),
+                    esc_html($code)
+                );
+            }
+            echo '</select>';
+        } else {
+            printf(
+                '<input type="%s" id="%s" name="d3v_legal_settings[%s]" value="%s" class="regular-text" />',
+                esc_attr($type),
+                esc_attr($id),
+                esc_attr($name),
+                esc_attr($value)
+            );
+        }
     }
 }
 
@@ -532,12 +969,12 @@ if (function_exists('add_action') && function_exists('is_admin') && is_admin()) 
 }
 
 // ------------------------------------------------------------------------------
-// Notice renderers.
+// Legacy renderers stub.
 //
 // IMPORTANT LEGAL DISCLAIMER:
-// The notices below are legal boilerplate templates for South African websites.
-// They are provided for convenience only and do not constitute legal advice.
-// A qualified legal practitioner should review and adapt each notice for your
+// The notices are now loaded from country-specific JSON legal libraries. They
+// are provided for convenience only and do not constitute legal advice. A
+// qualified legal practitioner should review and adapt each notice for your
 // specific business, industry and data-processing activities before publication.
 // ------------------------------------------------------------------------------
 if (! function_exists('d3v_legal_renderers_initialized')) {

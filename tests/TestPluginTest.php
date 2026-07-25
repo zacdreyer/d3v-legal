@@ -107,6 +107,49 @@ class TestPluginTest extends TestCase
         $this->assertStringContainsString('Promotion of Equality and Prevention of Unfair Discrimination Act', $output);
     }
 
+    public function testUkCookieNoticeContainsGdprText(): void
+    {
+        $output = d3v_legal_notices(array(
+            'notice' => 'cookies',
+            'company' => 'Example Co',
+            'country' => 'UK',
+        ));
+        $this->assertStringContainsString('UK GDPR', $output);
+        $this->assertStringContainsString('cookie banner', strtolower($output));
+    }
+
+    public function testUkPrivacyNoticeContainsIco(): void
+    {
+        $output = d3v_legal_notices(array(
+            'notice' => 'privacy',
+            'company' => 'Example Co',
+            'country' => 'UK',
+        ));
+        $this->assertStringContainsString('Information Commissioner\'s Office', $output);
+        $this->assertStringContainsString('data controller', strtolower($output));
+    }
+
+    public function testDefaultCountryIsZaWhenNoBackendSetting(): void
+    {
+        $output = d3v_legal_notices(array('notice' => 'cookies'));
+        $this->assertStringContainsString('POPIA', $output);
+    }
+
+    public function testBackendDefaultCountryIsUsedWhenNoCountryAttribute(): void
+    {
+        $GLOBALS['d3v_legal_test_settings'] = array('default_country' => 'UK');
+        $output = d3v_legal_notices(array('notice' => 'cookies'));
+        $this->assertStringContainsString('UK GDPR', $output);
+    }
+
+    public function testShortcodeCountryAttributeOverridesBackendDefault(): void
+    {
+        $GLOBALS['d3v_legal_test_settings'] = array('default_country' => 'UK');
+        $output = d3v_legal_notices(array('notice' => 'cookies', 'country' => 'ZA'));
+        $this->assertStringContainsString('POPIA', $output);
+        $this->assertStringNotContainsString('UK GDPR', $output);
+    }
+
     public function testDynamicValuesAreEscapedInOutput(): void
     {
         $output = d3v_legal_notices(array(
