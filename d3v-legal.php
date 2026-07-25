@@ -301,6 +301,10 @@ if (! function_exists('d3v_legal_notices')) {
             return '';
         }
 
+        if (! is_array($library[$country]['notices'][$normalized['notice']])) {
+            return '';
+        }
+
         $notice = $library[$country]['notices'][$normalized['notice']];
 
         return d3v_legal_render_notice($normalized['notice'], $notice, $normalized, $country);
@@ -311,10 +315,56 @@ if (! function_exists('d3v_legal_supported_countries')) {
     /**
      * Return the list of supported country ISO2 codes.
      *
-     * @return array Supported country codes.
+     * Countries are discovered dynamically by scanning the plugin directory
+     * for files matching the pattern {ISO2}-legals.json. This allows users to
+     * add new jurisdictions simply by dropping a correctly-named JSON library
+     * into the plugin folder.
+     *
+     * @return array Supported uppercase country codes.
      */
     function d3v_legal_supported_countries() {
-        return array('ZA', 'UK');
+        $plugin_dir = plugin_dir_path(__FILE__);
+        if ('' === $plugin_dir) {
+            $plugin_dir = trailingslashit(__DIR__);
+        }
+
+        $allowed_base = realpath($plugin_dir);
+        if (false === $allowed_base) {
+            return array('ZA');
+        }
+
+        $countries   = array();
+        $library_dir = $plugin_dir . 'legal-libraries' . DIRECTORY_SEPARATOR;
+        $files       = glob($library_dir . '*-legals.json');
+        if (! is_array($files)) {
+            return array('ZA');
+        }
+
+        foreach ($files as $file) {
+            $basename = basename((string) $file);
+            if (! preg_match('/^([A-Za-z]{2})-legals\.json$/', $basename, $matches)) {
+                continue;
+            }
+
+            $real_file = realpath($file);
+            if (false === $real_file) {
+                continue;
+            }
+
+            if (0 !== strpos($real_file, $allowed_base . DIRECTORY_SEPARATOR)) {
+                continue;
+            }
+
+            $countries[] = strtoupper($matches[1]);
+        }
+
+        $countries = array_values(array_unique($countries));
+
+        if (empty($countries)) {
+            return array('ZA');
+        }
+
+        return $countries;
     }
 }
 
@@ -322,20 +372,42 @@ if (! function_exists('d3v_legal_get_default_country')) {
     /**
      * Determine the default country for rendering notices.
      *
-     * Priority: backend setting > hardcoded fallback (ZA).
+     * Priority: backend setting > discovered fallback (ZA if present, else the
+     * first supported country).
      *
      * @return string ISO2 country code.
      */
     function d3v_legal_get_default_country() {
-        $backend = d3v_legal_get_backend_defaults();
-        $country = isset($backend['default_country']) ? sanitize_text_field($backend['default_country']) : '';
-        $country = strtoupper($country);
+        $supported = d3v_legal_supported_countries();
+        $backend   = d3v_legal_get_backend_defaults();
+        $country   = isset($backend['default_country']) ? sanitize_text_field($backend['default_country']) : '';
+        $country   = strtoupper($country);
 
-        if (in_array($country, d3v_legal_supported_countries(), true)) {
+        if (in_array($country, $supported, true)) {
             return $country;
         }
 
-        return 'ZA';
+        if (in_array('ZA', $supported, true)) {
+            return 'ZA';
+        }
+
+        return isset($supported[0]) ? $supported[0] : 'ZA';
+    }
+}
+
+if (! function_exists('d3v_legal_get_library_directory')) {
+    /**
+     * Resolve the absolute path to the legal libraries subdirectory.
+     *
+     * @return string Path to the libraries directory with trailing slash.
+     */
+    function d3v_legal_get_library_directory() {
+        $plugin_dir = plugin_dir_path(__FILE__);
+        if ('' === $plugin_dir) {
+            $plugin_dir = trailingslashit(__DIR__);
+        }
+
+        return $plugin_dir . 'legal-libraries' . DIRECTORY_SEPARATOR;
     }
 }
 
@@ -343,8 +415,8 @@ if (! function_exists('d3v_legal_get_library_path')) {
     /**
      * Resolve the absolute path to a country legal library JSON file.
      *
-     * Only files within the plugin directory are accepted to prevent path
-     * traversal and to ensure external JSON cannot be loaded.
+     * Only files within the plugin's legal-libraries directory are accepted to
+     * prevent path traversal and to ensure external JSON cannot be loaded.
      *
      * @param string $country ISO2 country code.
      * @return string Normalised file path, or empty string if invalid.
@@ -357,17 +429,13 @@ if (! function_exists('d3v_legal_get_library_path')) {
             return '';
         }
 
-        $plugin_dir = plugin_dir_path(__FILE__);
-        if ('' === $plugin_dir) {
-            $plugin_dir = trailingslashit(__DIR__);
-        }
-
-        $file = realpath($plugin_dir . $country . '-legals.json');
+        $library_dir = d3v_legal_get_library_directory();
+        $file = realpath($library_dir . $country . '-legals.json');
         if (false === $file) {
             return '';
         }
 
-        $allowed_base = realpath($plugin_dir);
+        $allowed_base = realpath($library_dir);
         if (false === $allowed_base) {
             return '';
         }

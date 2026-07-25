@@ -75,7 +75,7 @@ The supplied text is intended as a broad, company-agnostic starting point. It mu
 Remove the ZA-only focus from the plugin name and code, then add a United Kingdom (`UK`) legal library alongside the existing South Africa (`ZA`) content. Users select a country with an ISO2 code; the plugin loads the relevant legal library. The default remains `ZA` for backward compatibility. Content libraries are implemented as JSON files loaded and validated by the plugin.
 
 ### 7.2 Content Architecture
-- Legal libraries live at the repository root as `ZA-legals.json` and `UK-legals.json`.
+- Legal libraries live in the `legal-libraries/` subdirectory as `ZA-legals.json` and `UK-legals.json`.
 - Each file is a JSON object keyed by country code. Although JSON files are readable by design, the library directory is protected by a `.htaccess` rule (for Apache) and a `web.config` rule (for IIS) to block direct HTTP access. Additionally, [d3v-legal.php](d3v-legal.php) validates the file path, reads the files only via `file_get_contents()` from the plugin directory, and JSON-decodes them safely.
 - Each library contains:
   - `notices`: keyed by notice slug (`cookies`, `privacy`, `paia`, `copyright`, `copyrightfooter`, `disclaimer`, `emaildisclaimer`, `tscs`, `comptscs`, `contact`, `smr`, `smn`, `returns`, `support`, `shipping`, `payments`, `ecomtscs`, `accessibility`).

@@ -1,5 +1,5 @@
 # d3v-legal
-WordPress plugin that outputs legal notices such as privacy policy, copyright, disclaimer, cookie notices, terms and conditions, and social media statements for South African and United Kingdom websites. Additional countries can be supported by adding a `{ISO2}-legals.json` file to the plugin directory.
+WordPress plugin that outputs legal notices such as privacy policy, copyright, disclaimer, cookie notices, terms and conditions, and social media statements for South African and United Kingdom websites. Additional countries can be supported by adding a `{ISO2}-legals.json` file to the `legal-libraries/` directory.
 
 > Note: This plugin is provided for informational purposes only and does not constitute legal advice. Please consult a qualified attorney or compliance professional before relying on it for legal or regulatory compliance.
 
