@@ -531,7 +531,7 @@ if (! function_exists('d3v_legal_get_library_path')) {
         }
 
         $library_dir = d3v_legal_get_library_directory();
-        $file = realpath($library_dir . $country . '-' . $language . '-legals.json');
+        $file = realpath($library_dir . $country . '-' . strtolower($language) . '-legals.json');
         if (false === $file) {
             return '';
         }
