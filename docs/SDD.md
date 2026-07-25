@@ -75,7 +75,7 @@ The supplied text is intended as a broad, company-agnostic starting point. It mu
 ## 7. Globalization Plan
 
 ### 7.1 Goal
-Remove the ZA-only focus from the plugin name and code, then add a United Kingdom (`GBR`) legal library alongside the existing South Africa (`ZAF`) content. Users select a country with an ISO3 code matching the filename exactly; the plugin loads the relevant legal library. The default remains `ZAF` for backward compatibility. Content libraries are implemented as JSON files loaded and validated by the plugin.
+Remove the ZA-only focus from the plugin name and code, then add a United Kingdom (`GBR`) legal library alongside the existing South Africa (`ZAF`) content. Users select a country with an ISO3 code matching the filename exactly; the plugin loads the relevant legal library. The default remains `ZAF` for backward compatibility. Content libraries are implemented as JSON files loaded and validated by the plugin. South Africa ships with both an English (`ZAF-eng-legals.json`) and an Afrikaans (`ZAF-afr-legals.json`) library.
 
 ### 7.2 Content Architecture
 - Legal libraries live in the `legal-libraries/` subdirectory as `{ISO3}-{LANG}-legals.json` files (e.g. `ZAF-eng-legals.json`, `GBR-eng-legals.json`).

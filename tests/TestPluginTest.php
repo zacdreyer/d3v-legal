@@ -161,14 +161,34 @@ class TestPluginTest extends TestCase
 
     public function testLanguageAttributeOverridesBackendDefault(): void
     {
-        // No translated ZAF-afrikaans library exists, so an unsupported language
-        // should fall back to the default language for the requested country.
         $output = d3v_legal_notices(array(
             'notice' => 'cookies',
             'country' => 'ZAF',
             'language' => 'AFR',
         ));
+        $this->assertStringContainsString('koekies', strtolower($output));
         $this->assertStringContainsString('POPIA', $output);
+        $this->assertStringNotContainsString('tracking technologies', strtolower($output));
+    }
+
+    public function testUnsupportedLanguageFallsBackToDefault(): void
+    {
+        $output = d3v_legal_notices(array(
+            'notice' => 'cookies',
+            'country' => 'ZAF',
+            'language' => 'FRE',
+        ));
+        $this->assertStringContainsString('tracking technologies', strtolower($output));
+    }
+
+    public function testLanguageAttributeIsCaseInsensitive(): void
+    {
+        $output = d3v_legal_notices(array(
+            'notice' => 'cookies',
+            'country' => 'ZAF',
+            'language' => 'afr',
+        ));
+        $this->assertStringContainsString('koekies', strtolower($output));
     }
 
     public function testDynamicValuesAreEscapedInOutput(): void

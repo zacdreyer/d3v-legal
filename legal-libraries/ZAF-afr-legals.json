@@ -1,0 +1,872 @@
+{
+  "ZAF": {
+    "meta": {
+      "name": "South Africa",
+      "currency": "ZAR",
+      "default_return_window": 30
+    },
+    "notices": {
+      "cookies": {
+        "legal_sources": [
+          "POPIA afdeling 1 (definisie van persoonlike inligting)",
+          "POPIA afdeling 11 (wettigheid van verwerking)",
+          "EKWT afdeling 43 (inligting wat vir elektroniese transaksies verskaf moet word)"
+        ],
+        "sections": [
+          {
+            "template": "{{company||Ons}} gebruik koekies en soortgelyke volgtegnologieë op hierdie webwerf. Koekies is klein tekslêers wat op jou toestel geplaas word om die werf te laat funksioneer, jou voorkeure te onthou, verkeer te ontleed en jou ervaring te verbeter."
+          },
+          {
+            "title": "Soorte koekies wat ons gebruik",
+            "type": "list",
+            "items": [
+              "Noodsaaklike koekies: vereis vir die werf om te funksioneer en om veiligheid te handhaaf. Hierdie koekies versamel nie persoonlike inligting nie.",
+              "Voorkeurkoekies: onthou jou instellings en keuses om jou ervaring te verbeter.",
+              "Ontledingskoekies: help ons verstaan hoe besoekers met die webwerf omgaan sodat ons dit kan verbeter. Waar ontledingsdata jou kan identifiseer, steun ons op 'n toepaslike wettige grondslag ingevolge POPIA.",
+              "Derdeparty-koekies: gestel deur goedgekeurde diensverskaffers (byvoorbeeld ontledings- of advertensievennote) en gereël deur hul eie privaatheidskennisgewings."
+            ]
+          },
+          {
+            "template": "Jy kan koekies deur jou blaaierinstellings bestuur of deaktiveer. Let daarop dat die beperking van noodsaaklike koekies die funksionaliteit van die webwerf kan beïnvloed. Deur hierdie webwerf verder te gebruik, stem jy in tot die gebruik van koekies in ooreenstemming met hierdie kennisgewing."
+          },
+          {
+            "type": "policy_link",
+            "label": "Lees ons volledige koekiebeleid",
+            "condition": "policyurl"
+          }
+        ]
+      },
+      "privacy": {
+        "legal_sources": [
+          "POPIA afdeling 1 (definisies)",
+          "POPIA afdeling 11 (wettigheid)",
+          "POPIA afdeling 13 (toestemming)",
+          "POPIA afdeling 14 (regverdiging)",
+          "POPIA afdeling 18 (insameling direk van die datasubjek)",
+          "POPIA afdeling 19 (insameling vanuit 'n ander bron)",
+          "POPIA afdeling 21 (doelspesifikasie)",
+          "POPIA afdeling 23 (verdere verwerkingsbeperking)",
+          "POPIA afdeling 24 (inligtinggehalte)",
+          "POPIA afdeling 58 (veiligheidswaarborgmaatreëls)",
+          "POPIA afdeling 69 (deelname van die datasubjek)",
+          "POPIA afdeling 71 (toegang tot persoonlike inligting)",
+          "POPIA afdeling 73 (korreksie van persoonlike inligting)",
+          "WBTI afdeling 51 (handleiding vir privaatliggame)"
+        ],
+        "sections": [
+          {
+            "template": "Hierdie privaatheidsbeleid verduidelik hoe {{company||ons}} persoonlike inligting insamel, gebruik, beskerm en deel. Deur ons webwerf te gebruik of jou persoonlike inligting aan ons te verskaf, erken jy dat jy hierdie beleid gelees en verstaan het."
+          },
+          {
+            "title": "Identiteit van die verantwoordelike party",
+            "template": "{{company||Ons}} is die verantwoordelike party vir die verwerking van persoonlike inligting wat deur hierdie webwerf en ons verwante dienste ingesamel word. Ons kontakbesonderhede is:"
+          },
+          {
+            "type": "contact_list",
+            "condition": "any",
+            "fields": [
+              {"value": "{{company||Verantwoordelike party}}"},
+              {"value": "{{address}}", "condition": "address"},
+              {"value": "E-pos: {{officer_email||{{email}}}}", "condition": "any"},
+              {"value": "Telefoon: {{tel}}", "condition": "tel"}
+            ]
+          },
+          {
+            "title": "Watter persoonlike inligting ons insamel",
+            "template": "'Persoonlike inligting' het die betekenis daaraan geheg in POPIA. Ons mag insamel:"
+          },
+          {
+            "type": "list",
+            "items": [
+              "Direk van jou: naam, kontakbesonderhede, identiteits- of maatskappyregistrasienommer, rekening- en betalingsinligting, en enige ander inligting wat jy verskaf wanneer jy registreer, 'n kwotasie aanvra, 'n bestelling plaas, nuusbriewe inteken of met ons kontak maak.",
+              "Outomaties: IP-adres, blaaiertipe en -weergawe, toestelinligting, bedryfstelsel, bladsye wat besoek is, tyd op die werf, verwysende URL's en ander ontledingsdata wat deur koekies en soortgelyke tegnologieë ingesamel word."
+            ]
+          },
+          {
+            "title": "Doel van verwerking",
+            "template": "Ons verwerk persoonlike inligting slegs vir wettige en gespesifiseerde doeleindes, insluitend om:"
+          },
+          {
+            "type": "list",
+            "items": [
+              "ons produkte en dienste te verskaf;",
+              "bestellings, betalings en aflewerings te verwerk;",
+              "met jou te kommunikeer, insluitend diensverwante boodskappe;",
+              "direkte bemarking uit te voer waar dit toegelaat word en met die geleentheid om te kanselleer;",
+              "ons webwerf, dienste en kliëntervaring te verbeter;",
+              "wettige en regulatoriese verpligtinge na te kom; en",
+              "ons regte, eiendom en billike belange te beskerm."
+            ]
+          },
+          {
+            "title": "Wettige grondslag vir verwerking",
+            "template": "Ons verwerk persoonlike inligting slegs waar 'n wettige grondslag bestaan, soos:"
+          },
+          {
+            "type": "list",
+            "items": [
+              "Toestemming: waar jy uitdruklike toestemming gegee het, byvoorbeeld om bemarkingskommunikasie te ontvang.",
+              "Kontrak: waar verwerking nodig is om 'n kontrak met jou te vervul of stappe op jou versoek te neem voordat 'n kontrak aangegaan word.",
+              "Wettige verpligting: waar ons deur die wet verplig word om inligting te verwerk.",
+              "Billike belang: waar verwerking nodig is vir ons billike sakebelange, mits jou regte en belange daardie belange nie oorskry nie."
+            ]
+          },
+          {
+            "title": "Direkte bemarking en opt-out",
+            "template": "Ons mag jou persoonlike inligting gebruik om bemarkingskommunikasie per e-pos, SMS of ander kanale aan jou te stuur, maar slegs waar dit deur POPIA toegelaat word. Jy kan enige tyd van direkte bemarking opt-out deur ons by {{officer_email||{{email}}}} te kontak of deur die unsubscribe-skakel in enige bemarkingsboodskap te gebruik."
+          },
+          {
+            "title": "Koekies en toesteldata",
+            "template": "Ons gebruik koekies en soortgelyke tegnologieë om toestel- en gebruiksdata in te samel. Vir meer inligting, sien asseblief ons koekiekennisgewing."
+          },
+          {
+            "title": "Deling met derde partye",
+            "template": "Ons verkoop nie persoonlike inligting nie. Ons mag persoonlike inligting deel met vertroude derde partye wat ons by die bedryf van ons besigheid bystaan, soos betalingsverwerkers, afleweringsvennote, IT-diensverskaffers, bemarkingsdiensverskaffers, regsadviseurs en ouditeure. Hierdie derde partye moet toepaslike vertroulikheid- en veiligheidswaarborgmaatreëls handhaaf."
+          },
+          {
+            "title": "Grensoorsittende vloeie",
+            "template": "Persoonlike inligting kan na lande buite Suid-Afrika oorgedra en verwerk word. Waar dit gebeur, sal ons redelike stappe doen om te verseker dat die ontvanger 'n voldoende vlak van beskerming vir die persoonlike inligting bied, of dat die oordrag andersins wettig ingevolge POPIA is."
+          },
+          {
+            "title": "Regte van datasubjekte",
+            "template": "Ingevolge POPIA en WBTI het jy die reg om:"
+          },
+          {
+            "type": "list",
+            "items": [
+              "toegang tot jou persoonlike inligting te versoek;",
+              "korreksie of verwydering van onakkurate of irrelevante persoonlike inligting te versoek;",
+              "beswaar te maak teen die verwerking van jou persoonlike inligting;",
+              "'n klagte by die Inligtingsreguleerder in te dien; en",
+              "toestemming terug te trek waar verwerking op toestemming gebaseer is."
+            ]
+          },
+          {
+            "template": "Om jou regte uit te oefen, kontak ons asseblief by {{officer_email||{{email}}}}. Ons mag bewys van identiteit vereis voordat ons jou versoek verwerk.",
+            "condition": "any"
+          },
+          {
+            "title": "Bewaring",
+            "template": "Ons behou persoonlike inligting slegs vir so lank as nodig om die doeleindes waarvoor dit ingesamel is, te vervul, om wettige verpligtinge na te kom, om geskille op te los en om ons ooreenkomste af te dwing."
+          },
+          {
+            "title": "Veiligheid",
+            "template": "Ons implementeer toepaslike tegniese en organisatoriese veiligheidsmaatreëls om persoonlike inligting te beskerm teen verlies, ongemagtigde toegang, openbaarmaking, verandering of vernietiging. Geen internetgebaseerde stelsel kan as volkome veilig gewaarborg word nie."
+          },
+          {
+            "title": "Inligtingsbeampte",
+            "template": "{{company||Ons}} het 'n Inligtingsbeampte aangestel wat verantwoordelik is vir POPIA-nakoming en die hanteer van versoeke om toegang tot inligting. Kontakbesonderhede is op versoek beskikbaar by {{officer_email||{{email}}}}."
+          },
+          {
+            "title": "Klagtes by die Inligtingsreguleerder",
+            "template": "As jy glo dat ons jou privaatheidsregte geskend het, kan jy die Inligtingsreguleerder van Suid-Afrika kontak. Kontakbesonderhede is beskikbaar by <a href=\"https://www.justice.gov.za/inforeg/contact.html\" target=\"_blank\" rel=\"noopener noreferrer\">www.justice.gov.za/inforeg/contact.html</a>."
+          },
+          {
+            "title": "Kinderprivaatheid",
+            "template": "Ons dienste is nie gemik op kinders onder die ouderdom van 18 nie, en ons versamel nie doelbewus persoonlike inligting van kinders sonder toepaslike toestemming nie."
+          },
+          {
+            "title": "Wysigings aan hierdie privaatheidsbeleid",
+            "template": "Ons mag hierdie privaatheidsbeleid van tyd tot tyd opdateer. Die huidige weergawe sal op ons webwerf gepubliseer word met die datum van die jongste hersiening. Voortgesette gebruik van die webwerf na wysigings vorm aanvaarding van die hersiene beleid."
+          },
+          {
+            "type": "policy_link",
+            "label": "Lees ons volledige privaatheidsbeleid",
+            "condition": "policyurl"
+          }
+        ]
+      },
+      "paia": {
+        "legal_sources": [
+          "WBTI afdeling 9 (objekte)",
+          "WBTI afdeling 10 (gids)",
+          "WBTI afdeling 50 (reg op toegang vir privaatliggame)",
+          "WBTI afdeling 51 (handleiding)",
+          "WBTI afdeling 52 (vrywillige openbaarmaking)",
+          "WBTI afdeling 53 (vorm van versoek)",
+          "WBTI afdeling 54 (gelde)",
+          "WBTI afdeling 56 (beslissingstydperk)",
+          "WBTI afdelings 63-70 (gronde vir weiering)",
+          "WBTI afdeling 77A (klagtes by Reguleerder)",
+          "WBTI afdeling 83 (bykomende funksies van die Reguleerder)"
+        ],
+        "sections": [
+          {
+            "template": "Hierdie handleiding word gepubliseer ingevolge afdeling 51 van die Wet op Bevordering van Toegang tot Inligting 2 van 2000 (WBTI), gelees saam met afdeling 32 van die Grondwet van die Republiek van Suid-Afrika, 1996, en die Wet op Beskerming van Persoonlike Inligting 4 van 2013 (POPIA)."
+          },
+          {
+            "title": "Reg op toegang",
+            "template": "WBTI gee elke persoon 'n reg op toegang tot rekords wat deur 'n openbare of privaat liggaam gehou word, behoudens die gronde vir weiering soos in WBTI bepaal."
+          },
+          {
+            "title": "Inligtingsbeampte",
+            "template": "Die Inligtingsbeampte is verantwoordelik vir die hantering van versoeke om toegang tot inligting:"
+          },
+          {
+            "type": "contact_list",
+            "condition": "any",
+            "fields": [
+              {"value": "Naam: {{officer||{{company||Inligtingsbeampte}}}}"},
+              {"value": "Adres: {{address}}", "condition": "address"},
+              {"value": "E-pos: {{officer_email||{{email}}}}", "condition": "any"},
+              {"value": "Telefoon: {{tel}}", "condition": "tel"}
+            ]
+          },
+          {
+            "title": "Rekords wat gehou word",
+            "template": "{{company||Ons}} hou rekords wat betrekking het op, maar nie noodwendig beperk is tot:"
+          },
+          {
+            "type": "list",
+            "items": [
+              "maatskappyrekords en statutêre indienings;",
+              "kliënt-, verskaffer- en kliëntinligting;",
+              "finansiële, rekeningkundige en belastingrekords;",
+              "personeel- en menslikehulpbronrekords;",
+              "kontrakte en ooreenkomste;",
+              "inligtingstegnologie- en stelselrekords; en",
+              "bemarkings- en kommunikasierekords."
+            ]
+          },
+          {
+            "title": "Versoekprosedure en vorm",
+            "template": "Versoeke om toegang tot rekords moet op die voorgeskrewe WBTI-aansoekvorm gemaak word en by die Inligtingsbeampte ingedien word. Die versoek moet voldoende besonderhede verskaf om die rekord te identifiseer en die versoeker se voorkeurvorm van toegang."
+          },
+          {
+            "title": "Gelde",
+            "template": "'n Versoekgeld en verdere toegangsgelde mag betaalbaar wees soos deur die wet voorgeskryf. Die Inligtingsbeampte sal jou inlig oor enige toepaslike gelde voordat jou versoek verwerk word."
+          },
+          {
+            "title": "Beslissingstydperk",
+            "template": "Die Inligtingsbeampte sal jou in kennis stel van die beslissing op jou versoek binne die tydperk deur WBTI voorgeskryf, normaalweg 30 dae, tensy 'n verlenging van toepassing is."
+          },
+          {
+            "title": "Gronde vir weiering",
+            "template": "Toegang tot sekere rekords mag ingevolge WBTI geweier word, insluitend rekords wat deur regs-privilege beskerm word, vertroulike kommersiële inligting bevat, derdeparty-persoonlike inligting insluit, of waarvan openbaarmaking redelikerwys die lewe of fisiese veiligheid van 'n individu kan bedreig of die handhawing van die wet of nasionale veiligheid kan benadeel."
+          },
+          {
+            "title": "Klagte by die Inligtingsreguleerder",
+            "template": "As jy ontevrede is met die beslissing op jou versoek of die wyse waarop dit hanteer is, kan jy 'n klagte by die Inligtingsreguleerder ingevolge WBTI indien."
+          },
+          {
+            "title": "Registrasienommer",
+            "template": "{{regno}}",
+            "condition": "regno"
+          },
+          {
+            "type": "policy_link",
+            "label": "Lees ons volledige WBTI-handleiding",
+            "condition": "policyurl"
+          }
+        ]
+      },
+      "copyright": {
+        "legal_sources": [
+          "Wet op Outeursreg 98 van 1978"
+        ],
+        "sections": [
+          {
+            "template": "Hierdie webwerf en sy inhoud is die outeursreg van {{company||die eienaar}} &copy; {{year}}. Alle regte voorbehou."
+          },
+          {
+            "template": "Tensy anders aangedui, is alle teks, beelde, ontwerpe, grafika, logo's, ikone, oudio, video, sagteware en ander materiaal op hierdie webwerf beskerm deur outeursreg en ander intellektuele eiendomsregte."
+          },
+          {
+            "template": "Jy mag inhoud slegs vir jou persoonlike en nie-kommersiële gebruik bekyk, druk of aflaai. Enige herdistributie, reproduksie, oordrag, berging of kommersiële uitbuiting van die inhoud, in geheel of gedeeltelik, sonder die vooraf skriftelike toestemming van {{company||die eienaar}} is verbied."
+          },
+          {
+            "template": "Alle derdeparty-handelsmerke, logo's en handelsname wat op hierdie webwerf vertoon word, is die eiendom van hul onderskeie eienaars en word slegs vir identifikasiedoeleindes gebruik."
+          },
+          {
+            "type": "policy_link",
+            "label": "Lees ons volledige outeursregkennisgewing",
+            "condition": "policyurl"
+          }
+        ]
+      },
+      "copyrightfooter": {
+        "legal_sources": [
+          "Wet op Outeursreg 98 van 1978"
+        ],
+        "sections": [
+          {
+            "template": "Outeursreg &copy; {{year}} {{company||Alle regte voorbehou}}. Alle regte voorbehou."
+          },
+          {
+            "type": "policy_link",
+            "label": "Lees ons volledige outeursregkennisgewing",
+            "condition": "policyurl"
+          }
+        ]
+      },
+      "disclaimer": {
+        "legal_sources": [
+          "EKWT afdeling 93 (beperking van aanspreeklikheid)",
+          "Gemene reg-beginsels oor misvoorstelling, nalatigheid en professionele advies"
+        ],
+        "sections": [
+          {
+            "template": "Die inligting op hierdie webwerf word verskaf vir algemene inligtingsdoeleindes slegs en vorm nie professionele, regs-, finansiële of ander advies nie. {{company||Ons}} maak geen verteenwoordigings of waarborg van enige aard, uitdruklik of stilswyend, oor die akkuraatheid, betroubaarheid, volledigheid, geskiktheid of beskikbaarheid van die inligting, produkte, dienste of verwante grafika op hierdie webwerf nie."
+          },
+          {
+            "template": "Enige vertroue wat jy op die inligting op hierdie webwerf plaas, is streng op jou eie risiko. Tot die volste mate wat deur die wet toegelaat word, sal {{company||ons}} nie aanspreeklik wees vir enige verlies of skade nie, insluitend indirekte of gevolglike verlies of skade, of enige verlies of skade wat ook al ontstaan uit verlies van data of winste wat voortspruit uit, of in verband met, die gebruik van hierdie webwerf."
+          },
+          {
+            "template": "Hierdie webwerf mag skakels na derdeparty-webwerwe bevat. {{company||Ons}} het geen beheer oor die inhoud van daardie webwerwe nie en is nie verantwoordelik vir hul inhoud, privaatheidspraktyke of beskikbaarheid nie. Die insluiting van enige skakel impliseer nie noodwendig goedkeuring nie."
+          },
+          {
+            "template": "{{company||Ons}} doen ons bes om hierdie webwerf beskikbaar en reg te laat funksioneer. Ons neem egter geen verantwoordelikheid vir, en sal nie aanspreeklik wees vir, die webwerf wat tydelik nie beskikbaar is nie as gevolg van tegniese probleme buite ons redelike beheer nie."
+          },
+          {
+            "type": "policy_link",
+            "label": "Lees ons volledige vrywaringsverklaring",
+            "condition": "policyurl"
+          }
+        ]
+      },
+      "emaildisclaimer": {
+        "legal_sources": [
+          "EKWT afdelings 11-16 (wettige erkenning van data-boodskappe, skriftelik, handtekening, bewaring)",
+          "Gemene reg oor vertroulikheid, privilegie en misaflewering"
+        ],
+        "sections": [
+          {
+            "title": "Vertroulikheid en privilegie",
+            "template": "Hierdie e-pos en enige lêers wat daarmee saamgestuur word, is vertroulik en uitsluitlik bedoel vir die gebruik van die individu of entiteit aan wie dit gerig is. Hierdie kommunikasie mag regsgeprivilegieerd wees of deur ander regsreëls beskerm word. As jy hierdie e-pos per ongeluk ontvang het, stel asseblief die afsender onmiddellik in kennis en vee dit van jou stelsel af."
+          },
+          {
+            "title": "Misaflewering",
+            "template": "Ongemagtigde gebruik, openbaarmaking, kopieer of verspreiding van hierdie e-pos of sy inhoud is verbied. Die menings wat in hierdie e-pos uitgedruk word, is die van die afsender en weerspieël nie noodwendig die menings van {{company||ons}} nie."
+          },
+          {
+            "title": "Viruskontrole",
+            "template": "{{company||Ons}} doen redelike moeite om te verseker dat hierdie e-pos en enige aanhegsels vry is van virusse of ander skadelike inhoud. Ons kan egter nie verantwoordelikheid aanvaar vir enige verlies of skade wat voortspruit uit die gebruik van hierdie e-pos of sy aanhegsels nie. Die ontvanger is verantwoordelik vir die kontrole van hierdie e-pos en enige aanhegsels vir virusse voordat dit oopgemaak word."
+          },
+          {
+            "title": "Geen bindende ooreenkoms",
+            "template": "Geen werknemer of agent van {{company||ons}} is gemagtig om 'n bindende ooreenkoms namens die maatskappy per e-pos aan te gaan sonder uitdrukklike skriftelike bevestiging deur 'n gemagtigde verteenwoordiger nie."
+          },
+          {
+            "title": "Aanspreeklikheid",
+            "template": "{{company||Ons}} aanvaar geen aanspreeklikheid vir enige verlies of skade wat voortspruit uit die onderskepping, korrupsie, vertraging of nie-aflewering van hierdie e-pos nie, of van enige optrede wat op sy inhoud gebaseer is."
+          },
+          {
+            "template": "{{company}}{{address}}{{websiteurl}}",
+            "condition": "any",
+            "type": "joined_fields",
+            "separator": ", "
+          },
+          {
+            "type": "policy_link",
+            "label": "Lees ons volledige e-posvrywaringsverklaring",
+            "condition": "policyurl"
+          }
+        ]
+      },
+      "tscs": {
+        "legal_sources": [
+          "EKWT afdeling 22 (vorming en geldigheid van ooreenkomste)",
+          "EKWT afdeling 23 (tyd en plek van kommunikasie)",
+          "EKWT afdeling 43 (inligting wat verskaf moet word)",
+          "VBW afdeling 49 (verbod op onbillike kontraktermyn)",
+          "VBW afdeling 50 (verbruikersooreenkomste in eenvoudige taal)"
+        ],
+        "sections": [
+          {
+            "template": "Welkom by die {{company||our}} webwerf. Deur toegang tot hierdie webwerf te verkry en dit te gebruik, stem jy in om deur hierdie terme en voorwaardes gebind te word. As jy nie met enige deel van hierdie terme saamstem nie, gebruik asseblief nie hierdie webwerf nie."
+          },
+          {
+            "title": "Definisies",
+            "template": "'Ons', 'us' of '{{company||die eienaar}}' verwys na {{company||die webwerfeienaar}}{{address||, wie se geregistreerde/fisiese adres {{address}} is}}. 'Jy' of 'gebruiker' verwys na enige persoon wat toegang tot hierdie webwerf verkry of dit gebruik."
+          },
+          {
+            "title": "Gebruik van die webwerf",
+            "template": "Jy stem in om hierdie webwerf slegs vir wettige doeleindes te gebruik en op 'n wyse wat nie die regte van, of die gebruik en genot van hierdie webwerf deur, enige derde party skend of beperk nie."
+          },
+          {
+            "title": "Intellektuele eiendom",
+            "template": "Alle inhoud op hierdie webwerf, insluitend teks, grafika, logo's, beelde, sagteware en kode, is die eiendom van {{company||ons}} of ons lisensiehouers en word beskerm deur outeursreg, handelsmerk en ander intellektuele eiendomsregte. Jy mag nie die inhoud reproduseer, versprei, wysig, oordra of andersins vir kommersiële doeleindes gebruik sonder ons vooraf skriftelike toestemming nie."
+          },
+          {
+            "title": "Verbode gebruik",
+            "template": "Jy mag nie hierdie webwerf op enige wyse gebruik wat skade aan die webwerf veroorsaak of kan veroorsaak, of die beskikbaarheid daarvan belemmer, of op enige wyse wat onwettig, bedrieglik, skadelik of verband hou met enige onwettige, bedrieglike of skadelike doel of aktiwiteit is nie."
+          },
+          {
+            "title": "Skakels na derdeparty-webwerwe",
+            "template": "Hierdie webwerf mag skakels na derdeparty-webwerwe vir jou gerief insluit. Ons onderskryf nie die inhoud van daardie webwerwe nie en is nie verantwoordelik vir hul inhoud, akkuraatheid, privaatheidspraktyke of beskikbaarheid nie."
+          },
+          {
+            "title": "Beperking van aanspreeklikheid",
+            "template": "Tot die volste mate wat deur die wet toegelaat word, sal {{company||ons}} nie aanspreeklik wees vir enige direkte, indirekte, insidentele, gevolglike of strafskade wat voortspruit uit of in verband staan met jou gebruik van hierdie webwerf of vertroue op enige inligting daarin vervat nie."
+          },
+          {
+            "title": "Regerende reg",
+            "template": "Hierdie terme en voorwaardes word gereël en uitgele ingevolge die wette van die Republiek van Suid-Afrika. Jy onderwerp jou aan die nie-eksklusiewe jurisdiksie van die Suid-Afrikaanse howe."
+          },
+          {
+            "title": "Wysiging",
+            "template": "{{company||Ons}} behou die reg voor om hierdie terme en voorwaardes enige tyd te wysig. Die gewysigde terme sal onmiddellik in werking tree na publikasie op hierdie webwerf. Voortgesette gebruik van die webwerf vorm aanvaarding van die gewysigde terme."
+          },
+          {
+            "type": "policy_link",
+            "label": "Lees ons volledige terme en voorwaardes",
+            "condition": "policyurl"
+          }
+        ]
+      },
+      "comptscs": {
+        "legal_sources": [
+          "VBW afdeling 36 (promosie-kompetisies)",
+          "Wet op Loterye 57 van 1997",
+          "Gemene reg oor aanbiedinge, aanvaarding en kontrakbreuk"
+        ],
+        "sections": [
+          {
+            "template": "Lees asseblief hierdie terme en voorwaardes aandagtig deur. Deur aan hierdie kompetisie deel te neem, stem jy in om deur hierdie terme gebind te word. As jy nie saamstem nie, moenie deelneem nie."
+          },
+          {
+            "title": "Organiseerder",
+            "template": "Die organiseerder is {{company||die organiseerder}}{{address||, {{address}}}}{{tel||, {{tel}}}}{{email||, {{email}}}}."
+          },
+          {
+            "title": "Geskiktheid",
+            "type": "list",
+            "items": [
+              "Die kompetisie staan oop vir permanente inwoners van Suid-Afrika wat 18 jaar of ouer is, tensy anders vermeld.",
+              "Direkteure, lede, vennote, werknemers, agente en konsultante van die organiseerder, hul onmiddellike gesinslede en enige verskaffer wat direk by die kompetisie betrokke is, is nie geskik om deel te neem nie, tensy uitdruklik toegelaat."
+            ]
+          },
+          {
+            "title": "Deelname",
+            "type": "list",
+            "items": [
+              "Deelname is via die meganisme wat in die kompetisie-kommunikasie gespesifiseer is.",
+              "Slegs een inskrywing per persoon mag toegelaat word tensy anders vermeld.",
+              "Inskrywings wat na die sluitingsdatum en -tyd ontvang word, sal nie oorweeg word nie.",
+              "Die organiseerder behou die reg voor om enige inskrywing wat nie aan hierdie terme voldoen nie of wat bedrieglik of aanstootlik is, te diskwalifiseer."
+            ]
+          },
+          {
+            "title": "Pryse",
+            "type": "list",
+            "items": [
+              "Pryse is soos beskryf in die kompetisie-kommunikasie en is nie oordraagbaar of vir kontant ruilbaar nie, tensy anders vermeld.",
+              "Die organiseerder behou die reg voor om 'n prys van gelyke of groter waarde te vervang indien die geadverteerde prys nie beskikbaar is nie.",
+              "Pryse sal binne 'n redelike tydperk na wennerverifikasie afgelewer of beskikbaar gestel word."
+            ]
+          },
+          {
+            "title": "Wennerseleksie en publisiteit",
+            "type": "list",
+            "items": [
+              "Wenners sal gekies word ooreenkomstig die seleksiekriteria wat in die kompetisie-kommunikasie vermeld is.",
+              "Die organiseerder sal probeer om wenners te kontak deur die verskafde besonderhede. As 'n wenner nie binne die gespesifiseerde tydperk gekontak kan word nie, kan die prys verbeur word en 'n alternatiewe wenner gekies word.",
+              "Wenners mag versoek word om identifikasie te verskaf en toestemming te gee vir die gebruik van hul naam en beeld vir publisiteitsdoeleindes."
+            ]
+          },
+          {
+            "title": "Persoonlike inligting",
+            "template": "Persoonlike inligting wat vir die kompetisie ingesamel word, sal gebruik word om die kompetisie te administreer, pryse toe te ken en toekomstige promosies mee te deel. Deur deel te neem, stem jy in tot hierdie verwerking in ooreenstemming met ons privaatheidsbeleid."
+          },
+          {
+            "title": "Sosialemedia-platformvrystalling",
+            "template": "Hierdie kompetisie word op geen manier deur {{smp}} geborg, onderskryf of geadministreer nie, of daarmee geassosieer nie. Deur deel te neem, stel jy {{smp}} vry van enige aanspreeklikheid wat verband hou met die kompetisie.",
+            "condition": "smp"
+          },
+          {
+            "title": "Foute en weglatings",
+            "template": "Terwyl elke sorg gedoen is om hierdie kompetisie aan te bied, aanvaar die organiseerder geen verantwoordelikheid vir foute of weglatings nie. Die organiseerder behou die reg voor om die kompetisie te kanselleer, te wysig of op te skort indien omstandighede ontstaan buite sy redelike beheer."
+          },
+          {
+            "title": "Algemene bepalings",
+            "type": "list",
+            "items": [
+              "Hierdie terme en voorwaardes word gereël deur die wette van Suid-Afrika.",
+              "As enige bepaling ongeldig bevind word, sal die oorblywende bepalings ten volle van krag bly.{{email|| 'n Afskrif van hierdie terme is op versoek beskikbaar deur 'n e-pos te stuur na {{email}}.}}"
+            ]
+          },
+          {
+            "type": "policy_link",
+            "label": "Lees ons volledige kompetisieterme en -voorwaardes",
+            "condition": "policyurl"
+          }
+        ]
+      },
+      "contact": {
+        "legal_sources": [
+          "POPIA afdeling 55 (aanstelling en verantwoordelikhede van die Inligtingsbeampte)",
+          "WBTI afdeling 51 (handleiding vir privaatliggame en kontakbesonderhede)"
+        ],
+        "sections": [
+          {
+            "template": "As jy enige vrae het oor hoe {{company||ons}} jou persoonlike inligting verwerk, jou inligting wil bekyk of korrigeer, of beswaar wil maak teen direkte bemarking, kontak ons asseblief by {{officer_email||{{email}}}}."
+          },
+          {
+            "template": "Jy kan ook ons Inligtingsbeampte kontak om 'n versoek ingevolge WBTI te maak of om 'n klagte in te dien wat verband hou met die verwerking van jou persoonlike inligting."
+          },
+          {
+            "type": "policy_link",
+            "label": "Lees ons volledige data-administrasiekennisgewing",
+            "condition": "policyurl"
+          }
+        ]
+      },
+      "smr": {
+        "legal_sources": [
+          "Gemene reg-vrystalling",
+          "POPIA afdeling 11 (toestemming as wettige grondslag vir verwerking)"
+        ],
+        "sections": [
+          {
+            "template": "Hierdie aktiwiteit word op geen manier deur {{smp||die sosialemedia-platform}} geborg, onderskryf of geadministreer nie, of daarmee geassosieer nie."
+          },
+          {
+            "template": "Deur deel te neem, stem jy in tot 'n volledige vrystalling van {{smp||die sosialemedia-platform}} van enige aanspreeklikheid wat voortspruit uit of verband hou met hierdie aktiwiteit. Jy verstaan dat jy jou inligting aan {{company||ons}} verskaf en nie aan {{smp||die sosialemedia-platform}} nie."
+          },
+          {
+            "template": "Enige vrae, opmerkings of klagtes oor hierdie aktiwiteit moet aan {{company||ons}} gerig word en nie aan {{smp||die sosialemedia-platform}} nie."
+          },
+          {
+            "type": "policy_link",
+            "label": "Lees ons volledige sosialemedia-vrystallingsverklaring",
+            "condition": "policyurl"
+          }
+        ]
+      },
+      "smn": {
+        "legal_sources": [
+          "Gemene reg oor laster, teistering en intellektuele eiendom",
+          "POPIA afdeling 11 (toestemming)",
+          "WBBGOA (gelykheid en nie-diskriminasie)"
+        ],
+        "sections": [
+          {
+            "template": "Welkom by die {{company||our}} {{smp||sosiale media}}-gemeenskap. Ons moedig oop, respekvolle en relevante gesprekke aan. Deur deel te neem, stem jy in tot die volgende riglyne."
+          },
+          {
+            "title": "Relevansie",
+            "template": "Hou asseblief jou bydraes relevant tot ons besigheid, produkte, dienste en gemeenskapsdoel. Ons mag inhoud verwyder wat nie ter sake is nie, herhalend, promosioneel of andersins irrelevant."
+          },
+          {
+            "title": "Respekvolle gedrag",
+            "template": "Moenie inhoud plaas wat onwettig, skadelik, dreigend, mishandelend, teisterend, lasterlik, haatdraend, diskriminerend, obsceen, bedrieglik of misleidend is nie. Respekteer die privaatheid en regte van ander."
+          },
+          {
+            "title": "Persoonlike inligting",
+            "template": "Vir jou eie privaatheid en veiligheid, moenie persoonlike inligting soos jou identiteitsnommer, woonadres, telefoonnommer of bankbesonderhede in openbare plasings of kommentare deel nie."
+          },
+          {
+            "title": "Intellektuele eiendom",
+            "template": "Moenie inhoud plaas wat die outeursreg, handelsmerk of ander intellektuele eiendomsregte van {{company||ons}} of enige derde party skend nie."
+          },
+          {
+            "title": "Moderering",
+            "template": "Ons behou die reg voor om enige inhoud wat hierdie riglyne of toepaslike wetgewing skend, te versteek, te wysig of te verwyder, en om gebruikers wat herhaaldelik die reëls oortree, op te skort of te verban. Ons modereringsbesluite is finaal."
+          },
+          {
+            "title": "Nie ons menings nie",
+            "template": "Menings wat deur gemeenskapslede uitgedruk word, is hul eie en weerspieël nie noodwendig die menings van {{company||ons}} nie. Likes, shares of ander interaksies vorm nie goedkeuring nie."
+          },
+          {
+            "title": "Kontak",
+            "template": "As jy vrae oor hierdie riglyne het of onvanpaste gedrag wil rapporteer, kontak ons asseblief per direkte boodskap op {{smp||die platform}} of deur ons webwerf."
+          },
+          {
+            "type": "policy_link",
+            "label": "Lees ons volledige sosialemedia-netiket-riglyne",
+            "condition": "policyurl"
+          }
+        ]
+      },
+      "returns": {
+        "legal_sources": [
+          "VBW afdeling 16 (reg op billike en eerlike hantering)",
+          "VBW afdeling 17 (reg op billike, regverdige en redelike termyn)",
+          "VBW afdeling 20 (reg op veilige, goeie kwaliteit goedere)",
+          "VBW afdeling 44 (afkoelingsperiode na direkte bemarking)",
+          "VBW afdeling 55 (geïmpliseerde waarborg van kwaliteit)",
+          "VBW afdeling 56 (regsmiddel vir onveilige/defektiewe goedere)",
+          "EKWT afdeling 43(1)(n) (openbaarmaking van retour/ruil/terugbetalingsbeleid)",
+          "EKWT afdeling 44 (afkoelingsperiode vir elektroniese transaksies)"
+        ],
+        "sections": [
+          {
+            "template": "By {{company||ons}} wil ons hê jy moet tevrede wees met jou aankoop. Hierdie retour- en terugbetalingsbeleid stel jou regte en ons prosedures uiteen."
+          },
+          {
+            "title": "Geïmpliseerde waarborg ingevolge die VBW",
+            "template": "Benewens enige vervaardigerwaarborg, gee die Verbruikersbeskermingswet jou 'n geïmpliseerde waarborg dat goedere redelikerwys geskik is vir die doel waarvoor hulle oor die algemeen bedoel is, van goeie kwaliteit is, vry van defekte is en vir 'n redelike tydperk bruikbaar en duursaam is."
+          },
+          {
+            "title": "Defektiewe of onveilige goedere",
+            "template": "As goedere defektief, onveilig of nie soos beskryf is nie, kontak ons asseblief by {{support_email||{{email}}}} binne 'n redelike tyd nadat die defek ontdek is. Ons sal, na ons oordeel en waar dit deur die wet toegelaat word, die goedere herstel, vervang of terugbetaal."
+          },
+          {
+            "title": "Afkoelingsperiode vir direkte bemarking",
+            "template": "As jy goedere as gevolg van direkte bemarking gekoop het, het jy die reg om die transaksie binne vyf werksdae na die datum van aankoop of aflewering, watter later is, om enige rede te kanselleer. Jy sal 'n volle terugbetaling ontvang binne die tydperk deur die wet voorgeskryf."
+          },
+          {
+            "title": "Retourtydperk",
+            "template": "Behoudens die uitsluitings hieronder, kan jy goedere binne {{returnwindow}} dae na aflewering terugstuur, mits die goedere ongebruik, onbeskadig en in hul oorspronklike verpakking met alle etikette en toebehore is."
+          },
+          {
+            "title": "Toestand van teruggestuurde goedere",
+            "template": "Teruggestuurde goedere moet in oorspronklike toestand wees. Ons behou die reg voor om 'n terugbetaling of ruil te weier indien die goedere tekens van gebruik, skade of slytasie toon wat nie te wyte is aan 'n defek nie, of indien oorspronklike verpakking, toebehore of dokumentasie ontbreek."
+          },
+          {
+            "title": "Terugbetalingsmetode",
+            "template": "Terugbetalings sal deur middel van die oorspronklike betalingsmetode of per elektroniese fondsoordrag verwerk word, tensy anders ooreengekom. Terugbetalingsverwerkingstye kan wissel afhangende van jou betalingsverskaffer."
+          },
+          {
+            "title": "Uitsluitings",
+            "template": "Tensy deur die wet vereis, mag die volgende items nie teruggestuur of terugbetaal word nie:"
+          },
+          {
+            "type": "list",
+            "items": [
+              "bederfbare goedere;",
+              "gepersonaliseerde of gepasmaakte goedere;",
+              "goedere wat intiem of higiënies van aard is;",
+              "verseëlde oudio-opnames, video-opnames of rekenaarsagteware wat na aflewering oopgemaak is; en",
+              "enige ander goedere wat deur die wet uitgesluit is of wat duidelik as nie-terugstuurbaar tydens aankoop geïdentifiseer is."
+            ]
+          },
+          {
+            "title": "Hoe om goedere terug te stuur",
+            "template": "Om 'n retour te begin, kontak ons asseblief by {{support_email||{{email}}}} of skryf aan ons by {{address}}. Ons sal jou van retourinstruksies voorsien.",
+            "condition": "any"
+          },
+          {
+            "type": "policy_link",
+            "label": "Lees ons volledige retour- en terugbetalingsbeleid",
+            "condition": "policyurl"
+          }
+        ]
+      },
+      "support": {
+        "legal_sources": [
+          "EKWT afdeling 43(1)(a)-(g) (verskaffer-kontak en beskrywingsvereistes)",
+          "VBW afdeling 33 (nasionale verbruikerskommissie en klagtes)"
+        ],
+        "sections": [
+          {
+            "template": "{{company||Ons}} is verbind tot toeganklike en responsiewe klientediens. Ons ondersteuningskanale word hieronder gelys."
+          },
+          {
+            "title": "Kontakkanale",
+            "type": "contact_list",
+            "condition": "any",
+            "fields": [
+              {"value": "E-pos: {{support_email||{{email}}}}", "condition": "any"},
+              {"value": "Telefoon: {{tel}}", "condition": "tel"},
+              {"value": "Fisiese adres: {{address}}", "condition": "address"}
+            ]
+          },
+          {
+            "title": "Ondersteuningsure",
+            "template": "Ons ondersteuningspan is beskikbaar tydens normale Suid-Afrikaanse besigheidsure, met uitsondering van openbare vakansiedae. Spesifieke bedryfsure kan van tyd tot tyd op ons webwerf gepubliseer word."
+          },
+          {
+            "title": "Reaksietye",
+            "template": "Ons mik daarna om ondersteuningsnavrae binne een werksdag te erken en om standaardnavrae binne 'n redelike tyd op te los. Komplekse kwessies mag addisionele tyd verg, en ons sal jou op die hoogte hou van vordering."
+          },
+          {
+            "title": "Eskalasie",
+            "template": "As jy ontevrede is met die hantering van jou navraag, kan jy versoek dat dit na 'n toesighouer of bestuurder geëskaleer word. Ons sal eskalasie-kontakbesonderhede op versoek verskaf."
+          },
+          {
+            "title": "Klagtes",
+            "template": "As jou klagte nie na jou tevredenheid opgelos is nie, kan jy die betrokke bedryfsombudsman of verbruikerstribunaal ingevolge die Verbruikersbeskermingswet nader."
+          },
+          {
+            "type": "policy_link",
+            "label": "Lees ons volledige klientedienskennisgewing",
+            "condition": "policyurl"
+          }
+        ]
+      },
+      "shipping": {
+        "legal_sources": [
+          "EKWT afdeling 46 (uitvoering van elektroniese transaksies)",
+          "VBW afdeling 19 (aflewering van goedere en oorgang van risiko)"
+        ],
+        "sections": [
+          {
+            "template": "{{company||Ons}} lewer dienste aan adresse binne Suid-Afrika en, waar aangedui, aan geselekteerde internasionale bestemmings. Afleweringsareas en -opsies word tydens die betaalproses vertoon."
+          },
+          {
+            "title": "Afleweringstydraamwerke",
+            "template": "Geskatte afleweringstydraamwerke word by betaalverskaf en word bereken vanaf die datum van betalingbevestiging. Ingevolge die Wet op Elektroniese Kommunikasie en Transaksies moet goedere oor die algemeen binne 30 dae na aankoop afgelewer word, tensy 'n ander tydperk uitdruklik ooreengekom is. Ons sal jou in kennis stel as onvoorseinde vertragings voorkom."
+          },
+          {
+            "title": "Risiko en titel",
+            "template": "Risiko in die goedere gaan op jou oor na aflewering by die verskafde adres. Titel op die goedere gaan oor sodra volle betaling ontvang is en die goedere afgelewer is, tensy anders skriftelik ooreengekom."
+          },
+          {
+            "title": "Mislukte aflewering",
+            "template": "As aflewering misluk omdat jy 'n verkeerde adres verskaf het of nie beskikbaar was om die goedere te ontvang nie, kan ons 'n addisionele afleweringsfooi hef of die bestelling kanselleer in ooreenstemming met ons terme en voorwaardes."
+          },
+          {
+            "title": "Inspeksie by aflewering",
+            "template": "Inspekteer asseblief die goedere by aflewering en stel ons binne 'n redelike tyd in kennis van enige skade, defek of verskil. Versuim om sigbare skade gou te rapporteer, kan jou vermoë om 'n regsmiddel te eis, beïnvloed."
+          },
+          {
+            "title": "Afleweringsnavrae",
+            "template": "Vir afleweringsnavrae, kontak ons asseblief by {{support_email||{{email}}}}.",
+            "condition": "any"
+          },
+          {
+            "type": "policy_link",
+            "label": "Lees ons volledige afleweringskennisgewing",
+            "condition": "policyurl"
+          }
+        ]
+      },
+      "payments": {
+        "legal_sources": [
+          "EKWT afdeling 43(1)(j) (openbaarmaking van betalingswyse)",
+          "EKWT afdeling 43(5) (veilige betalingstelsels)",
+          "POPIA afdeling 19 (veiligheidswaarborgmaatreëls)",
+          "Wet op Nasionale Betaalstelsel 78 van 1998"
+        ],
+        "sections": [
+          {
+            "template": "{{company||Ons}} is verbind tot die verskaffing van veilige betalingsverwerking. Hierdie kennisgewing verduidelik ons betalingspraktyke en veiligheidsmaatreëls."
+          },
+          {
+            "title": "Betalingsmetodes",
+            "template": "Ons aanvaar die betalingsmetodes wat by betaalverskaf word, wat krediet- en debietkaarte, elektroniese fondsoordragte en goedgekeurde derdeparty-betalingsdienste kan insluit."
+          },
+          {
+            "title": "Veilige betaling",
+            "template": "Betalingsinligting word oorgedra met behulp van bedryfsstandaard-enkripsie en veiligheidstegnologieë. Ons betalingsverwerkers moet voldoen aan die Betalingskaartbedryf se Data Veiligheids Standaard (PCI-DSS) of ekwivalente toepaslike standaarde."
+          },
+          {
+            "title": "Geldeenheid",
+            "template": "Alle transaksies word in Suid-Afrikaanse Rand (ZAR) verwerk, tensy 'n ander geldeenheid uitdruklik aangebied en tydens betaalverskaf aanvaar word."
+          },
+          {
+            "title": "Privaatheid van betalingsinligting",
+            "template": "Ons stoor nie jou volle kredietkaartbesonderhede op ons bedieners nie, tensy jy uitdruklik toestemming gee tot veilige berging vir toekomstige transaksies. Waar kaartbesonderhede gestoor word, word dit geïnkripteer en beskerm ingevolge POPIA- en PCI-DSS-vereistes."
+          },
+          {
+            "title": "Bedrogvoorkoming",
+            "template": "Ons behou die reg voor om bestellings te verifieer, bykomende inligting te versoek en transaksies wat bedrieglik of ongemagtig lyk, te weier. Ons mag vermoedelike bedrog by die betrokke owerhede en betalingsnetwerke rapporteer."
+          },
+          {
+            "type": "policy_link",
+            "label": "Lees ons volledige betalings- en veiligheidskennisgewing",
+            "condition": "policyurl"
+          }
+        ]
+      },
+      "ecomtscs": {
+        "legal_sources": [
+          "EKWT afdeling 22 (vorming en geldigheid van ooreenkomste)",
+          "EKWT afdeling 23 (tyd en plek van kommunikasie)",
+          "EKWT afdeling 43 (inligting wat verskaf moet word)",
+          "EKWT afdeling 44 (afkoelingsperiode)",
+          "EKWT afdeling 46 (uitvoering)",
+          "VBW afdelings 16, 17 (billike hantering)",
+          "VBW afdeling 19 (aflewering en oorgang van risiko)",
+          "VBW afdeling 49 (onbillike kontraktermyn)",
+          "VBW afdeling 50 (eenvoudige taal)",
+          "VBW afdeling 55 (geïmpliseerde waarborg)",
+          "VBW afdeling 56 (regsmiddel vir onveilige/defektiewe goedere)"
+        ],
+        "sections": [
+          {
+            "template": "Hierdie e-handel terme en voorwaardes reël die verkoop van goedere en dienste deur {{company||ons}} deur ons webwerf. Deur 'n bestelling te plaas, stem jy in om deur hierdie terme gebind te word."
+          },
+          {
+            "title": "Ons besonderhede",
+            "type": "contact_list",
+            "condition": "any",
+            "fields": [
+              {"value": "{{company||Verskaffer}}"},
+              {"value": "{{address}}", "condition": "address"},
+              {"value": "E-pos: {{support_email||{{email}}}}", "condition": "any"},
+              {"value": "Telefoon: {{tel}}", "condition": "tel"},
+              {"value": "BTW-nommer: {{vatno}}", "condition": "vatno"}
+            ]
+          },
+          {
+            "title": "Bestellingsproses",
+            "template": "Om 'n item in jou mandjie te plaas, vorm nie 'n aanbod om te koop nie. 'n Bestelling word geplaas wanneer jy die betaalproses voltooi en betaling indien. Ons sal aanvaarding van jou bestelling per e-pos bevestig."
+          },
+          {
+            "title": "Aanvaarding en verwerping",
+            "template": "Ons behou die reg voor om enige bestelling om enige rede te aanvaar of te verwerp, insluitend produkbeskikbaarheid, foute in pryse of produkbeskrywings, of vermoedelike bedrog. As ons jou bestelling verwerp, sal ons enige betaling wat ontvang is, terugbetaal."
+          },
+          {
+            "title": "Prys en betaling",
+            "template": "Pryse word in Suid-Afrikaanse Rand vertoon en sluit waar van toepassing belasting op toegevoegde waarde in. Betaling moet gemaak word voordat goedere versend word, tensy 'n kredietrekening skriftelik goedgekeur is."
+          },
+          {
+            "title": "Aflewering",
+            "template": "Ons sal goedere aflewer by die adres wat tydens betaal verskaf is, binne die tydraamwerk wat tydens bestelling meegedeel is, of binne 30 dae as geen tydraamwerk gespesifiseer is nie, behoudens EKWT- en VBW-vereistes."
+          },
+          {
+            "title": "Risiko en titel",
+            "template": "Risiko gaan oor by aflewering. Titel gaan oor sodra volle betaling ontvang is en aflewering plaasgevind het, tensy anders skriftelik ooreengekom."
+          },
+          {
+            "title": "Retoure en terugbetalings",
+            "template": "Ons retour- en terugbetalingsbeleid is van toepassing op alle aankope deur hierdie webwerf. Jy mag ook statutêre regte ingevolge die Verbruikersbeskermingswet hê, insluitend die afkoelingsreg vir direktebemarkingsverkope."
+          },
+          {
+            "title": "Waarborg",
+            "template": "Goedere word verkoop met die geïmpliseerde waarborg van kwaliteit wat deur die Verbruikersbeskermingswet verskaf word, en enige toepaslike vervaardigerwaarborg. Defektiewe goedere sal herstel, vervang of terugbetaal word ingevolge die VBW."
+          },
+          {
+            "title": "Beperking van aanspreeklikheid",
+            "template": "Tot die volste mate wat deur die wet toegelaat word, sal {{company||ons}} nie aanspreeklik wees vir indirekte, gevolglike of spesiale skade wat voortspruit uit die gebruik van hierdie webwerf of die aankoop van goedere of dienste nie, behalwe waar aanspreeklikheid nie deur die wet uitgesluit kan word nie."
+          },
+          {
+            "title": "Regerende reg",
+            "template": "Hierdie terme word gereël deur die wette van die Republiek van Suid-Afrika. Enige geskil wat uit hierdie terme of jou aankoop voortspruit, sal onderworpe wees aan die jurisdiksie van die Suid-Afrikaanse howe."
+          },
+          {
+            "title": "Wysiging",
+            "template": "Ons mag hierdie terme van tyd tot tyd wysig. Die terme wat op die tyd van jou bestelling van krag is, sal op daardie bestelling van toepassing wees."
+          },
+          {
+            "type": "policy_link",
+            "label": "Lees ons volledige e-handel terme en voorwaardes",
+            "condition": "policyurl"
+          }
+        ]
+      },
+      "accessibility": {
+        "legal_sources": [
+          "Grondwet afdeling 9 (gelykheid)",
+          "EKWT afdeling 2(l) (spesiale behoeftes van bepaalde gemeenskappe en gestremdes)",
+          "Wet op Bevordering van Gelykheid en Voorkoming van Onbillike Diskriminasie 4 van 2000"
+        ],
+        "sections": [
+          {
+            "template": "{{company||Ons}} is verbind daartoe om te verseker dat ons webwerf en digitale dienste vir soveel mense as moontlik toeganklik is, insluitend persone met gestremdhede. Ons mik daarna om te voldoen aan die gelykheids- en nie-diskriminasiebeginsels in die Grondwet van die Republiek van Suid-Afrika, 1996, en die Wet op Bevordering van Gelykheid en Voorkoming van Onbillike Diskriminasie 4 van 2000."
+          },
+          {
+            "title": "Ons verbintenis",
+            "template": "Ons poog om inligting op 'n duidelike en konsekwente wyse aan te bied, leesbare teks te verskaf, sleutelbordnavigasie te ondersteun, en redelike aanpassings te maak om toeganklikheid te verbeter."
+          },
+          {
+            "title": "Alternatiewe formate",
+            "template": "As jy inligting van hierdie webwerf in 'n alternatiewe formaat benodig, soos groter druk, eenvoudige taal of 'n ander toeganklike formaat, kontak ons asseblief en ons sal redelike pogings aanwend om jou by te staan."
+          },
+          {
+            "title": "Terugvoer",
+            "template": "Ons verwelkom terugvoer oor hoe ons die toeganklikheid van ons webwerf kan verbeter. Kontak ons asseblief by {{support_email||{{email}}}} met jou voorstelle of om enige toeganklikheidsversperrings te rapporteer.",
+            "condition": "any"
+          },
+          {
+            "type": "policy_link",
+            "label": "Lees ons volledige toeganklikheidsverklaring",
+            "condition": "policyurl"
+          }
+        ]
+      }
+    }
+  }
+}

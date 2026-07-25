@@ -1,5 +1,5 @@
 # d3v-legal
-WordPress plugin that outputs legal notices such as privacy policy, copyright, disclaimer, cookie notices, terms and conditions, and social media statements for South African and United Kingdom websites. Additional countries can be supported by adding a `{ISO3}-{LANG}-legals.json` file to the `legal-libraries/` directory.
+WordPress plugin that outputs legal notices such as privacy policy, copyright, disclaimer, cookie notices, terms and conditions, and social media statements for South African and United Kingdom websites. The South Africa library is available in English (`ZAF-eng-legals.json`) and Afrikaans (`ZAF-afr-legals.json`). Additional countries and languages can be supported by adding a `{ISO3}-{LANG}-legals.json` file to the `legal-libraries/` directory.
 
 > Note: This plugin is provided for informational purposes only and does not constitute legal advice. Please consult a qualified attorney or compliance professional before relying on it for legal or regulatory compliance.
 
@@ -62,7 +62,10 @@ The language is case-insensitive and read directly from the filename:
 ```text
 [d3v-legal notice='cookies' country='gbr' language='eng' company='ABC Holdings']
 ```
-
+Render the Afrikaans South African cookie notice:
+```text
+[d3v-legal notice='cookies' country='ZAF' language='afr' company='ABC Holdings']
+```
 ### Cookie Notice
 ```text
 [d3v-legal notice='cookies' company='ABC Holdings']
