@@ -3,7 +3,7 @@
  Plugin Name: D3V Legal Notices
  Plugin URI: https://github.com/zacdreyer/d3v-legal/
  Description: Output relevant legal notices by country, including South Africa and the United Kingdom. Backend defaults are configured under Settings > D3V Legal.
- Version: 2026.07.27
+ Version: 2026.07.28
  Author: Zac Dreyer
  Author URI: https://github.com/zacdreyer/
  Text Domain: legalnotices
@@ -341,6 +341,11 @@ if (! function_exists('d3v_legal_get_library_directory')) {
      * @return string Path to the libraries directory with trailing slash.
      */
     function d3v_legal_get_library_directory() {
+        $resolved_dir = realpath(__DIR__);
+        if (false !== $resolved_dir) {
+            return $resolved_dir . DIRECTORY_SEPARATOR . 'legal-libraries' . DIRECTORY_SEPARATOR;
+        }
+
         $plugin_dir = plugin_dir_path(__FILE__);
         if ('' === $plugin_dir) {
             $plugin_dir = trailingslashit(__DIR__);
@@ -360,9 +365,12 @@ if (! function_exists('d3v_legal_discover_libraries')) {
      * @return array Map of ISO3 country codes to arrays of uppercase language codes.
      */
     function d3v_legal_discover_libraries() {
-        $plugin_dir = plugin_dir_path(__FILE__);
-        if ('' === $plugin_dir) {
-            $plugin_dir = trailingslashit(__DIR__);
+        $plugin_dir = realpath(__DIR__);
+        if (false === $plugin_dir) {
+            $plugin_dir = plugin_dir_path(__FILE__);
+            if ('' === $plugin_dir) {
+                $plugin_dir = trailingslashit(__DIR__);
+            }
         }
 
         $allowed_base = realpath($plugin_dir);
@@ -531,21 +539,36 @@ if (! function_exists('d3v_legal_get_library_path')) {
         }
 
         $library_dir = d3v_legal_get_library_directory();
-        $file = realpath($library_dir . $country . '-' . strtolower($language) . '-legals.json');
-        if (false === $file) {
-            return '';
-        }
-
         $allowed_base = realpath($library_dir);
         if (false === $allowed_base) {
             return '';
         }
 
-        if (0 !== strpos($file, $allowed_base . DIRECTORY_SEPARATOR)) {
+        $expected_file = $country . '-' . $language . '-legals.json';
+        $files = glob($library_dir . '*-legals.json');
+        if (! is_array($files)) {
             return '';
         }
 
-        return $file;
+        foreach ($files as $file) {
+            $basename = basename((string) $file);
+            if (strtoupper($basename) !== strtoupper($expected_file)) {
+                continue;
+            }
+
+            $real_file = realpath($file);
+            if (false === $real_file) {
+                continue;
+            }
+
+            if (0 !== strpos($real_file, $allowed_base . DIRECTORY_SEPARATOR)) {
+                continue;
+            }
+
+            return $real_file;
+        }
+
+        return '';
     }
 }
 

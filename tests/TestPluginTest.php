@@ -171,6 +171,12 @@ class TestPluginTest extends TestCase
         $this->assertStringNotContainsString('tracking technologies', strtolower($output));
     }
 
+    public function testLibraryPathResolvesMixedCaseCountryAndLanguageCodes(): void
+    {
+        $this->assertNotSame('', d3v_legal_get_library_path('ZAF', 'eng'));
+        $this->assertNotSame('', d3v_legal_get_library_path('gbr', 'ENG'));
+    }
+
     public function testUnsupportedLanguageFallsBackToDefault(): void
     {
         $output = d3v_legal_notices(array(
