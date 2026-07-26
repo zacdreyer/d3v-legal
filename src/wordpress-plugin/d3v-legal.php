@@ -356,11 +356,19 @@ if (! function_exists('d3v_legal_get_library_directory')) {
             $plugin_dir = trailingslashit(__DIR__);
         }
 
-        $centralized = realpath($plugin_dir . '..' . DIRECTORY_SEPARATOR . 'legal-libraries');
+        // Development layout: plugin is inside src/<platform>/ and legal-libraries
+        // lives at the repository root (two levels above the plugin file).
+        $centralized = realpath(
+            $plugin_dir
+            . '..' . DIRECTORY_SEPARATOR
+            . '..' . DIRECTORY_SEPARATOR
+            . 'legal-libraries'
+        );
         if (false !== $centralized && is_dir($centralized)) {
             return $centralized . DIRECTORY_SEPARATOR;
         }
 
+        // Distribution layout: legal-libraries is bundled inside the plugin folder.
         return $plugin_dir . 'legal-libraries' . DIRECTORY_SEPARATOR;
     }
 }

@@ -1,0 +1,45 @@
+{
+  "name": "@d3vdigital/emdash-legal-notices",
+  "version": "2026.07.28",
+  "description": "D3V Legal Notices plugin for EmDash CMS",
+  "type": "module",
+  "main": "dist/index.js",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./components/LegalNotice.astro": "./src/components/LegalNotice.astro"
+  },
+  "files": [
+    "dist",
+    "src/components",
+    "emdash-plugin.jsonc",
+    "README.md",
+    "LICENSE",
+    "legal-libraries"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch"
+  },
+  "peerDependencies": {
+    "emdash": ">=0.15.0",
+    "astro": ">=4.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "astro": "^6.0.0",
+    "emdash": "^0.31.0",
+    "typescript": "^5.9.0"
+  },
+  "license": "GPL-2.0-or-later",
+  "author": {
+    "name": "Zac Dreyer",
+    "url": "https://github.com/zacdreyer"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zacdreyer/d3v-legal.git"
+  }
+}

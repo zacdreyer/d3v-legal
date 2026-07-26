@@ -1,0 +1,24 @@
+{
+  "$schema": "https://schemas.emdashcms.com/emdash-plugin.schema.json",
+
+  "slug": "d3v-legal-notices",
+  "publisher": "d3vdigital",
+
+  "name": "D3V Legal Notices",
+  "description": "Render jurisdiction-aware legal notices from shared JSON libraries.",
+  "license": "GPL-2.0-or-later",
+  "author": { "name": "Zac Dreyer", "url": "https://github.com/zacdreyer" },
+  "security": { "email": "security@d3vdigital.co.za" },
+  "keywords": ["legal", "notices", "gdpr", "popia", "compliance"],
+  "repo": "https://github.com/zacdreyer/d3v-legal",
+
+  "capabilities": ["hooks.page-fragments:register"],
+  "allowedHosts": [],
+  "storage": {},
+
+  "admin": {
+    "widgets": [
+      { "id": "legal-notice", "title": "Legal Notice", "size": "half" }
+    ]
+  }
+}

@@ -1,0 +1,51 @@
+---
+/**
+ * Astro component that renders a D3V Legal Notice.
+ *
+ * Usage:
+ *
+ *   <LegalNotice notice="privacy" company="Example Co" email="info@example.com" />
+ *
+ * The component reads the requested legal library at build time and renders
+ * static HTML. Shared libraries are resolved from the bundled legal-libraries
+ * directory.
+ */
+
+import { loadLibrary, renderNotice, resolveAtts } from '../lib/legal-notices.js';
+
+interface Props {
+  notice: string;
+  country?: string;
+  language?: string;
+  company?: string;
+  email?: string;
+  support_email?: string;
+  officer_email?: string;
+  address?: string;
+  tel?: string;
+  smp?: string;
+  websiteurl?: string;
+  officer?: string;
+  regno?: string;
+  vatno?: string;
+  returnwindow?: string;
+  policyurl?: string;
+}
+
+const props = Astro.props;
+const atts = resolveAtts(props);
+const country = (atts.country || 'ZAF').toUpperCase();
+const language = (atts.language || 'ENG').toLowerCase();
+
+const library = await loadLibrary(country, language);
+const noticeData = library?.[country]?.notices?.[atts.notice];
+
+let html = '';
+if (noticeData) {
+  html = renderNotice(atts.notice, noticeData, atts);
+} else {
+  html = `<p class="d3v-legal__error">Notice "${atts.notice}" is not available for ${country}/${language}.</p>`;
+}
+---
+
+<Fragment set:html={html} />

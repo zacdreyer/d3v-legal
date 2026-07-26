@@ -6,7 +6,7 @@
  * centralized config.js defaults file.
  */
 
-import { config, libraryBasePath } from './config.js';
+import { config, getLibraryBaseCandidates } from './config.js';
 
 const KNOWN_FIELDS = new Set([
   'notice',
@@ -331,17 +331,15 @@ function renderNotice(noticeKey, notice, atts) {
 }
 
 /**
- * Build a URL for a legal library JSON file.
+ * Build candidate URLs for a legal library JSON file.
  *
  * @param {string} country
  * @param {string} language
- * @returns {string}
+ * @returns {string[]}
  */
-function buildLibraryUrl(country, language) {
-  const normalizedCountry = String(country).toUpperCase();
-  const normalizedLanguage = String(language).toLowerCase();
-  const filename = `${normalizedCountry}-${normalizedLanguage}-legals.json`;
-  return new URL(filename, libraryBasePath).href;
+function buildLibraryUrls(country, language) {
+  const filename = `${String(country).toUpperCase()}-${String(language).toLowerCase()}-legals.json`;
+  return getLibraryBaseCandidates().map((base) => new URL(filename, base).href);
 }
 
 /**
@@ -352,15 +350,16 @@ function buildLibraryUrl(country, language) {
  * @returns {Promise<Object|null>}
  */
 async function loadLibrary(country, language) {
-  const url = buildLibraryUrl(country, language);
-
-  try {
-    const response = await fetch(url);
-    if (!response.ok) return null;
-    return await response.json();
-  } catch {
-    return null;
+  for (const url of buildLibraryUrls(country, language)) {
+    try {
+      const response = await fetch(url);
+      if (response.ok) return await response.json();
+    } catch {
+      // Try next candidate.
+    }
   }
+
+  return null;
 }
 
 /**

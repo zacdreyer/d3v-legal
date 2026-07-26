@@ -23,15 +23,45 @@ jobs:
       - name: Install Composer dependencies
         run: composer install --no-interaction --prefer-dist
       - name: Lint plugin
-        run: php -l wordpress-plugin/d3v-legal.php
+        run: php -l src/wordpress-plugin/d3v-legal.php
       - name: Run tests
         run: vendor/bin/phpunit --configuration phpunit.xml.dist
       - name: Determine version
         id: version
         run: |
-          VERSION=$(grep -Eo 'Version:[[:space:]]*[0-9]+\.[0-9]+\.[0-9]+' wordpress-plugin/d3v-legal.php | awk '{print $2}')
+          VERSION=$(cat VERSION | tr -d '[:space:]')
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
           echo "tag=v$VERSION" >> "$GITHUB_OUTPUT"
+      - name: Sync version across all adapters
+        run: |
+          VERSION="${{ steps.version.outputs.version }}"
+
+          # WordPress plugin header
+          sed -i "s/^Version: .*/Version: $VERSION/" src/wordpress-plugin/d3v-legal.php
+
+          # Native ES6 package
+          jq --arg v "$VERSION" '.version = $v' src/javascript-native/package.json > src/javascript-native/package.json.tmp
+          mv src/javascript-native/package.json.tmp src/javascript-native/package.json
+
+          # EmDash plugin
+          jq --arg v "$VERSION" '.version = $v' src/emdash-plugin/package.json > src/emdash-plugin/package.json.tmp
+          mv src/emdash-plugin/package.json.tmp src/emdash-plugin/package.json
+          sed -i "s/version: \"[^\"]*\"/version: \"$VERSION\"/g" src/emdash-plugin/src/index.ts
+      - name: Commit synced versions
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          if ! git diff --quiet; then
+            git add VERSION src/wordpress-plugin/d3v-legal.php src/javascript-native/package.json src/emdash-plugin/package.json src/emdash-plugin/src/index.ts
+            git commit -m "chore(release): sync version ${{ steps.version.outputs.version }} across all adapters [skip ci]"
+            git push origin HEAD:${{ github.ref_name }}
+          fi
+      - name: Build EmDash plugin
+        run: |
+          cd src/emdash-plugin
+          npm ci --legacy-peer-deps 2>/dev/null || npm install --legacy-peer-deps
+          npm run build
+          cd ../..
       - name: Build release archives
         run: |
           rm -rf build dist
@@ -39,19 +69,30 @@ jobs:
 
           # WordPress plugin package
           mkdir -p build/wordpress/d3v-legal
-          cp wordpress-plugin/d3v-legal.php build/wordpress/d3v-legal/
+          cp src/wordpress-plugin/d3v-legal.php build/wordpress/d3v-legal/
           cp -R legal-libraries build/wordpress/d3v-legal/
           cp LICENSE build/wordpress/d3v-legal/
 
           # Native ES6 JavaScript package
           mkdir -p build/javascript-native/d3v-legal
-          cp javascript-native/d3v-legal.js build/javascript-native/d3v-legal/
-          cp javascript-native/d3v-legal.css build/javascript-native/d3v-legal/
-          cp javascript-native/config.js build/javascript-native/d3v-legal/
-          cp javascript-native/index.html build/javascript-native/d3v-legal/
-          cp javascript-native/README.md build/javascript-native/d3v-legal/
+          cp src/javascript-native/d3v-legal.js build/javascript-native/d3v-legal/
+          cp src/javascript-native/d3v-legal.css build/javascript-native/d3v-legal/
+          cp src/javascript-native/config.js build/javascript-native/d3v-legal/
+          cp src/javascript-native/index.html build/javascript-native/d3v-legal/
+          cp src/javascript-native/README.md build/javascript-native/d3v-legal/
           cp -R legal-libraries build/javascript-native/d3v-legal/
           cp LICENSE build/javascript-native/d3v-legal/
+
+          # EmDash native plugin package
+          mkdir -p build/emdash-plugin/d3v-legal
+          cp -R src/emdash-plugin/dist build/emdash-plugin/d3v-legal/ 2>/dev/null || true
+          cp src/emdash-plugin/package.json build/emdash-plugin/d3v-legal/
+          cp src/emdash-plugin/emdash-plugin.jsonc build/emdash-plugin/d3v-legal/
+          cp src/emdash-plugin/README.md build/emdash-plugin/d3v-legal/
+          cp src/emdash-plugin/tsconfig.json build/emdash-plugin/d3v-legal/
+          cp -R src/emdash-plugin/src build/emdash-plugin/d3v-legal/
+          cp -R legal-libraries build/emdash-plugin/d3v-legal/
+          cp LICENSE build/emdash-plugin/d3v-legal/
 
           # Additional platforms can be added here following the same pattern:
           # mkdir -p build/<platform>/d3v-legal-<platform>
@@ -70,11 +111,16 @@ jobs:
             git tag "${{ steps.version.outputs.tag }}"
             git push origin "${{ steps.version.outputs.tag }}"
           fi
-      - name: Create GitHub release
+      - name: Create GitHub release (draft)
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ steps.version.outputs.tag }}
           name: Release ${{ steps.version.outputs.tag }}
           files: dist/*
-          draft: false
+          draft: true
           prerelease: false
+      - name: Publish release
+        run: |
+          gh release edit "${{ steps.version.outputs.tag }}" --draft=false --repo "${{ github.repository }}"
+        env:
+          GH_TOKEN: ${{ github.token }}

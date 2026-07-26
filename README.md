@@ -1,26 +1,34 @@
 # d3v-legal
-Multi-platform legal notice libraries and platform-specific adapters. The WordPress plugin outputs legal notices such as privacy policy, copyright, disclaimer, cookie notices, terms and conditions, and social media statements for South African and United Kingdom websites. The South Africa library is available in English (`ZAF-eng-legals.json`) and Afrikaans (`ZAF-afr-legals.json`). Additional countries and languages can be supported by adding a `{ISO3}-{LANG}-legals.json` file to the root `legal-libraries/` directory.
+Multi-platform legal notice libraries and platform-specific adapters for WordPress, EmDash CMS, and any static or framework site via native ES6. The libraries currently cover South African and United Kingdom legal notices, with South Africa available in English (`ZAF-eng-legals.json`) and Afrikaans (`ZAF-afr-legals.json`). Additional countries and languages can be supported by adding a `{ISO3}-{LANG}-legals.json` file to the root `legal-libraries/` directory.
 
 > Note: This plugin is provided for informational purposes only and does not constitute legal advice. Please consult a qualified attorney or compliance professional before relying on it for legal or regulatory compliance.
 
 ## Repository layout
 - `legal-libraries/` — shared legal content used by every platform adapter.
-- `wordpress-plugin/` — WordPress adapter (plugin entry point, tests, and platform-specific code).
+- `src/wordpress-plugin/` — WordPress adapter (plugin entry point, tests, and platform-specific code).
+- `src/javascript-native/` — standalone ES6 adapter for any static site or framework.
+- `src/emdash-plugin/` — native plugin for EmDash CMS (Astro-based).
 - `docs/` — design and developer documentation; excluded from release archives.
-- Additional CMS/e-commerce adapters will be added as sibling platform folders.
+- `VERSION` — single source of truth for the shared version number across all adapters.
+- Additional CMS/e-commerce adapters will be added as sibling folders under `src/`.
 
-## Installation (WordPress)
-1. Download the latest `d3v-legal-<version>-wordpress.zip` release asset.
-2. Extract the folder to your WordPress `wp-content/plugins/` directory.
-3. Activate the plugin from the WordPress admin area.
-4. Go to **Settings > D3V Legal** in the WordPress admin and fill in your default business and contact details.
-5. Add shortcode snippets to your content or templates. Shortcode attributes are optional; any value omitted from the shortcode will fall back to the value saved in Settings > D3V Legal.
+## Versioning
+
+All platform adapters are released together under a single version number defined in `VERSION`. When any adapter is updated, the release workflow syncs the version to every adapter and rebuilds every platform package, so each release includes matching `d3v-legal-<version>-<platform>.zip` assets.
+
+## Installation
+
+Each platform has its own README with detailed installation instructions:
+
+- [WordPress plugin](src/wordpress-plugin/README.md)
+- [Native ES6 adapter](src/javascript-native/README.md)
+- [EmDash CMS plugin](src/emdash-plugin/README.md)
 
 ### Local development
 - Install PHP 8.1+.
 - Install Composer.
 - Run `composer install`.
-- Run `php -l wordpress-plugin/d3v-legal.php` to lint the plugin.
+- Run `php -l src/wordpress-plugin/d3v-legal.php` to lint the plugin.
 - Run `composer test` to execute the PHPUnit regression suite.
 
 ## Backend Settings
@@ -169,4 +177,10 @@ Render the Afrikaans South African cookie notice:
 - [docs/AGENT_MEMORY.md](docs/AGENT_MEMORY.md)
 
 ## Release Process
-The repository includes a GitHub Actions workflow in [.github/workflows/release.yml](.github/workflows/release.yml) that lints the WordPress adapter, runs the PHP test suite, and creates platform-specific release ZIPs (e.g. `d3v-legal-<version>-wordpress.zip`) whenever a release is triggered. The shared `legal-libraries/` directory is copied into each package, and `docs/` is excluded to keep archives lean.
+The repository includes a GitHub Actions workflow in [.github/workflows/release.yml](.github/workflows/release.yml) that lints the WordPress adapter, runs the PHP test suite, builds the EmDash plugin, and creates platform-specific release ZIPs whenever a release is triggered. Current assets include:
+
+- `d3v-legal-<version>-wordpress.zip`
+- `d3v-legal-<version>-javascript-native.zip`
+- `d3v-legal-<version>-emdash-plugin.zip`
+
+The shared `legal-libraries/` directory is copied into each package, and `docs/` is excluded to keep archives lean.

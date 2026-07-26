@@ -4,7 +4,7 @@
 Provide a lightweight regression suite for the shortcode rendering behavior.
 
 ## 2. Current Test Coverage
-The repository includes a PHPUnit test file at [tests/TestPluginTest.php](tests/TestPluginTest.php).
+The repository includes a PHPUnit test file at [src/wordpress-plugin/tests/TestPluginTest.php](src/wordpress-plugin/tests/TestPluginTest.php).
 
 ### Covered Cases
 - Unknown notices return an empty string.

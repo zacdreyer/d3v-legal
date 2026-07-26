@@ -1,0 +1,32 @@
+{
+  "name": "@d3vdigital/d3v-legal-notices",
+  "version": "2026.07.28",
+  "description": "Standalone D3V Legal Notices renderer for any website (vanilla ES6).",
+  "type": "module",
+  "main": "d3v-legal.js",
+  "exports": {
+    ".": "./d3v-legal.js",
+    "./config": "./config.js"
+  },
+  "files": [
+    "d3v-legal.js",
+    "d3v-legal.css",
+    "config.js",
+    "index.html",
+    "README.md",
+    "LICENSE",
+    "legal-libraries"
+  ],
+  "scripts": {
+    "lint": "echo 'No build step required for vanilla ES6 module.'"
+  },
+  "license": "GPL-2.0-or-later",
+  "author": {
+    "name": "Zac Dreyer",
+    "url": "https://github.com/zacdreyer"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zacdreyer/d3v-legal.git"
+  }
+}

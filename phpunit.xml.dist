@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit bootstrap="wordpress-plugin/tests/bootstrap.php" colors="true">
+<phpunit bootstrap="src/wordpress-plugin/tests/bootstrap.php" colors="true">
     <testsuites>
         <testsuite name="default">
-            <directory>wordpress-plugin/tests</directory>
+            <directory>src/wordpress-plugin/tests</directory>
         </testsuite>
     </testsuites>
 </phpunit>
