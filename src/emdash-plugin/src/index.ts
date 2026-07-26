@@ -14,7 +14,7 @@ export interface D3vLegalOptions extends Record<string, unknown> {
 export function d3vLegalNoticesPlugin(options: D3vLegalOptions = {}): PluginDescriptor {
   return {
     id: "d3v-legal-notices",
-    version: "2026.07.28",
+    version: "2026.07.29",
     format: "native",
     entrypoint: "@d3vdigital/emdash-legal-notices",
     options,
@@ -27,7 +27,7 @@ export function d3vLegalNoticesPlugin(options: D3vLegalOptions = {}): PluginDesc
 export function createPlugin(options: D3vLegalOptions = {}) {
   return definePlugin({
     id: "d3v-legal-notices",
-    version: "2026.07.28",
+    version: "2026.07.29",
 
     capabilities: ["hooks.page-fragments:register"],
     allowedHosts: [],
