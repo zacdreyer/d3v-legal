@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * D3V Legal Notices Magento 2 module declaration.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
+    <module name="D3vDigital_D3vLegal" setup_version="2026.07.30"/>
+</config>

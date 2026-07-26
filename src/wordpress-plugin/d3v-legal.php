@@ -3,7 +3,7 @@
  Plugin Name: D3V Legal Notices
  Plugin URI: https://github.com/zacdreyer/d3v-legal/
  Description: Output relevant legal notices by country, including South Africa and the United Kingdom. Backend defaults are configured under Settings > D3V Legal.
- Version: 2026.07.28
+ Version: 2026.07.30
  Author: Zac Dreyer
  Author URI: https://github.com/zacdreyer/
  Text Domain: legalnotices

@@ -31,17 +31,31 @@ The supplied text is intended as a broad, company-agnostic starting point. It mu
   - The WordPress adapter lives in [`src/wordpress-plugin/`](../../src/wordpress-plugin).
   - The standalone ES6 adapter lives in [`src/javascript-native/`](../../src/javascript-native).
   - The EmDash CMS adapter lives in [`src/emdash-plugin/`](../../src/emdash-plugin).
-  - Additional CMS/e-commerce adapters will be added as sibling folders under [`src/`](../../src) (e.g. `src/shopify/`, `src/magento/`, `src/drupal/`).
+  - The Laravel package adapter lives in [`src/laravel/`](../../src/laravel).
+  - The Symfony bundle adapter lives in [`src/symfony/`](../../src/symfony).
+  - The Drupal module adapter lives in [`src/drupal/`](../../src/drupal).
+  - The Joomla content plugin adapter lives in [`src/joomla/`](../../src/joomla).
+  - The Magento 2 module adapter lives in [`src/magento/`](../../src/magento).
+  - The PrestaShop module adapter lives in [`src/prestashop/`](../../src/prestashop).
+  - The shared PHP renderer used by the PHP adapters lives in [`src/php-shared/D3vLegalRenderer.php`](../../src/php-shared/D3vLegalRenderer.php).
+  - Additional CMS/e-commerce adapters will be added as sibling folders under [`src/`](../../src) (e.g. `src/shopify/`, `src/django/`, `src/dotnet/`).
   - Shared documentation lives in [`docs/`](../../docs) and is **not** included in release archives.
   - The [`VERSION`](../../VERSION) file is the single source of truth for the version number shared by every adapter.
-- Entry point (WordPress): [`src/wordpress-plugin/d3v-legal.php`](../../src/wordpress-plugin/d3v-legal.php)
-- Entry point (EmDash): [`src/emdash-plugin/src/index.ts`](../../src/emdash-plugin/src/index.ts) descriptor factory plus [`src/emdash-plugin/src/components/LegalNotice.astro`](../../src/emdash-plugin/src/components/LegalNotice.astro)
+- Entry points:
+  - WordPress: [`src/wordpress-plugin/d3v-legal.php`](../../src/wordpress-plugin/d3v-legal.php)
+  - EmDash: [`src/emdash-plugin/src/index.ts`](../../src/emdash-plugin/src/index.ts) descriptor factory plus [`src/emdash-plugin/src/components/LegalNotice.astro`](../../src/emdash-plugin/src/components/LegalNotice.astro)
+  - Laravel: service provider [`src/laravel/src/D3vLegalServiceProvider.php`](../../src/laravel/src/D3vLegalServiceProvider.php) and Blade component [`src/laravel/src/Blade/LegalNoticeComponent.php`](../../src/laravel/src/Blade/LegalNoticeComponent.php)
+  - Symfony: bundle [`src/symfony/src/D3vLegalBundle.php`](../../src/symfony/src/D3vLegalBundle.php) and Twig extension [`src/symfony/src/Twig/LegalNoticeExtension.php`](../../src/symfony/src/Twig/LegalNoticeExtension.php)
+  - Drupal: block plugin [`src/drupal/src/Plugin/Block/LegalNoticeBlock.php`](../../src/drupal/src/Plugin/Block/LegalNoticeBlock.php)
+  - Joomla: content plugin [`src/joomla/d3vlegal.php`](../../src/joomla/d3vlegal.php)
+  - Magento: block [`src/magento/app/code/D3vDigital/D3vLegal/Block/LegalNotice.php`](../../src/magento/app/code/D3vDigital/D3vLegal/Block/LegalNotice.php)
+  - PrestaShop: module [`src/prestashop/d3vlegal.php`](../../src/prestashop/d3vlegal.php) and Smarty plugin [`src/prestashop/smarty/plugins/function.d3vlegal.php`](../../src/prestashop/smarty/plugins/function.d3vlegal.php)
 - Shortcode handler: `d3v_legal_notices()`
 - Settings API page: `d3v_legal_settings_page()` registered under **Settings > D3V Legal**
 - Default lookup: `d3v_legal_get_backend_defaults()` reads the `d3v_legal_settings` option and returns an array of defaults
 - Country library lookup: `d3v_legal_load_country_library($country, $language)` reads the `{ISO3}-{LANG}-legals.json` library for the selected country and language. During development the plugin resolves libraries from the centralized `legal-libraries/` directory; distribution packages are self-contained and include a copy of the libraries inside the platform folder.
 - Versioning: one shared version in [`VERSION`](../../VERSION) is propagated to every adapter during the release workflow so all platform packages are always released together with the same version number.
-- Generic renderer: `d3v_legal_render_notice()` renders a notice from its JSON library definition using pluggable section types (`paragraph`, `list`, `contact_list`, `joined_fields`, `policy_link`)
+- Generic renderer: `d3v_legal_render_notice()` renders a notice from its JSON library definition using pluggable section types (`paragraph`, `list`, `contact_list`, `joined_fields`, `policy_link`). The PHP adapters share [`src/php-shared/D3vLegalRenderer.php`](../../src/php-shared/D3vLegalRenderer.php), which implements the same rendering rules without framework dependencies.
 - Rendering approach: each notice is built as an HTML string and returned so it can be tested outside the WordPress runtime.
 - Attribute resolution: shortcode attributes take priority; missing or empty values fall back to the backend settings; hardcoded safe defaults apply only when no value is available (e.g. `returnwindow` defaults to `30`).
 
@@ -77,20 +91,23 @@ The supplied text is intended as a broad, company-agnostic starting point. It mu
 - Country-specific legal content is stored in JSON files (`{ISO3}-{LANG}-legals.json`, e.g. `ZAF-eng-legals.json`, `GBR-eng-legals.json`) in the root `legal-libraries/` directory, loaded by a generic renderer based on the `country` and `language` attributes or backend defaults. Direct HTTP access to the directory should be blocked by server rules; the plugin reads files only from the resolved library directory with strict path validation (`realpath()` checks) to prevent directory traversal.
 
 ## 6. Packaging and Release
-- The GitHub Actions workflow in [`.github/workflows/release.yml`](../../.github/workflows/release.yml) reads the shared version from [`VERSION`](../../VERSION), syncs it to every adapter, lints the WordPress adapter, runs the PHPUnit suite, builds the EmDash plugin, and builds one platform-specific ZIP file per supported platform.
+- The GitHub Actions workflow in [`.github/workflows/release.yml`](../../.github/workflows/release.yml) reads the shared version from [`VERSION`](../../VERSION), syncs it to every adapter, lints every PHP file, runs the PHPUnit suite, builds the EmDash plugin, and builds one platform-specific ZIP file per supported platform.
 - Each ZIP is assembled in a temporary `build/<platform>/` directory. The shared `legal-libraries/` directory is copied into the platform package so the distributed plugin is self-contained. The `docs/` directory is excluded from all release archives to keep packages lean and purpose-specific.
-- Release archives follow the naming convention `d3v-legal-<version>-<platform>.zip` (for example, `d3v-legal-2026.07.28-wordpress.zip`, `d3v-legal-2026.07.28-emdash-plugin.zip`). All platform ZIPs are attached to the same GitHub release so users always get a matching set.
+- Release archives follow the naming convention `d3v-legal-<version>-<platform>.zip`. Current platforms produce: `wordpress`, `javascript-native`, `emdash-plugin`, `laravel`, `symfony`, `drupal`, `joomla`, `magento`, and `prestashop`. All platform ZIPs are attached to the same GitHub release so users always get a matching set.
 - Adding a new platform requires:
   1. Creating a platform folder under `src/` (e.g. `src/shopify/`).
-  2. Adding the platform’s build steps to the release workflow.
-  3. Copying `legal-libraries/` and `LICENSE` into the platform’s staging directory before zipping.
-  4. Updating the version-sync step to include the new adapter’s metadata files.
+  2. Copying [`src/php-shared/D3vLegalRenderer.php`](../../src/php-shared/D3vLegalRenderer.php) into the adapter for PHP-based platforms, or reusing the shared renderer path.
+  3. Adding the platform’s build steps to the release workflow.
+  4. Copying `legal-libraries/` and `LICENSE` into the platform’s staging directory before zipping.
+  5. Updating the version-sync step to include the new adapter’s metadata files.
+  6. Updating `README.md` and `docs/SDD.md` to list the new adapter.
 
 ## 7. Future Enhancements
 - Add admin notice support for legal-policy links.
 - Add more granular notice templates and full translation / i18n support.
 - Implement a cookie-consent mechanism that can integrate with the cookie notice.
 - Add further country legal libraries (e.g. `EU`, `US`, `AU`).
+- Add adapters for platforms not yet covered (e.g. React component library, Angular library, Django package, ASP.NET Core middleware/component, Shopify app/theme extension, BigCommerce app, Wix Studio app, Flutter package, OpenCart extension) where a genuine plugin/add-on model exists.
 
 ## 8. Globalization Plan
 

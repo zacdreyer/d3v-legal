@@ -1,0 +1,14 @@
+<?php
+
+/**
+ * @file
+ * Primary module file for D3V Legal Notices.
+ *
+ * Loads the shared renderer when the module is installed without Composer
+ * autoloading (e.g. copied directly into modules/contrib). The require_once
+ * call is safe to leave in place when Composer autoloading is also available.
+ */
+
+declare(strict_types=1);
+
+require_once __DIR__ . '/src/D3vLegalRenderer.php';

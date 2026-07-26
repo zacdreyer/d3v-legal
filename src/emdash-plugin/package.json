@@ -1,6 +1,6 @@
 {
   "name": "@d3vdigital/emdash-legal-notices",
-  "version": "2026.07.29",
+  "version": "2026.07.30",
   "description": "D3V Legal Notices plugin for EmDash CMS",
   "type": "module",
   "main": "dist/index.js",

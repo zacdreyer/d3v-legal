@@ -22,8 +22,8 @@ jobs:
           php-version: '8.1'
       - name: Install Composer dependencies
         run: composer install --no-interaction --prefer-dist
-      - name: Lint plugin
-        run: php -l src/wordpress-plugin/d3v-legal.php
+      - name: Lint PHP files
+        run: find src -type f -name '*.php' -exec php -l {} \;
       - name: Run tests
         run: vendor/bin/phpunit --configuration phpunit.xml.dist
       - name: Determine version
@@ -47,12 +47,46 @@ jobs:
           jq --arg v "$VERSION" '.version = $v' src/emdash-plugin/package.json > src/emdash-plugin/package.json.tmp
           mv src/emdash-plugin/package.json.tmp src/emdash-plugin/package.json
           sed -i "s/version: \"[^\"]*\"/version: \"$VERSION\"/g" src/emdash-plugin/src/index.ts
+
+          # Laravel package
+          jq --arg v "$VERSION" '.version = $v' src/laravel/composer.json > src/laravel/composer.json.tmp
+          mv src/laravel/composer.json.tmp src/laravel/composer.json
+
+          # Symfony bundle
+          jq --arg v "$VERSION" '.version = $v' src/symfony/composer.json > src/symfony/composer.json.tmp
+          mv src/symfony/composer.json.tmp src/symfony/composer.json
+
+          # Drupal module
+          sed -i "s/^version: .*/version: $VERSION/" src/drupal/d3v_legal.info.yml
+          jq --arg v "$VERSION" '.version = $v' src/drupal/composer.json > src/drupal/composer.json.tmp
+          mv src/drupal/composer.json.tmp src/drupal/composer.json
+
+          # Joomla plugin manifest
+          sed -i "s/<version>[^<]*<\/version>/<version>$VERSION<\/version>/" src/joomla/d3vlegal.xml
+
+          # Magento module
+          jq --arg v "$VERSION" '.version = $v' src/magento/composer.json > src/magento/composer.json.tmp
+          mv src/magento/composer.json.tmp src/magento/composer.json
+          sed -i "s/setup_version=\"[^\"]*\"/setup_version=\"$VERSION\"/" src/magento/app/code/D3vDigital/D3vLegal/etc/module.xml
+
+          # PrestaShop module
+          sed -i "s/\\$this->version = '[^']*';/$this->version = '$VERSION';/" src/prestashop/d3vlegal.php
+          sed -i "s/<version><!\\[CDATA\\[[^]]*\\]\\]><\/version>/<version><!\\[CDATA\\[$VERSION\\]\\]><\/version>/" src/prestashop/config.xml
       - name: Commit synced versions
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           if ! git diff --quiet; then
-            git add VERSION src/wordpress-plugin/d3v-legal.php src/javascript-native/package.json src/emdash-plugin/package.json src/emdash-plugin/src/index.ts
+            git add VERSION \
+              src/wordpress-plugin/d3v-legal.php \
+              src/javascript-native/package.json \
+              src/emdash-plugin/package.json src/emdash-plugin/src/index.ts \
+              src/laravel/composer.json \
+              src/symfony/composer.json \
+              src/drupal/d3v_legal.info.yml src/drupal/composer.json \
+              src/joomla/d3vlegal.xml src/joomla/d3vlegal.php \
+              src/magento/composer.json src/magento/app/code/D3vDigital/D3vLegal/etc/module.xml \
+              src/prestashop/d3vlegal.php src/prestashop/config.xml
             git commit -m "chore(release): sync version ${{ steps.version.outputs.version }} across all adapters [skip ci]"
             git push origin HEAD:${{ github.ref_name }}
           fi
@@ -94,10 +128,59 @@ jobs:
           cp -R legal-libraries build/emdash-plugin/d3v-legal/
           cp LICENSE build/emdash-plugin/d3v-legal/
 
-          # Additional platforms can be added here following the same pattern:
-          # mkdir -p build/<platform>/d3v-legal-<platform>
-          # cp <platform>/entrypoint build/.../
-          # cp -R legal-libraries build/.../
+          # Laravel package
+          mkdir -p build/laravel/d3v-legal
+          cp -R src/laravel/src build/laravel/d3v-legal/
+          cp src/laravel/composer.json build/laravel/d3v-legal/
+          cp -R src/laravel/config build/laravel/d3v-legal/
+          cp src/laravel/README.md build/laravel/d3v-legal/
+          cp -R legal-libraries build/laravel/d3v-legal/
+          cp LICENSE build/laravel/d3v-legal/
+
+          # Symfony bundle
+          mkdir -p build/symfony/d3v-legal
+          cp -R src/symfony/src build/symfony/d3v-legal/
+          cp src/symfony/composer.json build/symfony/d3v-legal/
+          cp src/symfony/README.md build/symfony/d3v-legal/
+          cp -R legal-libraries build/symfony/d3v-legal/
+          cp LICENSE build/symfony/d3v-legal/
+
+          # Drupal module
+          mkdir -p build/drupal/d3v_legal
+          cp -R src/drupal/src build/drupal/d3v_legal/
+          cp src/drupal/d3v_legal.info.yml build/drupal/d3v_legal/
+          cp src/drupal/d3v_legal.module build/drupal/d3v_legal/
+          cp src/drupal/composer.json build/drupal/d3v_legal/
+          cp src/drupal/README.md build/drupal/d3v_legal/
+          cp -R legal-libraries build/drupal/d3v_legal/
+          cp LICENSE build/drupal/d3v_legal/
+
+          # Joomla plugin
+          mkdir -p build/joomla/d3vlegal
+          cp src/joomla/d3vlegal.php build/joomla/d3vlegal/
+          cp src/joomla/d3vlegal.xml build/joomla/d3vlegal/
+          cp src/joomla/D3vLegalRenderer.php build/joomla/d3vlegal/
+          cp src/joomla/README.md build/joomla/d3vlegal/
+          cp -R legal-libraries build/joomla/d3vlegal/
+          cp LICENSE build/joomla/d3vlegal/
+
+          # Magento module
+          mkdir -p build/magento/d3v-legal
+          cp -R src/magento/app build/magento/d3v-legal/
+          cp src/magento/composer.json build/magento/d3v-legal/
+          cp src/magento/README.md build/magento/d3v-legal/
+          cp -R legal-libraries build/magento/d3v-legal/
+          cp LICENSE build/magento/d3v-legal/
+
+          # PrestaShop module
+          mkdir -p build/prestashop/d3vlegal
+          cp src/prestashop/d3vlegal.php build/prestashop/d3vlegal/
+          cp -R src/prestashop/smarty build/prestashop/d3vlegal/
+          cp src/prestashop/config.xml build/prestashop/d3vlegal/
+          cp src/prestashop/D3vLegalRenderer.php build/prestashop/d3vlegal/
+          cp src/prestashop/README.md build/prestashop/d3vlegal/
+          cp -R legal-libraries build/prestashop/d3vlegal/
+          cp LICENSE build/prestashop/d3vlegal/
 
           for platform_dir in build/*/; do
             platform=$(basename "$platform_dir")

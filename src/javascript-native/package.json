@@ -1,6 +1,6 @@
 {
   "name": "@d3vdigital/d3v-legal-notices",
-  "version": "2026.07.29",
+  "version": "2026.07.30",
   "description": "Standalone D3V Legal Notices renderer for any website (vanilla ES6).",
   "type": "module",
   "main": "d3v-legal.js",

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="plugin" group="content" method="upgrade">
+    <name>D3V Legal Notices</name>
+    <author>Zac Dreyer</author>
+    <authorUrl>https://github.com/zacdreyer</authorUrl>
+    <creationDate>2026-07-26</creationDate>
+    <copyright>Copyright (C) 2026 D3V Digital. All rights reserved.</copyright>
+    <license>GPL-2.0-or-later</license>
+    <version>2026.07.30</version>
+    <description>Content plugin that renders jurisdiction-aware D3V Legal Notices via {d3v-legal} tags.</description>
+    <files>
+        <filename plugin="d3vlegal">d3vlegal.php</filename>
+        <filename>D3vLegalRenderer.php</filename>
+    </files>
+</extension>

@@ -8,6 +8,13 @@ Multi-platform legal notice libraries and platform-specific adapters for WordPre
 - `src/wordpress-plugin/` — WordPress adapter (plugin entry point, tests, and platform-specific code).
 - `src/javascript-native/` — standalone ES6 adapter for any static site or framework.
 - `src/emdash-plugin/` — native plugin for EmDash CMS (Astro-based).
+- `src/laravel/` — Laravel package adapter.
+- `src/symfony/` — Symfony bundle adapter.
+- `src/drupal/` — Drupal module adapter.
+- `src/joomla/` — Joomla content plugin adapter.
+- `src/magento/` — Magento 2 module adapter.
+- `src/prestashop/` — PrestaShop module adapter.
+- `src/php-shared/` — framework-agnostic PHP renderer used by the PHP adapters.
 - `docs/` — design and developer documentation; excluded from release archives.
 - `VERSION` — single source of truth for the shared version number across all adapters.
 - Additional CMS/e-commerce adapters will be added as sibling folders under `src/`.
@@ -23,6 +30,12 @@ Each platform has its own README with detailed installation instructions:
 - [WordPress plugin](src/wordpress-plugin/README.md)
 - [Native ES6 adapter](src/javascript-native/README.md)
 - [EmDash CMS plugin](src/emdash-plugin/README.md)
+- [Laravel package](src/laravel/README.md)
+- [Symfony bundle](src/symfony/README.md)
+- [Drupal module](src/drupal/README.md)
+- [Joomla plugin](src/joomla/README.md)
+- [Magento module](src/magento/README.md)
+- [PrestaShop module](src/prestashop/README.md)
 
 ### Local development
 - Install PHP 8.1+.

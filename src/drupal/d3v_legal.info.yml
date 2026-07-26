@@ -1,0 +1,9 @@
+name: D3V Legal Notices
+type: module
+description: Renders jurisdiction-aware legal notices from the shared D3V Legal libraries.
+core_version_requirement: ^10 || ^11
+package: D3V Digital
+version: 2026.07.30
+license: GPL-2.0-or-later
+dependencies:
+  - drupal:block

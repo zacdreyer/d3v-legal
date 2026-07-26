@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<module>
+    <name>d3vlegal</name>
+    <displayName><![CDATA[D3V Legal Notices]]></displayName>
+    <version><![CDATA[2026.07.30]]></version>
+    <description><![CDATA[Render jurisdiction-aware legal notices in your PrestaShop storefront.]]></description>
+    <author><![CDATA[Zac Dreyer]]></author>
+    <tab><![CDATA[front_office_features]]></tab>
+    <confirmUninstall><![CDATA[Are you sure you want to uninstall D3V Legal Notices?]]></confirmUninstall>
+    <is_configurable>0</is_configurable>
+    <need_instance>0</need_instance>
+    <limited_countries></limited_countries>
+</module>
