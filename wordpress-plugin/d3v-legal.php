@@ -338,17 +338,27 @@ if (! function_exists('d3v_legal_get_library_directory')) {
     /**
      * Resolve the absolute path to the legal libraries subdirectory.
      *
+     * The plugin supports two layouts:
+     *  - Development: the plugin lives in a platform folder (e.g. wordpress-plugin)
+     *    and the shared legal-libraries directory sits at the repository root.
+     *  - Distribution: the plugin is self-contained and legal-libraries is inside
+     *    the plugin folder.
+     *
      * @return string Path to the libraries directory with trailing slash.
      */
     function d3v_legal_get_library_directory() {
-        $resolved_dir = realpath(__DIR__);
-        if (false !== $resolved_dir) {
-            return $resolved_dir . DIRECTORY_SEPARATOR . 'legal-libraries' . DIRECTORY_SEPARATOR;
+        if (defined('D3V_LEGAL_LIBRARY_PATH')) {
+            return trailingslashit(D3V_LEGAL_LIBRARY_PATH);
         }
 
         $plugin_dir = plugin_dir_path(__FILE__);
         if ('' === $plugin_dir) {
             $plugin_dir = trailingslashit(__DIR__);
+        }
+
+        $centralized = realpath($plugin_dir . '..' . DIRECTORY_SEPARATOR . 'legal-libraries');
+        if (false !== $centralized && is_dir($centralized)) {
+            return $centralized . DIRECTORY_SEPARATOR;
         }
 
         return $plugin_dir . 'legal-libraries' . DIRECTORY_SEPARATOR;
@@ -365,21 +375,13 @@ if (! function_exists('d3v_legal_discover_libraries')) {
      * @return array Map of ISO3 country codes to arrays of uppercase language codes.
      */
     function d3v_legal_discover_libraries() {
-        $plugin_dir = realpath(__DIR__);
-        if (false === $plugin_dir) {
-            $plugin_dir = plugin_dir_path(__FILE__);
-            if ('' === $plugin_dir) {
-                $plugin_dir = trailingslashit(__DIR__);
-            }
-        }
-
-        $allowed_base = realpath($plugin_dir);
+        $library_dir = d3v_legal_get_library_directory();
+        $allowed_base = realpath($library_dir);
         if (false === $allowed_base) {
             return array();
         }
 
-        $library_dir = d3v_legal_get_library_directory();
-        $files       = glob($library_dir . '*-legals.json');
+        $files = glob($library_dir . '*-legals.json');
         if (! is_array($files)) {
             return array();
         }

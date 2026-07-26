@@ -1,19 +1,21 @@
 # Agent Memory
 
-- The plugin entry point is [d3v-legal.php](d3v-legal.php).
+- The repository is a multi-platform project. Shared legal content lives in the root `legal-libraries/` directory.
+- The WordPress adapter entry point is [`wordpress-plugin/d3v-legal.php`](wordpress-plugin/d3v-legal.php).
 - Shortcode `[d3v-legal]` renders legal notices and returns a string so it is testable outside WordPress.
 - Attributes: `notice`, `country`, `language`, `company`, `email`, `support_email`, `officer_email`, `address`, `tel`, `smp`, `websiteurl`, `officer`, `regno`, `vatno`, `returnwindow`, `policyurl`.
 - Backend settings page is available under **Settings > D3V Legal** and stores defaults in the `d3v_legal_settings` option.
 - Attribute resolution order: shortcode attribute → backend setting → safe hardcoded fallback (e.g. `returnwindow` = 30).
 - `policyurl` is implemented for every notice type and renders a context-specific "Read our full ..." link to a standalone policy page.
-- PHP linting: `php -l d3v-legal.php`.
+- PHP linting: `php -l wordpress-plugin/d3v-legal.php`.
 - Test suite: `php composer.phar test` or `vendor/bin/phpunit --configuration phpunit.xml.dist`.
+- Release archives are platform-specific ZIPs built by CI (e.g. `d3v-legal-<version>-wordpress.zip`). The `docs/` directory is excluded from release packages.
 - Targets South African legal notice content aligned with POPIA, PAIA, ECTA, CPA, the Copyright Act, PEPUDA and the Constitution; United Kingdom content aligned with UK GDPR, the Data Protection Act 2018, PECR, the Consumer Rights Act 2015 and related statutes.
 - Each JSON library notice includes a `legal_sources` array citing the relevant legislation sections.
 - Renderer functions are wrapped in an include guard so the plugin can be loaded repeatedly.
 - E-commerce notices added: `returns`, `support`, `shipping`, `payments`, `ecomtscs`, plus an `accessibility` notice.
 - WordPress function fallbacks (`shortcode_atts`, `add_shortcode`, `sanitize_text_field`, `esc_html`, `esc_url`, `esc_attr`, `__`, `is_admin`, `get_option`, `add_action`, `trailingslashit`, `plugin_dir_path`) allow the plugin to be linted and unit-tested outside WordPress.
-- Legal libraries are discovered dynamically in `legal-libraries/` using the `{ISO3}-{LANG}-legals.json` naming convention. The exact ISO3 and language codes from the filenames are used in the shortcode and backend settings, case-insensitively.
+- Legal libraries are discovered dynamically from the root `legal-libraries/` directory using the `{ISO3}-{LANG}-legals.json` naming convention. The exact ISO3 and language codes from the filenames are used in the shortcode and backend settings, case-insensitively.
 - Future work: admin notice support for legal-policy links, translation / i18n support, and a cookie-consent mechanism.
 
 ## Session history

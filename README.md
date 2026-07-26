@@ -1,19 +1,26 @@
 # d3v-legal
-WordPress plugin that outputs legal notices such as privacy policy, copyright, disclaimer, cookie notices, terms and conditions, and social media statements for South African and United Kingdom websites. The South Africa library is available in English (`ZAF-eng-legals.json`) and Afrikaans (`ZAF-afr-legals.json`). Additional countries and languages can be supported by adding a `{ISO3}-{LANG}-legals.json` file to the `legal-libraries/` directory.
+Multi-platform legal notice libraries and platform-specific adapters. The WordPress plugin outputs legal notices such as privacy policy, copyright, disclaimer, cookie notices, terms and conditions, and social media statements for South African and United Kingdom websites. The South Africa library is available in English (`ZAF-eng-legals.json`) and Afrikaans (`ZAF-afr-legals.json`). Additional countries and languages can be supported by adding a `{ISO3}-{LANG}-legals.json` file to the root `legal-libraries/` directory.
 
 > Note: This plugin is provided for informational purposes only and does not constitute legal advice. Please consult a qualified attorney or compliance professional before relying on it for legal or regulatory compliance.
 
-## Installation
-1. Copy the plugin folder to your WordPress plugins directory.
-2. Activate the plugin from the WordPress admin area.
-3. Go to **Settings > D3V Legal** in the WordPress admin and fill in your default business and contact details.
-4. Add shortcode snippets to your content or templates. Shortcode attributes are optional; any value omitted from the shortcode will fall back to the value saved in Settings > D3V Legal.
+## Repository layout
+- `legal-libraries/` — shared legal content used by every platform adapter.
+- `wordpress-plugin/` — WordPress adapter (plugin entry point, tests, and platform-specific code).
+- `docs/` — design and developer documentation; excluded from release archives.
+- Additional CMS/e-commerce adapters will be added as sibling platform folders.
+
+## Installation (WordPress)
+1. Download the latest `d3v-legal-<version>-wordpress.zip` release asset.
+2. Extract the folder to your WordPress `wp-content/plugins/` directory.
+3. Activate the plugin from the WordPress admin area.
+4. Go to **Settings > D3V Legal** in the WordPress admin and fill in your default business and contact details.
+5. Add shortcode snippets to your content or templates. Shortcode attributes are optional; any value omitted from the shortcode will fall back to the value saved in Settings > D3V Legal.
 
 ### Local development
 - Install PHP 8.1+.
 - Install Composer.
 - Run `composer install`.
-- Run `php -l d3v-legal.php` to lint the plugin.
+- Run `php -l wordpress-plugin/d3v-legal.php` to lint the plugin.
 - Run `composer test` to execute the PHPUnit regression suite.
 
 ## Backend Settings
@@ -159,7 +166,7 @@ Render the Afrikaans South African cookie notice:
 ## Documentation
 - [docs/SDD.md](docs/SDD.md)
 - [docs/TDD.md](docs/TDD.md)
-- [docs/agent-memory.md](docs/agent-memory.md)
+- [docs/AGENT_MEMORY.md](docs/AGENT_MEMORY.md)
 
 ## Release Process
-The repository includes a GitHub Actions workflow in [.github/workflows/release.yml](.github/workflows/release.yml) that lints the plugin, runs the PHP test suite, and packages a release archive whenever a version tag is pushed.
+The repository includes a GitHub Actions workflow in [.github/workflows/release.yml](.github/workflows/release.yml) that lints the WordPress adapter, runs the PHP test suite, and creates platform-specific release ZIPs (e.g. `d3v-legal-<version>-wordpress.zip`) whenever a release is triggered. The shared `legal-libraries/` directory is copied into each package, and `docs/` is excluded to keep archives lean.

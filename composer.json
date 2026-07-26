@@ -1,7 +1,7 @@
 {
   "name": "d3vdigital/d3v-legal",
-  "description": "WordPress plugin providing legal notices for South African websites",
-  "type": "wordpress-plugin",
+  "description": "Multi-platform legal notice libraries and platform-specific adapters",
+  "type": "project",
   "require": {
     "php": "^8.1"
   },

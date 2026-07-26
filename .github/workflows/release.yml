@@ -23,21 +23,37 @@ jobs:
       - name: Install Composer dependencies
         run: composer install --no-interaction --prefer-dist
       - name: Lint plugin
-        run: php -l d3v-legal.php
+        run: php -l wordpress-plugin/d3v-legal.php
       - name: Run tests
         run: vendor/bin/phpunit --configuration phpunit.xml.dist
       - name: Determine version
         id: version
         run: |
-          VERSION=$(grep -Eo 'Version:[[:space:]]*[0-9]+\.[0-9]+\.[0-9]+' d3v-legal.php | awk '{print $2}')
+          VERSION=$(grep -Eo 'Version:[[:space:]]*[0-9]+\.[0-9]+\.[0-9]+' wordpress-plugin/d3v-legal.php | awk '{print $2}')
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
           echo "tag=v$VERSION" >> "$GITHUB_OUTPUT"
-      - name: Build release archive
+      - name: Build release archives
         run: |
+          rm -rf build dist
           mkdir -p dist
-          cp d3v-legal.php dist/
-          cp -R docs dist/docs
-          tar -czf "d3v-legal-${{ steps.version.outputs.version }}.tar.gz" -C dist .
+
+          # WordPress plugin package
+          mkdir -p build/wordpress/d3v-legal
+          cp wordpress-plugin/d3v-legal.php build/wordpress/d3v-legal/
+          cp -R legal-libraries build/wordpress/d3v-legal/
+          cp LICENSE build/wordpress/d3v-legal/
+
+          # Additional platforms can be added here following the same pattern:
+          # mkdir -p build/<platform>/d3v-legal-<platform>
+          # cp <platform>/entrypoint build/.../
+          # cp -R legal-libraries build/.../
+
+          for platform_dir in build/*/; do
+            platform=$(basename "$platform_dir")
+            (cd "$platform_dir" && zip -r "../../dist/d3v-legal-${{ steps.version.outputs.version }}-$platform.zip" .)
+          done
+
+          ls -la dist/
       - name: Create tag if needed
         run: |
           if ! git rev-parse -q --verify "refs/tags/${{ steps.version.outputs.tag }}" >/dev/null; then
@@ -49,6 +65,6 @@ jobs:
         with:
           tag_name: ${{ steps.version.outputs.tag }}
           name: Release ${{ steps.version.outputs.tag }}
-          files: d3v-legal-${{ steps.version.outputs.version }}.tar.gz
+          files: dist/*
           draft: false
           prerelease: false
