@@ -107,6 +107,9 @@ jobs:
           ls -la dist/
       - name: Create tag if needed
         run: |
+          # Pull the version-sync commit that may have just been pushed so the
+          # release tag points to the commit containing the synced versions.
+          git pull origin "${{ github.ref_name }}" --ff-only
           if ! git rev-parse -q --verify "refs/tags/${{ steps.version.outputs.tag }}" >/dev/null; then
             git tag "${{ steps.version.outputs.tag }}"
             git push origin "${{ steps.version.outputs.tag }}"
