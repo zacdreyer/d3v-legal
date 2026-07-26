@@ -9,16 +9,16 @@
 - [x] Create Joomla adapter (`src/joomla/`).
 - [x] Create Magento adapter (`src/magento/`).
 - [x] Create PrestaShop adapter (`src/prestashop/`).
-- [ ] Bump `VERSION` to trigger a new unified release.
-- [ ] Update release workflow to sync version into every new adapter package.
-- [ ] Update root `README.md` with the new platform list and links to per-platform READMEs.
-- [ ] Update `docs/SDD.md` architecture/packaging sections for the new adapters.
-- [ ] Update `docs/AGENT_MEMORY.md` with the new adapter locations and validation commands.
-- [ ] Lint every new PHP file (`php -l`).
-- [ ] Build EmDash plugin (`npm run build`).
-- [ ] Syntax-check native ES6 module (`node --check`).
-- [ ] Simulate release archives locally and confirm every ZIP contains `legal-libraries/` and the platform entry file.
-- [ ] Commit, tag, and push.
+- [x] Bump `VERSION` to trigger a new unified release.
+- [x] Update release workflow to sync version into every new adapter package.
+- [x] Update root `README.md` with the new platform list and links to per-platform READMEs.
+- [x] Update `docs/SDD.md` architecture/packaging sections for the new adapters.
+- [x] Update `docs/AGENT_MEMORY.md` with the new adapter locations and validation commands.
+- [x] Lint every new PHP file (`php -l`).
+- [x] Build EmDash plugin (`npm run build`).
+- [x] Syntax-check native ES6 module (`node --check`).
+- [x] Simulate release archives locally and confirm every ZIP contains `legal-libraries/` and the platform entry file.
+- [x] Commit, tag, and push.
 
 ## General Rules
 
