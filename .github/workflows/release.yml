@@ -43,6 +43,16 @@ jobs:
           cp -R legal-libraries build/wordpress/d3v-legal/
           cp LICENSE build/wordpress/d3v-legal/
 
+          # Native ES6 JavaScript package
+          mkdir -p build/javascript-native/d3v-legal
+          cp javascript-native/d3v-legal.js build/javascript-native/d3v-legal/
+          cp javascript-native/d3v-legal.css build/javascript-native/d3v-legal/
+          cp javascript-native/config.js build/javascript-native/d3v-legal/
+          cp javascript-native/index.html build/javascript-native/d3v-legal/
+          cp javascript-native/README.md build/javascript-native/d3v-legal/
+          cp -R legal-libraries build/javascript-native/d3v-legal/
+          cp LICENSE build/javascript-native/d3v-legal/
+
           # Additional platforms can be added here following the same pattern:
           # mkdir -p build/<platform>/d3v-legal-<platform>
           # cp <platform>/entrypoint build/.../
